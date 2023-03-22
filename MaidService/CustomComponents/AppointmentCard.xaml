@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<HorizontalStackLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="MaidService.CustomComponents.AppointmentCard"
+                    xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+                       Margin="10">
+
+    <sfavatar:SfAvatarView Grid.RowSpan="3"
+                           Grid.Column="0"
+                           Grid.Row="0"
+                           ContentType="Custom"
+                           ImageSource="defaultprofile.jpg"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           HeightRequest="75"
+                           Margin="5"
+                           CornerRadius="33"
+                           WidthRequest="75" />
+
+    <VerticalStackLayout>
+        <Label 
+            Text="Location"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label Text="Time"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</HorizontalStackLayout>
