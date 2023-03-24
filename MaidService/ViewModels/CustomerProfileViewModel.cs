@@ -22,6 +22,5 @@ public partial class CustomerProfileViewModel : ObservableObject
     {
         var res = await _supabase.GetTable<CleaningContract>();
         Appointments = res.Models.ToObservableCollection();
-        var debug = 1;
     }
 }

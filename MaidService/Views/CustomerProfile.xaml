@@ -13,7 +13,7 @@
     <VerticalStackLayout>
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="*,*"
-              Padding="0,10,0,0">
+              Padding="0,10,0,10">
             <sfavatar:SfAvatarView Grid.RowSpan="3"
                                    Grid.Column="0"
                                    Grid.Row="0"
@@ -21,28 +21,40 @@
                                    ImageSource="defaultprofile.jpg"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
-                                   HeightRequest="100"
+                                   HeightRequest="125"
                                    Margin="5"
-                                   CornerRadius="50"
-                                   WidthRequest="100" />
-            <Label Grid.Row="0"
-                   Grid.Column="1"
-                   HorizontalOptions="Start"
-                   Text="Name: First Last" />
-            <Label Grid.Row="1"
-                   Grid.Column="1"
-                   HorizontalOptions="Start"
-                   Text="Phone: 000-000-0000" />
-            <Label Grid.Row="2"
-                   Grid.Column="1"
-                   HorizontalOptions="Start"
-                   Text="Email: email@domain.com" />
+                                   CornerRadius="63"
+                                   WidthRequest="125" />
+            <VerticalStackLayout Grid.Row="0"
+                                 Grid.Column="1"
+                                 Grid.RowSpan="3">
 
+                <Label HorizontalOptions="Start"
+                       Text="Name"
+                       FontSize="Small" />
+                <Label HorizontalOptions="Start"
+                       Text="First Last"
+                       FontSize="Medium" />
+                <Label HorizontalOptions="Start"
+                       Text="Phone"
+                       FontSize="Small"/>
+                <Label HorizontalOptions="Start"
+                       Text="000-000-0000"
+                       FontSize="Medium" />
+                <Label HorizontalOptions="Start"
+                       Text="Email"
+                       FontSize="Small"/>
+                <Label HorizontalOptions="Start"
+                       Text="email@domain.com"
+                       FontSize="Medium" />
+            </VerticalStackLayout>
         </Grid>
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
         <Label Text="Upcoming Appointments"
-               FontSize="Medium"
+               FontSize="Title"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
                Margin="0,10" />
         <CollectionView ItemsSource="{Binding Appointments}">
             <CollectionView.ItemTemplate>
@@ -51,16 +63,17 @@
                             BorderColor="Black"
                             CornerRadius="25"
                             HasShadow="True">
-                        <HorizontalStackLayout>
+                        <HorizontalStackLayout >
                             <sfavatar:SfAvatarView ContentType="Custom"
                                                    ImageSource="defaultprofile.jpg"
                                                    VerticalOptions="Center"
                                                    HorizontalOptions="Center"
-                                                   HeightRequest="100"
+                                                   HeightRequest="75"
                                                    Margin="5"
                                                    CornerRadius="44"
-                                                   WidthRequest="100" />
-                            <VerticalStackLayout WidthRequest="200">
+                                                   WidthRequest="75" />
+                            <VerticalStackLayout WidthRequest="200"
+                                                 Padding="10,0">
                                 <Label Text="Address"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Start"

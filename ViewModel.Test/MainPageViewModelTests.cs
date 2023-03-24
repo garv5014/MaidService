@@ -9,6 +9,8 @@ namespace ViewModel.Test
         [SetUp]
         public void Setup()
         {
+            var mockSupabase = new Mock<ISupabaseService>();
+            new MainPageViewModel(mockSupabase.Object);
         }
 
         [Test]
