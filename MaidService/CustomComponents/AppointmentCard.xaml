@@ -23,8 +23,9 @@
             <Label Text="Address"
                    VerticalOptions="Center"
                    HorizontalOptions="Start"
-                   FontSize="Medium" />
-            <Label Text="Address Actual"
+                   FontSize="Medium" 
+                   />
+            <Label Text="{Binding VM.Address, Source={x:Reference AppointmentCard}}"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
             <Label Text="Date/Time"

@@ -1,5 +1,8 @@
-﻿namespace MaidService.ComponentsViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class AppointmentsViewModel
+namespace MaidService.ComponentsViewModels;
+
+public partial class AppointmentsViewModel : ObservableObject
 {
+
 }

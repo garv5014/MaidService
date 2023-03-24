@@ -4,7 +4,12 @@
              x:Class="MaidService.Views.CustomerProfile"
              xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:customComp ="clr-namespace:MaidService.CustomComponents"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="CustomerProfile">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing"
+                                        Command="{Binding AppearCommand}" />
+    </ContentPage.Behaviors>
     <VerticalStackLayout>
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="*,*"
@@ -34,10 +39,48 @@
                    Text="Email: email@domain.com" />
 
         </Grid>
-        <Label BackgroundColor="Grey" HeightRequest="2" />
+        <Label BackgroundColor="Grey"
+               HeightRequest="2" />
+        <Label Text="Upcoming Appointments"
+               FontSize="Medium"
+               Margin="0,10" />
+        <CollectionView ItemsSource="{Binding Appointments}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame  Margin="10"
+                            BorderColor="Black"
+                            CornerRadius="25"
+                            HasShadow="True">
+                        <HorizontalStackLayout>
+                            <sfavatar:SfAvatarView ContentType="Custom"
+                                                   ImageSource="defaultprofile.jpg"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"
+                                                   HeightRequest="100"
+                                                   Margin="5"
+                                                   CornerRadius="44"
+                                                   WidthRequest="100" />
+                            <VerticalStackLayout WidthRequest="200">
+                                <Label Text="Address"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="Medium" />
+                                <Label Text="{Binding Location.Address}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start" />
+                                <Label Text="Date/Time"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       FontSize="Medium" />
+                                <Label Text="{Binding ScheduleDate}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-        <customComp:AppointmentCard>
-            
-        </customComp:AppointmentCard>
     </VerticalStackLayout>
 </ContentPage>

@@ -4,8 +4,11 @@ namespace MaidService.CustomComponents;
 
 public partial class AppointmentCard : Frame
 {
-	public AppointmentCard()
+    public AppointmentCardViewModel VM { get; private set; }
+
+    public AppointmentCard()
 	{
 		InitializeComponent();
+		VM = new AppointmentCardViewModel();
 	}
 }

@@ -2,6 +2,7 @@
 using Postgrest.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ public class CleaningContract : BaseModel
     public DateTime ScheduleDate { get; set; }
 
     [Column("cost")]
-    public decimal Cost { get; set; }
+    public string Cost { get; set; }
 
     [Column("requested_hours")]
     public TimeSpan RequestedHours { get; set; }

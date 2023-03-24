@@ -3,7 +3,14 @@ using System.Reactive.Linq;
 
 namespace MaidService.ComponentsViewModels;
 
-public class AppointmentCardViewModel : ObservableObject 
+public partial class AppointmentCardViewModel : ObservableObject 
 {
+    [ObservableProperty]
+    private string address;
+
+    public AppointmentCardViewModel()
+    {
+        Address = "Fake Location";
+    }
 
 }

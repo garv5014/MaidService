@@ -15,6 +15,6 @@ public class CleaningType : BaseModel
 
     [Column("type")]
     public string Type { get; set; }
-    [Column("Description")] 
+    [Column("description")] 
     public string Description { get; set; }
 }

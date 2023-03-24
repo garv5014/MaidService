@@ -2,6 +2,7 @@
 using Postgrest.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ public class CustomerPayment : BaseModel
     public CleaningContract CleaningContract { get;set; }
 
     [Column("amount_paid")]
-    public int AmountPaid { get; set; }
+    public string AmountPaid { get; set; }
 
     [Column("received_date")]
     public DateTime ReceivedDate { get; set; }
