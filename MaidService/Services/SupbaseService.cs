@@ -13,8 +13,9 @@ public class SupbaseService : ISupabaseService
 		Client = new Supabase.Client(url,key, options);
 	}
 
-    public async Task<Postgrest.Responses.ModeledResponse<T>> GetTable<T>() where T : BaseModel, new()
+    public async Task<MyModelResponse<T>> GetTable<T>() where T : BaseModel, new()
     {
-		return await Client.Postgrest.Table<T>().Get();   
+		var res = await Client.Postgrest.Table<T>().Get();
+        return  new MyModelResponse<T>(res);
     }
 }
