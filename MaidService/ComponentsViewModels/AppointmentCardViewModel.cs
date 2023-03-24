@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Maid.Library.Interfaces;
 using MaidService.DbModels;
 using System.Reactive.Linq;
 
@@ -13,16 +14,12 @@ public partial class AppointmentCardViewModel : ObservableObject
     [ObservableProperty]
     private int value; 
 
-
-    public AppointmentCardViewModel(CleaningContract cleaningContract)
+    private ISupabaseService supabaseService;
+    public AppointmentCardViewModel(CleaningContract cleaningContract )
     {
+        this.supabaseService = MauiProgram.Services.GetRequiredService<ISupabaseService>();
         Address = cleaningContract.Location.Address;
     }
-    public AppointmentCardViewModel()
-    {
-        Address = "Fake Location";
-    }
-
     [RelayCommand]
     public void Increment()
     {

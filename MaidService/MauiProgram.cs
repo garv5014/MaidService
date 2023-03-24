@@ -14,6 +14,7 @@ namespace MaidService;
 
 public static class MauiProgram
 {
+    public static IServiceProvider Services { get; private set; }
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -46,8 +47,10 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-
-        return builder.Build();
+        
+        var app = builder.Build();
+        Services = app.Services;
+        return app;
     }
     public static void InitViewModels(MauiAppBuilder builder)
     {
