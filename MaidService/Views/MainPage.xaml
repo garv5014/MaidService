@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MaidService.Views.MainPage">
-
+             x:Class="MaidService.Views.MainPage"
+             xmlns:Custom="clr-namespace:MaidService.CustomComponents">
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -34,6 +34,7 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Command="{Binding GetCustomersCommand}"
                 HorizontalOptions="Center" />
+            <Custom:AppointmentCard BindingContext="{Binding TestAppointment}" />
 
         </VerticalStackLayout>
     </ScrollView>

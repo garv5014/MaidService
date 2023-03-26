@@ -1,15 +1,9 @@
 ﻿using FluentAssertions;
 using Maid.Library.Interfaces;
+using MaidService.ComponentsViewModels;
 using MaidService.DbModels;
 using MaidService.ViewModels;
 using Moq;
-using Postgrest.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel.Test
 {
@@ -44,10 +38,16 @@ namespace ViewModel.Test
                         new CleaningContract {
                             Location = new Location { Address = "123 mains street" }, ScheduleDate = new DateTime(2023,03,02 ) } } });
             vm.AppearCommand.ExecuteAsync(null);
-            vm.Appointments.Should().BeEquivalentTo(new List<CleaningContract> {
-                new CleaningContract {
-                    Location = new Location { Address = "123 mains street" }, ScheduleDate = new DateTime(2023, 03, 02) } });
+            vm.Appointments.Should().BeEquivalentTo(
+                new List<AppointmentCardViewModel>
+                { new AppointmentCardViewModel(
+                    new CleaningContract {
+                        Location = new Location { Address = "123 mains street" }
+                        , ScheduleDate = new DateTime(2023, 03, 02)
+                    })
+                });
             vm.AppointmentsHeader.Should().Be("Upcoming Appointments");
         }
     }
 }
+// translation PostGrest.ModelResponse -> OurModelsResponse { models = New }

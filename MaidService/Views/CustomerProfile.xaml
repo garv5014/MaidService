@@ -59,38 +59,9 @@
         <CollectionView ItemsSource="{Binding Appointments}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame  Margin="10"
-                            BorderColor="Black"
-                            CornerRadius="25"
-                            HasShadow="True">
-                        <HorizontalStackLayout >
-                            <sfavatar:SfAvatarView ContentType="Custom"
-                                                   ImageSource="defaultprofile.jpg"
-                                                   VerticalOptions="Center"
-                                                   HorizontalOptions="Center"
-                                                   HeightRequest="75"
-                                                   Margin="5"
-                                                   CornerRadius="44"
-                                                   WidthRequest="75" />
-                            <VerticalStackLayout WidthRequest="200"
-                                                 Padding="10,0">
-                                <Label Text="Address"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="Medium" />
-                                <Label Text="{Binding Location.Address}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start" />
-                                <Label Text="Date/Time"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       FontSize="Medium" />
-                                <Label Text="{Binding ScheduleDate}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start" />
-                            </VerticalStackLayout>
-                        </HorizontalStackLayout>
-                    </Frame>
+                    <customComp:AppointmentCard />
+
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -17,11 +17,13 @@ drop table if exists contract_schedule cascade;
 
 Create table customer (
 	id serial4 Not Null, 
+	auth_id uuid Not Null,
 	email text Not Null, 
 	firstname text Not Null,
 	surname text Not Null, 
 	phone_number text Not Null, 
-	CONSTRAINT customer_pk PRIMARY KEY (id)
+	CONSTRAINT customer_pk PRIMARY KEY (id),
+	unique(auth_id)
 );
 
 Create table location (
@@ -35,6 +37,7 @@ Create table location (
 
 Create table cleaner (
 	id serial4 Not Null, 
+	auth_id uuid Not Null,
 	email text Not Null, 
 	firstname text Not Null,
 	surname text Not Null, 
@@ -44,7 +47,8 @@ Create table cleaner (
 	/* service_radius int4 null,
 	*/
 	hire_date timestamp Not Null,
-	CONSTRAINT cleaner_pk PRIMARY key (id)
+	CONSTRAINT cleaner_pk PRIMARY key (id),
+	unique(auth_id)
 );
 
 Create TABLE cleaning_type(

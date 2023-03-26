@@ -2,6 +2,7 @@
 <Frame  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         x:Class="MaidService.CustomComponents.AppointmentCard"
+        x:Name="AppointmentFrame"
         xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
         Margin="10"
         BorderColor="Black"
@@ -25,7 +26,7 @@
                    HorizontalOptions="Start"
                    FontSize="Medium" 
                    />
-            <Label Text="{Binding VM.Address, Source={x:Reference AppointmentCard}}"
+            <Label Text="{Binding Address, FallbackValue='fallback value', TargetNullValue='targetnull value'}"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
             <Label Text="Date/Time"
@@ -35,6 +36,11 @@
             <Label Text="Date/Time Actual"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
+            <Button Text="{Binding Value, StringFormat='Clicked {0}'}"
+                    Command="{Binding IncrementCommand}"
+                />
+
+
         </VerticalStackLayout>
     </HorizontalStackLayout>
 </Frame>

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
+using MaidService.ComponentsViewModels;
 using MaidService.DbModels;
 using System.Collections.ObjectModel;
 
@@ -11,8 +12,9 @@ public partial class CustomerProfileViewModel : ObservableObject
 {
     private readonly ISupabaseService _supabase;
 
+
     [ObservableProperty]
-    private ObservableCollection<CleaningContract> appointments;
+    private IEnumerable<AppointmentCardViewModel> appointments;
 
     [ObservableProperty]
     private string appointmentsHeader = "No Upcoming Appointments";
@@ -26,7 +28,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     public async Task Appear()
     {
         var res = await _supabase.GetTable<CleaningContract>();
-        Appointments = res.Models.ToObservableCollection();
+        Appointments = res.Models.Select(a => new AppointmentCardViewModel(a));
 
         if (res.Models != null)
         {
