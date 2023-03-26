@@ -1,9 +1,9 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
 
-namespace MaidService.DbModels;
+namespace MaidService.Library.DbModels;
 [Table("cleaner")]
-public class Cleaner : BaseModel
+public class CleanerModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
@@ -27,5 +27,17 @@ public class Cleaner : BaseModel
     public bool Verified { get; set; }
 
     [Column("hire_date")]
+    public DateTime HireDate { get; set; }
+}
+
+public class Cleaner
+{
+    public int Id { get; set; }
+    public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string Surname { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Bio { get; set; }
+    public bool Verified { get; set; }
     public DateTime HireDate { get; set; }
 }

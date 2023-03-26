@@ -1,8 +1,8 @@
 ﻿using Postgrest.Attributes;
 
-namespace MaidService.DbModels;
+namespace MaidService.Library.DbModels;
 [Table("schedule")]
-public class Schedule
+public class ScheduleModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
@@ -10,12 +10,18 @@ public class Schedule
     public DateTime Date { get; set; }
     [Column("start_time")]
     public TimeSpan StartTime { get; set; }
-
     [Column("duration")]
     public TimeSpan Duration { get; set; }
-
 }
 
+
+public class Schedule
+{
+    public int Id { get; set; }
+    public DateTime Date { get; set; }
+    public TimeSpan StartTime { get; set; }
+    public TimeSpan Duration { get; set; }
+}
 //CREATE TABLE schedule(
 //    id serial4 Not Null,
 //    date DATE Not Null,

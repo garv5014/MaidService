@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using Supabase.Interfaces;
 using Supabase;
 using MaidService.Views;
 using MaidService.ViewModels;
@@ -9,6 +8,8 @@ using Maid.Library.Interfaces;
 using MaidService.Services;
 using MaidService.CustomComponents;
 using MaidService.ComponentsViewModels;
+using MaidService.Mappers;
+using AutoMapper;
 
 namespace MaidService;
 
@@ -33,6 +34,9 @@ public static class MauiProgram
             AutoRefreshToken = true,
             AutoConnectRealtime = true
         };
+
+        builder.Services.AddAutoMapper(typeof(MapperProfile));
+
         // Pages
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<CustomerProfile>();
@@ -42,7 +46,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<AppointmentCard>();
         InitViewModels(builder);
         // Note the creation as a singleton.
-        builder.Services.AddSingleton<ISupabaseService>(provider => new SupbaseService(url, key, options));
+        builder.Services.AddSingleton(new Supabase.Client(url, key, options: options));
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

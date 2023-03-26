@@ -1,15 +1,10 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MaidService.DbModels;
+namespace MaidService.Library.DbModels;
 
 [Table("customer")]
-public class Customer : BaseModel
+public class CustomerModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
@@ -24,5 +19,18 @@ public class Customer : BaseModel
     public string Surname { get; set; }
 
     [Column("phone_number")]
+    public string PhoneNumber { get; set; }
+}
+
+public class Customer
+{
+    public int Id { get; set; }
+
+    public string Email { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string Surname { get; set; }
+
     public string PhoneNumber { get; set; }
 }
