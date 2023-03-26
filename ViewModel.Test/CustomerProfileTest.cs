@@ -28,7 +28,8 @@ namespace ViewModel.Test
         [Test]
         public void WhenNullModels_ReturnMessage()
         {
-            mockSupabase.Setup(x => x.GetTable<CleaningContract>()).ReturnsAsync(new MyModelResponse<CleaningContract> { Models = null });
+            mockSupabase.Setup(x => x.GetTable<CleaningContract>())
+                .ReturnsAsync(new MyModelResponse<CleaningContract> { Models = null });
             vm.AppearCommand.ExecuteAsync(null);
             vm.Appointments.Should().BeNull();
             vm.AppointmentsHeader.Should().Be("No Upcoming Appointments");
@@ -37,11 +38,16 @@ namespace ViewModel.Test
         [Test]
         public void WhenModelHasOneItem_SetAppointmentToModel()
         {
-            mockSupabase.Setup(x => x.GetTable<CleaningContract>()).ReturnsAsync(new MyModelResponse<CleaningContract> { Models = new List<CleaningContract> { new CleaningContract { Location = new Location { Address = "123 mains street" }, ScheduleDate = new DateTime(2023,03,02 )   } } });
+            mockSupabase.Setup(x => x.GetTable<CleaningContract>())
+                .ReturnsAsync(new MyModelResponse<CleaningContract> {
+                    Models = new List<CleaningContract> {
+                        new CleaningContract {
+                            Location = new Location { Address = "123 mains street" }, ScheduleDate = new DateTime(2023,03,02 ) } } });
             vm.AppearCommand.ExecuteAsync(null);
-            vm.Appointments.Should().BeEquivalentTo(new List<CleaningContract> { new CleaningContract { Location = new Location { Address = "123 mains street" }, ScheduleDate = new DateTime(2023, 03, 02) } });
+            vm.Appointments.Should().BeEquivalentTo(new List<CleaningContract> {
+                new CleaningContract {
+                    Location = new Location { Address = "123 mains street" }, ScheduleDate = new DateTime(2023, 03, 02) } });
             vm.AppointmentsHeader.Should().Be("Upcoming Appointments");
         }
     }
 }
-// translation PostGrest.ModelResponse -> OurModelsResponse { models = New }
