@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.ComponentsViewModels;
-using MaidService.DbModels;
-using Supabase;
 
 namespace MaidService.ViewModels;
 
@@ -14,24 +12,24 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private string text;
 
-    public MainPageViewModel(ISupabaseService client)
-    {
-        Client = client;
-    }
+    private readonly ICustomerService _customerService;
 
-    public ISupabaseService Client { get; }
+    public MainPageViewModel(ICustomerService customerService)
+    {
+        _customerService = customerService;
+    }
 
     [RelayCommand]
     public async Task GetCustomers()
     {
-        var res = await Client.GetTable<Customer>();
+        var res = await _customerService.GetUpcomingAppointments();
         if (res == null)
         {
 
         }
         else
         {
-            Text = res.Content;
+            Text = res[0].Location.Address;
         }
     }
 

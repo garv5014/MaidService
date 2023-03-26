@@ -1,36 +1,31 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.ComponentsViewModels;
-using MaidService.DbModels;
-using System.Collections.ObjectModel;
 
 namespace MaidService.ViewModels;
 
 public partial class CustomerProfileViewModel : ObservableObject
 {
-    private readonly ISupabaseService _supabase;
-
-
+    private readonly ICustomerService _customerService;
     [ObservableProperty]
     private IEnumerable<AppointmentCardViewModel> appointments;
 
     [ObservableProperty]
     private string appointmentsHeader = "No Upcoming Appointments";
 
-    public CustomerProfileViewModel(ISupabaseService supabase)
+    public CustomerProfileViewModel(ICustomerService customerService)
     {
-        _supabase = supabase;
+        _customerService = customerService;
     }
 
     [RelayCommand]
     public async Task Appear()
     {
-        var res = await _supabase.GetTable<CleaningContract>();
-        Appointments = res.Models.Select(a => new AppointmentCardViewModel(a));
+        var res = await _customerService.GetUpcomingAppointments();
+        Appointments = res.Select(a => new AppointmentCardViewModel(a));
 
-        if (res.Models != null)
+        if (Appointments.Count() > 0 )
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
