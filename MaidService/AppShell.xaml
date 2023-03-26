@@ -14,6 +14,10 @@
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
         </Tab>
+        <Tab Title="Details"
+             Route="OrderDetails">
+            <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" />
+        </Tab>
     </TabBar>
 
 </Shell>

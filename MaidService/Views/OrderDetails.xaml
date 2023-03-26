@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MaidService.Views.OrderDetails"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="Order Details">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing"
+                                        Command="{Binding AppearCommand}" />
+    </ContentPage.Behaviors>
+    
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="*,*,*"
+              Margin="10"
+              RowSpacing="5">
+            <StackLayout Grid.Column="0"
+                         Grid.Row="0">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Cleaner"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding CleanerName}" />
+            </StackLayout>
+            
+            <StackLayout Grid.Column="1"
+                         Grid.Row="0">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Price"
+                       TextColor="Grey"  />
+                <Label FontSize="Medium"
+                       Text="{Binding Price}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="0"
+                         Grid.Row="1">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Time"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding ScheduledTime}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="1"
+                         Grid.Row="1">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Type"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding CleaningType}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="0"
+                         Grid.Row="2"
+                         Grid.ColumnSpan='2'
+                         HorizontalOptions="Center">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Location"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding Location}" />
+            </StackLayout>
+        </Grid>
+
+        <Label FontAttributes="Bold"
+               FontSize="Small"
+               Margin="10,0,0,0"
+               Text="Notes"
+               TextColor="Grey" />
+        <Frame Margin="5"
+               Padding="10">
+            <Label Margin="0"
+                   MinimumHeightRequest="100"
+                   Text="{Binding Notes}" />
+        </Frame>
+
+        <Label BackgroundColor="Grey"
+               HeightRequest="2" />
+
+        <ScrollView>
+            <!-- Where the image cards will be placed. -->
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>
