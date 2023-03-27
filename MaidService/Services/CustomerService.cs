@@ -16,10 +16,19 @@ public class CustomerService : ICustomerService
         _mapper = mapper;
     }
 
+    public async Task<CleaningContract> GetCleaningDetailsById(int contractId)
+    {
+        var res = await _client.From<CleaningContractModel>().Where(c => contractId == c.Id).Get();
+
+        return res.ResponseMessage.IsSuccessStatusCode
+        ? _mapper.Map<CleaningContract>(res.Models)
+        : null;
+    }
+
     public async Task<List<CleaningContract>> GetUpcomingAppointments()
     {
         var res = await _client.From<CleaningContractModel>().Get();
-        return  res.Models.Count > 0 
+        return res.Models.Count > 0
             ? _mapper.Map<List<CleaningContract>>(res.Models)
             : null;
     }

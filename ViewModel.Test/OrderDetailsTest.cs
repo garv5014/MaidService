@@ -1,57 +1,50 @@
 ﻿using FluentAssertions;
 using Maid.Library.Interfaces;
-using MaidService.DbModels;
+using MaidService.Library.DbModels;
 using MaidService.ViewModels;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel.Test
 {
     public class OrderDetailsTest
     {
-        private Mock<ISupabaseService> mockSupabase;
+        private Mock<ICustomerService> mockCustomer;
         private OrderDetailsViewModel vm;
 
         [SetUp]
         public void SetUp()
         {
-            mockSupabase = new Mock<ISupabaseService>();
-            vm = new OrderDetailsViewModel(mockSupabase.Object);
+            mockCustomer = new Mock<ICustomerService>();
+            vm = new OrderDetailsViewModel(mockCustomer.Object);
         }
 
         [Test]
-        public void WhenNullModels_ReturnMessage()
+        public void WhenObjectisEmpty_ReturnMessage()
         {
-            mockSupabase.Setup(x => x.GetTable<CleaningContract>())
-                .ReturnsAsync(new MyModelResponse<CleaningContract> { Models = null });
+            mockCustomer.Setup(x => x.GetCleaningDetailsById(1))
+                .ReturnsAsync(new CleaningContract { Id = 0 });
             vm.AppearCommand.ExecuteAsync(null);
             vm.CleanerName.Should().BeNull();
             vm.Price.Should().BeNull();
             vm.ScheduledTime.Should().BeNull();
-            vm.CleaningType.Should().BeNull();
+            vm.TypeOfCleaning.Should().BeNull();
             vm.Location.Should().BeNull();
             vm.Notes.Should().BeNull();
         }
 
         [Test]
-        public void WhenModelsHasOneItem_SetProperties()
+        public void WhenContractExists_SetProperties()
         {
-            mockSupabase.Setup(x => x.GetTable<CleaningContract>())
-                .ReturnsAsync(new MyModelResponse<CleaningContract>
-                {
-                    Models = new List<CleaningContract> {
-                        new CleaningContract() {
+            mockCustomer.Setup(x => x.GetCleaningDetailsById(1))
+                .ReturnsAsync(new CleaningContract 
+                { 
                             ScheduleDate = new DateTime(2023, 03, 26, 11, 30, 00)
                             , Cost = "50.00"
                             , Location = new Location { Address = "123 Main St" }
                             , CleaningType = new CleaningType {Type = "Maintenance"}
                             , Notes = "This is a note."
-                        }
-                    }
+                            , Id = 1
+
                 });
             vm.AppearCommand.ExecuteAsync(null);
 

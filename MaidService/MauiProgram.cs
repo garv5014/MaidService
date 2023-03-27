@@ -48,6 +48,8 @@ public static class MauiProgram
         InitViewModels(builder);
         // Note the creation as a singleton.
         builder.Services.AddSingleton(new Supabase.Client(url, key, options: options));
+        builder.Services.AddSingleton<ICustomerService,  CustomerService>();
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

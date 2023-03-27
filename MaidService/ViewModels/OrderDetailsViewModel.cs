@@ -1,49 +1,49 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
-using MaidService.DbModels;
+using MaidService.Library.DbModels;
 
 namespace MaidService.ViewModels;
 
 public partial class OrderDetailsViewModel : ObservableObject
 {
-	private ISupabaseService supabase;
+	private ICustomerService _customer;
 
-	public OrderDetailsViewModel(ISupabaseService supabase)
+	public OrderDetailsViewModel(ICustomerService customer)
 	{
-		this.supabase = supabase;
+		this._customer = customer;
 	}
 
 	[ObservableProperty]
-	private string cleanerName;
+	private string cleanerName = null;
 
 	[ObservableProperty]
-	private string price;
+	private string price = null;
 
 	[ObservableProperty]
-	private string scheduledTime;
+	private string scheduledTime = null;
 
 	[ObservableProperty]
-	private string typeOfCleaning;
+	private string typeOfCleaning = null;
 
 	[ObservableProperty]
-	private string location;
+	private string location = null;
 
 	[ObservableProperty]
-	private string notes;
+	private string notes = null;
 
 	[RelayCommand]
 	public async Task Appear()
 	{
-		var result = await supabase.GetTable<CleaningContract>();
+		var result = await _customer.GetCleaningDetailsById(1);
 
-		if (result != null)
+		if (result.Id > 0)
 		{
-			Price = $"${result.Models.Select(x => x.Cost)}";
-			ScheduledTime = result.Models.Select(x => x.ScheduleDate).First().ToShortTimeString();
-			TypeOfCleaning = result.Models.Select(x => x.CleaningType.Type).First();
-			Location = result.Models.Select(x => x.Location.Address).First();
-			Notes = result.Models.Select(x => x.Notes).First();
+			Price = $"${result.Cost}";
+			ScheduledTime = result.ScheduleDate.ToShortTimeString();
+			TypeOfCleaning = result.CleaningType.Type;
+			Location = result.Location.Address;
+			Notes = result.Notes;
 		}
 	}
 }
