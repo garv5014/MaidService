@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MaidService.DbModels;
-using System.Reactive.Linq;
+using MaidService.Library.DbModels;
 
 namespace MaidService.ComponentsViewModels;
 
