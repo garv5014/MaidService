@@ -77,8 +77,7 @@ CREATE TABLE cc_cleaner (
 	id serial4 Not Null,
 	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
 	cleaner_id int4 Not Null REFERENCES cleaner (id) on delete set null,
-	CONSTRAINT cc_cleaner_pk PRIMARY KEY (id),
-	unique (contract_id,cleaner_id)
+	CONSTRAINT cc_cleaner_pk PRIMARY KEY (id, contract_id, cleaner_id)
 );
 
 
