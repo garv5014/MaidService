@@ -10,6 +10,10 @@
              Route="MainPage">
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
         </Tab>
+        <Tab Title="Login"
+             Route="LoginPage">
+            <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
+        </Tab>
         <Tab Title="Profile"
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />

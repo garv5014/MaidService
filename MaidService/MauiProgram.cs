@@ -9,7 +9,6 @@ using MaidService.Services;
 using MaidService.CustomComponents;
 using MaidService.ComponentsViewModels;
 using MaidService.Mappers;
-using AutoMapper;
 
 namespace MaidService;
 
@@ -39,6 +38,7 @@ public static class MauiProgram
 
         // Pages
         builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<LoginPage>();
         builder.Services.AddSingleton<CustomerProfile>();
         builder.Services.AddSingleton<OrderDetails>();
         // ComponentViewModels
@@ -61,6 +61,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<MainPageViewModel>();
         builder.Services.AddSingleton<CustomerProfileViewModel>();
         builder.Services.AddSingleton<OrderDetailsViewModel>();
+        builder.Services.AddSingleton<LoginPageViewModel>();
+
     }
 }
 
