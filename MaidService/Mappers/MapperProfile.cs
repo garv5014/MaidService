@@ -5,7 +5,7 @@ namespace MaidService.Mappers;
 
 public class MapperProfile : Profile
 {
-    MapperProfile()
+    public MapperProfile()
     { 
         CreateMap<CleanerModel, Cleaner>().ReverseMap();
         CreateMap<CleanerReviewCustomersModel, CleanerReviewCustomers>().ReverseMap();

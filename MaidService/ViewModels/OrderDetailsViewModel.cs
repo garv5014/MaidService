@@ -39,7 +39,7 @@ public partial class OrderDetailsViewModel : ObservableObject
 
 		if (result.Id > 0)
 		{
-			Price = $"${result.Cost}";
+			Price = $"{result.Cost}";
 			ScheduledTime = result.ScheduleDate.ToShortTimeString();
 			TypeOfCleaning = result.CleaningType.Type;
 			Location = result.Location.Address;

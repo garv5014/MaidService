@@ -10,7 +10,7 @@ public class CustomerService : ICustomerService
     private readonly Client _client;
     private readonly IMapper _mapper;
 
-    CustomerService(Supabase.Client client, IMapper mapper)
+    public CustomerService(Supabase.Client client, IMapper mapper)
     {
         _client = client;
         _mapper = mapper;
@@ -18,11 +18,15 @@ public class CustomerService : ICustomerService
 
     public async Task<CleaningContract> GetCleaningDetailsById(int contractId)
     {
-        var res = await _client.From<CleaningContractModel>().Where(c => contractId == c.Id).Get();
+        var res = await _client
+            .From<CleaningContractModel>()
+            .Where(c => c.Id == contractId)
+            .Limit(1)
+            .Get();
 
         return res.ResponseMessage.IsSuccessStatusCode
-        ? _mapper.Map<CleaningContract>(res.Models)
-        : null;
+        ? _mapper.Map<CleaningContract>(res.Models[0])
+        : new CleaningContract();
     }
 
     public async Task<List<CleaningContract>> GetUpcomingAppointments()
