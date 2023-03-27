@@ -23,5 +23,4 @@
             <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" />
         </Tab>
     </TabBar>
-
 </Shell>

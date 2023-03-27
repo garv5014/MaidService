@@ -51,7 +51,7 @@
                        Text="Type"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding CleaningType}" />
+                       Text="{Binding TypeOfCleaning}" />
             </StackLayout>
 
             <StackLayout Grid.Column="0"

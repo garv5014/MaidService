@@ -18,14 +18,18 @@ public class CustomerService : ICustomerService
 
     public async Task<CleaningContract> GetCleaningDetailsById(int contractId)
     {
-        var res = await _client
+        var contract = await _client
             .From<CleaningContractModel>()
             .Where(c => c.Id == contractId)
             .Limit(1)
             .Get();
+        var cleaners = await _client
+            .From<CleaningContractModel>()
+            .Where (c => c.Id == contractId)
+            .Get();
 
-        return res.ResponseMessage.IsSuccessStatusCode
-        ? _mapper.Map<CleaningContract>(res.Models[0])
+        return contract.ResponseMessage.IsSuccessStatusCode
+        ? _mapper.Map<CleaningContract>(contract.Models[0])
         : new CleaningContract();
     }
 

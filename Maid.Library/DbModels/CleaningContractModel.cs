@@ -32,6 +32,9 @@ public class CleaningContractModel : BaseModel
     [Column("notes")]
     public string Notes { get; set; }
 
+    [Reference(typeof(CleanerModel))]
+    public List<CleanerModel> Cleaners { get; set; }
+
     [Reference(typeof(LocationModel))]
     public LocationModel Location{ get; set; }
 
@@ -63,4 +66,6 @@ public class CleaningContract
     public Location Location { get; set; }
 
     public CleaningType CleaningType { get; set; }
+
+    public List<Cleaner> Cleaners { get; set; }
 }
