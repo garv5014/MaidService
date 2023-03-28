@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             x:Class="MaidService.Views.CustomerSchedule"
+             Title="CustomerSchedule">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="*">
+            <VerticalStackLayout Grid.Column="0"
+                                 Grid.Row="0">
+                <Label FontSize="Medium"
+                       Text="{Binding CleanerName}" />
+
+                <sfavatar:SfAvatarView ContentType="Custom"
+                                       ImageSource="defaultprofile.jpg"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       HeightRequest="125"
+                                       Margin="5"
+                                       CornerRadius="63"
+                                       WidthRequest="125" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1"
+                                 Grid.Row="0">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Type"
+                       TextColor="Grey" />
+
+                <Label FontSize="Medium"
+                       Text="{Binding TypeOfCleaning}" />
+
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Location"
+                       TextColor="Grey" />
+
+                <Label FontSize="Medium"
+                       Text="{Binding Location}" />
+
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Time"
+                       TextColor="Grey" />
+
+                <Label FontSize="Medium"
+                       Text="{Binding ScheduledTime}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Label BackgroundColor="Grey"
+               HeightRequest="2" />
+        
+        <!-- Syncfusion calendar -->
+    </VerticalStackLayout>
+</ContentPage>
