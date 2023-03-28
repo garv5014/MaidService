@@ -7,53 +7,36 @@
              Title="CustomerSchedule">
     <VerticalStackLayout>
         <Grid ColumnDefinitions="*,*"
-              RowDefinitions="*">
-            <VerticalStackLayout Grid.Column="0"
-                                 Grid.Row="0">
-                <Label FontSize="Medium"
-                       Text="{Binding CleanerName}" />
-
-                <sfavatar:SfAvatarView ContentType="Custom"
-                                       ImageSource="defaultprofile.jpg"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center"
-                                       HeightRequest="125"
-                                       Margin="5"
-                                       CornerRadius="63"
-                                       WidthRequest="125" />
-            </VerticalStackLayout>
+              RowDefinitions="*"
+              ColumnSpacing="25">
+            <sfavatar:SfAvatarView ContentType="Custom"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   ImageSource="defaultprofile.jpg"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   HeightRequest="125"
+                                   Margin="5"
+                                   CornerRadius="63"
+                                   WidthRequest="125" />
 
             <VerticalStackLayout Grid.Column="1"
                                  Grid.Row="0">
                 <Label FontAttributes="Bold"
                        FontSize="Small"
-                       Text="Type"
+                       Text="Name"
                        TextColor="Grey" />
 
                 <Label FontSize="Medium"
-                       Text="{Binding TypeOfCleaning}" />
-
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Location"
-                       TextColor="Grey" />
-
-                <Label FontSize="Medium"
-                       Text="{Binding Location}" />
-
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Time"
-                       TextColor="Grey" />
-
-                <Label FontSize="Medium"
-                       Text="{Binding ScheduledTime}" />
+                       Text="{Binding CleanerName}" />
             </VerticalStackLayout>
         </Grid>
 
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
         
-        <!-- Syncfusion calendar -->
+        <!-- Syncfusion scheduler -->
+        <scheduler:SfScheduler HeightRequest="650"
+                               View="Week"/>
     </VerticalStackLayout>
 </ContentPage>
