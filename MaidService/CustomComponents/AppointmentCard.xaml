@@ -3,11 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         x:Class="MaidService.CustomComponents.AppointmentCard"
         x:Name="AppointmentFrame"
+        xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
         xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
         Margin="10"
         BorderColor="Black"
         CornerRadius="25"
         HasShadow="True">
+    <Frame.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Tapped"
+                                        Command="{Binding ShowDetailsCommand}"
+                                        CommandParameter="{Binding ContractId}"/>
+
+
+    </Frame.Behaviors>
     <HorizontalStackLayout>
         <sfavatar:SfAvatarView Grid.RowSpan="3"
                                Grid.Column="0"
@@ -36,11 +44,6 @@
             <Label Text="Date/Time Actual"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
-            <Button Text="{Binding Value, StringFormat='Clicked {0}'}"
-                    Command="{Binding IncrementCommand}"
-                />
-
-
         </VerticalStackLayout>
     </HorizontalStackLayout>
 </Frame>

@@ -48,7 +48,7 @@ namespace ViewModel.Test
                 });
             vm.AppearCommand.ExecuteAsync(null);
 
-            vm.Price.Should().Be("$50.00");
+            vm.Price.Should().Be("50.00");
             vm.ScheduledTime.Should().Be(new DateTime(2023, 03, 26, 11, 30, 00).ToShortTimeString());
             vm.TypeOfCleaning.Should().Be("Maintenance");
             vm.Location.Should().Be("123 Main St");
