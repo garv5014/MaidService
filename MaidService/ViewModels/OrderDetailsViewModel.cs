@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
-using MaidService.Library.DbModels;
 
 namespace MaidService.ViewModels;
 [QueryProperty(nameof(ContractId), nameof(ContractId))]

@@ -19,4 +19,6 @@
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
         </Tab>
     </TabBar>
+            <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
+
 </Shell>
