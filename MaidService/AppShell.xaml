@@ -19,5 +19,4 @@
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
         </Tab>
     </TabBar>
-    <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" />
 </Shell>

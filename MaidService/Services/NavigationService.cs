@@ -4,13 +4,13 @@ namespace MaidService.Services;
 
 public class NavigationService : INav
 {
-    public void NavigateTo(string path)
+    public async Task NavigateTo(string path)
     {
-        Shell.Current.GoToAsync(path);
+        await Shell.Current.GoToAsync(path);
     }
 
-    public void NavigateToWithParameters(string path, Dictionary<string, object> args)
+    public async Task NavigateToWithParameters(string path, Dictionary<string, object> args)
     {
-        Shell.Current?.GoToAsync(path, args);
+        await Shell.Current?.GoToAsync(path, args);
     }
 }

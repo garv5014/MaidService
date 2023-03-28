@@ -2,6 +2,6 @@
 
 public interface INav
 {
-    void NavigateTo(string path);
-    void NavigateToWithParameters(string path, Dictionary<string, object> args);
+    Task NavigateTo(string path);
+    Task NavigateToWithParameters(string path, Dictionary<string, object> args);
 }
