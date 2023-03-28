@@ -12,9 +12,7 @@
     <Frame.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Tapped"
                                         Command="{Binding ShowDetailsCommand}"
-                                        CommandParameter="{Binding ContractId}"/>
-
-
+                                        CommandParameter="{Binding ContractId}" />
     </Frame.Behaviors>
     <HorizontalStackLayout>
         <sfavatar:SfAvatarView Grid.RowSpan="3"
@@ -41,7 +39,7 @@
                    VerticalOptions="Center"
                    HorizontalOptions="Start"
                    FontSize="Medium" />
-            <Label Text="Date/Time Actual"
+            <Label Text="{Binding CleaningDate }"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
         </VerticalStackLayout>

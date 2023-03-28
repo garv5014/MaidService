@@ -22,4 +22,10 @@ public partial class AppointmentCardViewModel : ObservableObject
         CleaningDate = cleaningContract.ScheduleDate;
         ContractId = cleaningContract.Id;
     }
+
+    [RelayCommand]
+    public void ShowDetailsCommand()
+    { 
+        
+    }
 }
