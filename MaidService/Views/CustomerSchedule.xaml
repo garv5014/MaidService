@@ -3,8 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MaidService.Views.CustomerSchedule"
              Title="CustomerSchedule">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing"
+                                        Command="{Binding AppearCommand}" />
+    </ContentPage.Behaviors>
+
     <VerticalStackLayout>
         <Grid ColumnDefinitions="*,*"
               RowDefinitions="*"
@@ -37,6 +43,17 @@
         
         <!-- Syncfusion scheduler -->
         <scheduler:SfScheduler HeightRequest="650"
-                               View="Week"/>
+                               View="Week">
+            <scheduler:SfScheduler.AppointmentMapping>
+                <scheduler:SchedulerAppointmentMapping
+                Subject="EventName"
+                StartTime="From"
+                EndTime="To"
+                Background="Background"
+                IsAllDay="IsAllDay"
+                StartTimeZone="StartTimeZone"
+                EndTimeZone="EndTimeZone"/>
+            </scheduler:SfScheduler.AppointmentMapping>
+        </scheduler:SfScheduler>
     </VerticalStackLayout>
 </ContentPage>
