@@ -30,6 +30,8 @@ public partial class AppointmentCardViewModel : ObservableObject
     [RelayCommand]
     public void TapCard()
     {
-        _nav.NavigateTo($"///{nameof(MainPage)}");
+        _nav.NavigateToWithParameters($"///{nameof(OrderDetails)}", 
+            new Dictionary<string, object> { { "contractId", ContractId } }
+            );
     }
 }
