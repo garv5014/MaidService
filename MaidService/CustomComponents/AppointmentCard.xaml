@@ -9,11 +9,10 @@
         BorderColor="Black"
         CornerRadius="25"
         HasShadow="True">
-    <Frame.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Tapped"
-                                        Command="{Binding ShowDetailsCommand}"
-                                        CommandParameter="{Binding ContractId}" />
-    </Frame.Behaviors>
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding TapCardCommand}"
+             />
+    </Frame.GestureRecognizers>
     <HorizontalStackLayout>
         <sfavatar:SfAvatarView Grid.RowSpan="3"
                                Grid.Column="0"
