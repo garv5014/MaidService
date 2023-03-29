@@ -60,7 +60,7 @@ Create TABLE cleaning_type(
 
 CREATE TABLE cleaning_contract (
 	id serial4 Not Null,
-	cust_id int4 REFERENCES customer (id) on delete set null,
+	cust_id int4 Not Null REFERENCES customer (id) on delete set null,
 	date_completed date Null, 
 	schedule_date timestamp Not Null, 
 	cost money Not Null,
