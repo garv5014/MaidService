@@ -26,7 +26,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        var url = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:8000" : "http://localhost:8000"; 
+        var url = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:8000" : "http://localhost:8000";
         var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjc4OTQ2NDAwLAogICAgImV4cCI6IDE4MzY3OTkyMDAKfQ.o8K_A6Yb58TmcKIcZWk-f36JdFM2z5mWhfDG5pnLLDw";
         var options = new SupabaseOptions
         {
@@ -37,19 +37,17 @@ public static class MauiProgram
         builder.Services.AddAutoMapper(typeof(MapperProfile));
 
         // Pages
-        builder.Services.AddSingleton<MainPage>();
-        builder.Services.AddSingleton<LoginPage>();
-        builder.Services.AddSingleton<CustomerProfile>();
-        builder.Services.AddSingleton<OrderDetails>();
-        builder.Services.AddSingleton<CustomerSchedule>();
+        InitPages(builder);
+
         // ComponentViewModels
         builder.Services.AddSingleton<AppointmentCardViewModel>();
         // Components
         builder.Services.AddSingleton<AppointmentCard>();
         // Note the creation as a singleton.
         builder.Services.AddSingleton(new Supabase.Client(url, key, options: options));
-        builder.Services.AddSingleton<ICustomerService,  CustomerService>();
+        builder.Services.AddSingleton<ICustomerService, CustomerService>();
         builder.Services.AddSingleton<INav, NavigationService>();
+        builder.Services.AddSingleton<IAuthService, AuthenicationService>();
 
         InitViewModels(builder);
 
@@ -59,6 +57,17 @@ public static class MauiProgram
 
         return builder.Build();
     }
+
+    private static void InitPages(MauiAppBuilder builder)
+    {
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<LoginPage>();
+        builder.Services.AddSingleton<CustomerProfile>();
+        builder.Services.AddSingleton<OrderDetails>();
+        builder.Services.AddSingleton<CustomerSchedule>();
+        builder.Services.AddSingleton<SignUpPage>();
+    }
+
     public static void InitViewModels(MauiAppBuilder builder)
     {
         builder.Services.AddSingleton<MainPageViewModel>();
@@ -66,6 +75,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<OrderDetailsViewModel>();
         builder.Services.AddSingleton<LoginPageViewModel>();
         builder.Services.AddSingleton<CustomerScheduleViewModel>();
+        builder.Services.AddSingleton<SignUpPageViewModel>();
+
     }
 }
 

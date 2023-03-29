@@ -39,7 +39,8 @@
                             TextColor="White"
                             Margin="10,20,0,0"
                             VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="CenterAndExpand" />
+                            HorizontalOptions="CenterAndExpand"
+                            Command="{Binding NavigateToSignUpCommad}"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>
