@@ -33,6 +33,8 @@ public class CleaningContractModel : BaseModel
     [Column("notes")]
     public string Notes { get; set; }
 
+    [Reference(typeof(CustomerModel))]
+    public CustomerModel Customer { get; set; }
 
     [Reference(typeof(CleanerModel))]
     public List<CleanerModel> Cleaners { get; set; }

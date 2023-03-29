@@ -21,8 +21,7 @@ public class CustomerService : ICustomerService
     {
         var result =
             await _client.From<CleaningContractModel>()
-            .Select("*")
-            .Filter("cust_id", Operator.Equals, customerId)
+            .Where(c => c.Customer.Id == customerId)
             .Get();
 
         return result.Models.Count > 0
@@ -36,10 +35,6 @@ public class CustomerService : ICustomerService
             .From<CleaningContractModel>()
             .Where(c => c.Id == contractId)
             .Limit(1)
-            .Get();
-        var cleaners = await _client
-            .From<CleaningContractModel>()
-            .Where (c => c.Id == contractId)
             .Get();
 
         return contract.ResponseMessage.IsSuccessStatusCode
