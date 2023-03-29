@@ -40,7 +40,7 @@
                             Margin="10,20,0,0"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="CenterAndExpand"
-                            Command="{Binding NavigateToSignUpCommad}"/>
+                            Command="{Binding NavigateToSignUPCommand}"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Frame>
