@@ -10,19 +10,23 @@ namespace ViewModel.Test
     public class CustomerProfileTest
     {
         private Mock<ICustomerService> mockCustomer;
+
+        public Mock<INav> mockNavService;
+
         private CustomerProfileViewModel vm;
 
         [SetUp]
         public void Setup()
         {
             mockCustomer = new Mock<ICustomerService>();
-            vm = new CustomerProfileViewModel(mockCustomer.Object);
+            mockNavService = new Mock<INav>();
+            vm = new CustomerProfileViewModel(mockCustomer.Object, mockNavService.Object);
         }
 
         [Test]
         public void WhenNullModels_ReturnMessage()
         {
-            mockCustomer.Setup(x => x.GetUpcomingAppointments()).ReturnsAsync(new List<CleaningContract> { });
+            mockCustomer.Setup(x => x.GetUpcomingAppointments(1)).ReturnsAsync(new List<CleaningContract> { });
             vm.AppearCommand.ExecuteAsync(null);
             vm.AppointmentsHeader.Should().Be("No Upcoming Appointments");
         }
@@ -30,7 +34,7 @@ namespace ViewModel.Test
         [Test]
         public void WhenModelHasOneItem_SetAppointmentToModel()
         {
-            mockCustomer.Setup(x => x.GetUpcomingAppointments())
+            mockCustomer.Setup(x => x.GetUpcomingAppointments(1))
                 .ReturnsAsync(new List<CleaningContract>
                 { new CleaningContract
                         { Location = new Location
@@ -47,7 +51,9 @@ namespace ViewModel.Test
                     new CleaningContract {
                         Location = new Location { Address = "123 mains street" }
                         , ScheduleDate = new DateTime(2023, 03, 02)
-                    })
+                    }
+                , mockNavService.Object
+                )
                 });
             vm.AppointmentsHeader.Should().Be("Upcoming Appointments");
         }

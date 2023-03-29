@@ -8,8 +8,6 @@ namespace MaidService.ViewModels;
 
 public partial class MainPageViewModel : ObservableObject
 {
-    public AppointmentCardViewModel TestAppointment { get; set; } = new AppointmentCardViewModel { Address = "This is just a drill" };
-
     [ObservableProperty]
     private string text;
 
@@ -25,7 +23,7 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     public async Task GetCustomers()
     {
-        var res = await _customerService.GetUpcomingAppointments();
+        var res = await _customerService.GetUpcomingAppointments(1);
         var signIn = await client.Auth.SignIn("fake@gmail.com", "fake");
         if (res == null)
         {
@@ -33,7 +31,7 @@ public partial class MainPageViewModel : ObservableObject
         }
         else
         {
-            Text = res[0].Location.Address;
+            Text = res.First().Location.Address;
         }
     }
 

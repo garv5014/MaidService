@@ -28,7 +28,6 @@
             <VerticalStackLayout Grid.Row="0"
                                  Grid.Column="1"
                                  Grid.RowSpan="3">
-
                 <Label HorizontalOptions="Start"
                        Text="Name"
                        FontSize="Small" />
@@ -51,7 +50,7 @@
         </Grid>
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
-        <Label Text="Upcoming Appointments"
+        <Label Text="{Binding AppointmentsHeader}"
                FontSize="Title"
                FontAttributes="Bold"
                HorizontalOptions="Center"
@@ -60,8 +59,6 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <customComp:AppointmentCard />
-
-
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

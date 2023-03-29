@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
+using MaidService.Views;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MaidService.ComponentsViewModels;
 
@@ -10,23 +13,23 @@ public partial class AppointmentCardViewModel : ObservableObject
     private string address;
 
     [ObservableProperty]
-    private int value; 
+    private DateTime? cleaningDate;
+    private readonly INav _nav;
+
+    public int ContractId { get; init; }
 
 
-    public AppointmentCardViewModel(CleaningContract cleaningContract)
+    public AppointmentCardViewModel(CleaningContract cleaningContract, INav nav)
     {
         Address = cleaningContract.Location.Address;
-    }
-    public AppointmentCardViewModel()
-    {
-        Address = "Fake Location";
+        CleaningDate = cleaningContract.ScheduleDate;
+        ContractId = cleaningContract.Id;
+        _nav = nav;
     }
 
     [RelayCommand]
-    public void Increment()
+    public async Task TapCard()
     {
-        Value++;
+        await _nav.NavigateTo($"///{nameof(OrderDetails)}?ContractId={ContractId}");
     }
-    
-
 }

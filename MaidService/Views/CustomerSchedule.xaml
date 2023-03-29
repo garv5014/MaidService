@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="MaidService.Views.CustomerSchedule"
+             Title="CustomerSchedule">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing"
+                                        Command="{Binding AppearCommand}" />
+    </ContentPage.Behaviors>
+
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="*"
+              ColumnSpacing="25">
+            <sfavatar:SfAvatarView ContentType="Custom"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   ImageSource="defaultprofile.jpg"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   HeightRequest="125"
+                                   Margin="5"
+                                   CornerRadius="63"
+                                   WidthRequest="125" />
+
+            <VerticalStackLayout Grid.Column="1"
+                                 Grid.Row="0">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Name"
+                       TextColor="Grey" />
+
+                <Label FontSize="Medium"
+                       Text="{Binding CleanerName}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Label BackgroundColor="Grey"
+               HeightRequest="2" />
+        
+        <!-- Syncfusion scheduler -->
+        <scheduler:SfScheduler x:Name="Scheduler"
+                               HeightRequest="650"
+                               View="Week"
+                               AppointmentsSource="{Binding Appointments}"
+                               CellBorderBrush="DarkGray">
+        </scheduler:SfScheduler>
+    </VerticalStackLayout>
+</ContentPage>

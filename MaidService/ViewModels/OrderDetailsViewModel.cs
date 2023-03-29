@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
-using MaidService.Library.DbModels;
 
 namespace MaidService.ViewModels;
-
+[QueryProperty(nameof(ContractId), nameof(ContractId))]
 public partial class OrderDetailsViewModel : ObservableObject
 {
 	private ICustomerService _customer;
@@ -32,10 +31,13 @@ public partial class OrderDetailsViewModel : ObservableObject
 	[ObservableProperty]
 	private string notes = null;
 
-	[RelayCommand]
+    [ObservableProperty]
+	private int contractId ;
+
+    [RelayCommand]
 	public async Task Appear()
 	{
-		var result = await _customer.GetCleaningDetailsById(1);
+		var result = await _customer.GetCleaningDetailsById(ContractId);
 
 		if (result.Id > 0)
 		{
