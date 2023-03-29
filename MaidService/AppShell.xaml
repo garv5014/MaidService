@@ -18,6 +18,14 @@
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
         </Tab>
+        <Tab Title="Details"
+             Route="OrderDetails">
+            <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" />
+        </Tab>
+        <Tab Title="Schedule"
+             Route="CustomerSchedule">
+            <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
+        </Tab>
     </TabBar>
             <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
 

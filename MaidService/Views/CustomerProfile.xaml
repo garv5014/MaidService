@@ -50,7 +50,7 @@
         </Grid>
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
-        <Label Text="Upcoming Appointments"
+        <Label Text="{Binding AppointmentsHeader}"
                FontSize="Title"
                FontAttributes="Bold"
                HorizontalOptions="Center"

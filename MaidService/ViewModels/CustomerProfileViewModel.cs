@@ -13,19 +13,24 @@ public partial class CustomerProfileViewModel : ObservableObject
     private IEnumerable<AppointmentCardViewModel> appointments;
 
     [ObservableProperty]
-    private string appointmentsHeader = "No Upcoming Appointments";
+    private string appointmentsHeader;
 
     public CustomerProfileViewModel(ICustomerService customerService, INav nav)
     {
         _customerService = customerService;
         this.nav = nav;
+        AppointmentsHeader = "No Upcoming Appointments";
     }
 
     [RelayCommand]
     public async Task Appear()
     {
-        var res = await _customerService.GetUpcomingAppointments();
-        Appointments = res.Select(a => new AppointmentCardViewModel(a, nav));
+        var res = await _customerService.GetUpcomingAppointments(1);
+        Appointments = new List<AppointmentCardViewModel>();
+        if (res != null)
+        {
+            Appointments = res.Select(a => new AppointmentCardViewModel(a));
+        }
 
         if (Appointments.Count() > 0 )
         {

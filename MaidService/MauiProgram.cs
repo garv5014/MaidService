@@ -41,6 +41,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<LoginPage>();
         builder.Services.AddSingleton<CustomerProfile>();
         builder.Services.AddSingleton<OrderDetails>();
+        builder.Services.AddSingleton<CustomerSchedule>();
         // ComponentViewModels
         builder.Services.AddSingleton<AppointmentCardViewModel>();
         // Components
@@ -64,7 +65,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<CustomerProfileViewModel>();
         builder.Services.AddSingleton<OrderDetailsViewModel>();
         builder.Services.AddSingleton<LoginPageViewModel>();
-
+        builder.Services.AddSingleton<CustomerScheduleViewModel>();
     }
 }
 

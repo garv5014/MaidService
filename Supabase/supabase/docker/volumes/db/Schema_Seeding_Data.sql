@@ -27,7 +27,9 @@ VALUES ('Standard Cleaning', 'General cleaning of floors, surfaces, and bathroom
 INSERT INTO cleaning_contract (cust_id, date_completed, schedule_date, cost, requested_hours, est_sqft, num_of_cleaners, notes, location_id, cleaning_type_id)
 VALUES                        (1, '2023-03-17', '2023-03-17 10:00:00', 250.00, '4 hours', 1000, 2, 'Please pay in cash', 1, 1),
                               (2, null, '2023-03-18 14:00:00', 150.00, '2 hours', 500, 1, null, 2, 2),
-                              (3, null, '2023-03-19 12:00:00', 200.00, '3 hours', 750, 1, 'Please bring your own cleaning supplies', 3, 3);
+                              (3, null, '2023-03-19 12:00:00', 200.00, '3 hours', 750, 1, 'Please bring your own cleaning supplies', 3, 3),
+                              (1, null, (select NOW() + INTERVAL '2 days'), 100.00, '2 hours', 500, 1, null, 1, 1),
+                              (1, null, (select NOW() + INTERVAL '3 days'), 120.00, '4 hours', 250, 1 ,'Do not be mean', 2, 2);
 
 -- CC Cleaner
 INSERT INTO cc_cleaner (contract_id, cleaner_id)

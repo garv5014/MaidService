@@ -5,5 +5,6 @@ namespace Maid.Library.Interfaces;
 public interface ICustomerService
 {
     Task<CleaningContract> GetCleaningDetailsById(int contractId);
-    public Task<List<CleaningContract>> GetUpcomingAppointments();
+    public Task<IEnumerable<CleaningContract>> GetUpcomingAppointments(int customerId);
+    public Task<IEnumerable<CleaningContract>> GetAllAppointments(int id);
 }

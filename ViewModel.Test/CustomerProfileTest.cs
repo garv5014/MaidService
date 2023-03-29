@@ -26,7 +26,7 @@ namespace ViewModel.Test
         [Test]
         public void WhenNullModels_ReturnMessage()
         {
-            mockCustomer.Setup(x => x.GetUpcomingAppointments()).ReturnsAsync(new List<CleaningContract> { });
+            mockCustomer.Setup(x => x.GetUpcomingAppointments(1)).ReturnsAsync(new List<CleaningContract> { });
             vm.AppearCommand.ExecuteAsync(null);
             vm.AppointmentsHeader.Should().Be("No Upcoming Appointments");
         }
@@ -34,7 +34,7 @@ namespace ViewModel.Test
         [Test]
         public void WhenModelHasOneItem_SetAppointmentToModel()
         {
-            mockCustomer.Setup(x => x.GetUpcomingAppointments())
+            mockCustomer.Setup(x => x.GetUpcomingAppointments(1))
                 .ReturnsAsync(new List<CleaningContract>
                 { new CleaningContract
                         { Location = new Location
