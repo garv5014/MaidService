@@ -44,11 +44,9 @@ public class CustomerService : ICustomerService
 
     public async Task<IEnumerable<CleaningContract>> GetUpcomingAppointments(int customerId)
     {
-        var res = await _client
-            .From<CleaningContractModel>()
-            .Where(c => c.ScheduleDate > (DateTime.Now))
-            //.Where(c => c.ScheduleDate < (DateTime.Now + TimeSpan.FromDays(8)))
-            //.Where(c => c.Id == customerId)
+        var res = await _client.Postgrest
+            .Table<CleaningContractModel>()
+            .Where(c => c.Customer_Id == customerId)
             .Get();
         return res.Models.Count > 0
             ? _mapper.Map<List<CleaningContract>>(res.Models)
