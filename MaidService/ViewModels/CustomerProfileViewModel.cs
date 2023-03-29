@@ -29,7 +29,7 @@ public partial class CustomerProfileViewModel : ObservableObject
         Appointments = new List<AppointmentCardViewModel>();
         if (res != null)
         {
-            Appointments = res.Select(a => new AppointmentCardViewModel(a));
+            Appointments = res.Select(a => new AppointmentCardViewModel(a, nav));
         }
 
         if (Appointments.Count() > 0 )
