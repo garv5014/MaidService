@@ -11,6 +11,7 @@ public class CleaningContractModel : BaseModel
     [Column("cust_id")]
     public int Customer_Id { get; set; }
 
+
     [Column("date_completed")]
     public DateTime DateCompleted { get; set; }
 
@@ -31,6 +32,7 @@ public class CleaningContractModel : BaseModel
 
     [Column("notes")]
     public string Notes { get; set; }
+
 
     [Reference(typeof(CleanerModel))]
     public List<CleanerModel> Cleaners { get; set; }

@@ -22,7 +22,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
-        var res = await _customerService.GetUpcomingAppointments();
+        var res = await _customerService.GetUpcomingAppointments(1);
         Appointments = res.Select(a => new AppointmentCardViewModel(a));
 
         if (Appointments.Count() > 0 )

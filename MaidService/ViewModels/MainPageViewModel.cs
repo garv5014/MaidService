@@ -25,7 +25,7 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     public async Task GetCustomers()
     {
-        var res = await _customerService.GetUpcomingAppointments();
+        var res = await _customerService.GetUpcomingAppointments(1);
         var signIn = await client.Auth.SignIn("fake@gmail.com", "fake");
         if (res == null)
         {
@@ -33,7 +33,7 @@ public partial class MainPageViewModel : ObservableObject
         }
         else
         {
-            Text = res[0].Location.Address;
+            Text = res.First().Location.Address;
         }
     }
 

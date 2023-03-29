@@ -7,7 +7,7 @@
              x:Class="MaidService.Views.CustomerSchedule"
              Title="CustomerSchedule">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing"
+        <toolkit:EventToCommandBehavior EventName="Loaded"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
 
@@ -42,18 +42,11 @@
                HeightRequest="2" />
         
         <!-- Syncfusion scheduler -->
-        <scheduler:SfScheduler HeightRequest="650"
-                               View="Week">
-            <scheduler:SfScheduler.AppointmentMapping>
-                <scheduler:SchedulerAppointmentMapping
-                Subject="EventName"
-                StartTime="From"
-                EndTime="To"
-                Background="Background"
-                IsAllDay="IsAllDay"
-                StartTimeZone="StartTimeZone"
-                EndTimeZone="EndTimeZone"/>
-            </scheduler:SfScheduler.AppointmentMapping>
+        <scheduler:SfScheduler x:Name="Scheduler"
+                               HeightRequest="650"
+                               View="Week"
+                               AppointmentsSource="{Binding Appointments}"
+                               CellBorderBrush="DarkGray">
         </scheduler:SfScheduler>
     </VerticalStackLayout>
 </ContentPage>

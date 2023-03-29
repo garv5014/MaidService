@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
-using MaidService.ComponentsViewModels;
-using MaidService.Services;
+using Syncfusion.Maui.Scheduler;
 using System.Collections.ObjectModel;
 
 namespace MaidService.ViewModels;
@@ -15,12 +14,26 @@ public partial class CustomerScheduleViewModel : ObservableObject
     {
         this.customerService = customerService;
     }
-
-    public ObservableCollection<CleaningAppoinment> Appoinments { get; set; }
+    [ObservableProperty]
+    private ObservableCollection<SchedulerAppointment> appointments;
 
     [RelayCommand]
-    public void Appear()
+    public async Task Appear()
     {
-        customerService
+        Appointments = new();
+
+        var contracts = await customerService.GetAllAppointments(1);
+        var translation = contracts.Select(x => new SchedulerAppointment
+        {
+            StartTime = x.ScheduleDate,
+            EndTime = x.ScheduleDate + x.RequestedHours,
+            IsAllDay = false, 
+            Subject = x.CleaningType.Type,
+            Background = Brush.Blue
+        });
+        foreach (var schedule in translation) 
+        {
+            Appointments.Add(schedule);
+        }
     }
 }
