@@ -19,9 +19,10 @@ public class CustomerService : ICustomerService
 
     public async Task<IEnumerable<CleaningContract>> GetAllAppointments(int customerId)
     {
+       
         var result =
-            await _client.From<CleaningContractModel>()
-            .Where(c => c.Customer.Id == customerId)
+            await _client.From<CleaningContractModelNoCleaners>()
+            .Filter("cust_id", Operator.Equals, customerId)
             .Get();
 
         return result.Models.Count > 0
