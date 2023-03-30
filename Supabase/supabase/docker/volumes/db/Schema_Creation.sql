@@ -106,7 +106,7 @@ CREATE TABLE customer_payment (
 	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
 	amount_paid money Not Null, 
 	received_date date Not Null,
-	CONSTRAINT customer_receipt_pk PRIMARY KEY (id,cust_id, contract_id)
+	CONSTRAINT customer_receipt_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE day_template(
