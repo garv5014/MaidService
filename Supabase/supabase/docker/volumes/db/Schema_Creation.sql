@@ -77,7 +77,7 @@ CREATE TABLE cc_cleaner (
 	id serial4 Not Null,
 	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
 	cleaner_id int4 Not Null REFERENCES cleaner (id) on delete set null,
-	CONSTRAINT cc_cleaner_pk PRIMARY KEY (id, contract_id, cleaner_id)
+	CONSTRAINT cc_cleaner_pk PRIMARY KEY (contract_id, cleaner_id)
 );
 
 
@@ -87,7 +87,7 @@ CREATE TABLE cust_review_cleaner  (
 	cleaner_id int4 Not Null REFERENCES cleaner (id) on delete set null,
 	rating int4 Not Null constraint between1and5 check(rating <= 5 and rating >= 1), 
 	review text Null, 
-	CONSTRAINT cust_review_cleaner_pk PRIMARY KEY (id)
+	CONSTRAINT cust_review_cleaner_pk PRIMARY KEY (cust_id, cleaner_id)
 );
 
 CREATE TABLE cleaner_review_cust  (
@@ -96,7 +96,7 @@ CREATE TABLE cleaner_review_cust  (
 	cleaner_id int4 Not Null REFERENCES cleaner (id) on delete set null,
 	rating int4 Not Null constraint between1and5 check(rating <= 5 and rating >= 1), 
 	review text Null, 
-	CONSTRAINT cleaner_review_cust_pk PRIMARY KEY (id)
+	CONSTRAINT cleaner_review_cust_pk PRIMARY KEY (cust_id, cleaner_id)
 );
 
 
@@ -106,7 +106,7 @@ CREATE TABLE customer_payment (
 	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
 	amount_paid money Not Null, 
 	received_date date Not Null,
-	CONSTRAINT customer_receipt_pk PRIMARY KEY (id)
+	CONSTRAINT customer_receipt_pk PRIMARY KEY (id,cust_id, contract_id)
 );
 
 CREATE TABLE day_template(
@@ -128,5 +128,5 @@ CREATE TABLE contract_schedule (
 	id serial4 Not Null,
 	contract_id int4 Not Null REFERENCES cleaning_contract (id) on delete set null, 
 	schedule_id int4 Not Null REFERENCES schedule (id) on delete set null, 
-	CONSTRAINT contract_schedule_pk PRIMARY KEY (id)
+	CONSTRAINT contract_schedule_pk PRIMARY KEY (contract_id, schedule_id)
 );
