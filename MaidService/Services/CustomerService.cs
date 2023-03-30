@@ -2,6 +2,7 @@
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using Supabase;
+using System.Diagnostics.Contracts;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -19,9 +20,10 @@ public class CustomerService : ICustomerService
 
     public async Task<IEnumerable<CleaningContract>> GetAllAppointments(int customerId)
     {
+       
         var result =
-            await _client.From<CleaningContractModel>()
-            .Where(c => c.Customer.Id == customerId)
+            await _client.From<CleaningContractModelNoCleaners>()
+            .Filter("cust_id", Operator.Equals, customerId)
             .Get();
 
         return result.Models.Count > 0
@@ -51,5 +53,16 @@ public class CustomerService : ICustomerService
         return res.Models.Count > 0
             ? _mapper.Map<List<CleaningContract>>(res.Models)
             : null;
+    }
+
+    public async Task<bool> IsScheduled(int contractId)
+    {
+        var res = await _client
+        .From<CleaningContractModel>()
+         .Where(c => c.Id == contractId)
+         .Limit(1)
+         .Get();
+
+        return res.Models?.Count == 0;
     }
 }
