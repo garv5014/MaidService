@@ -20,7 +20,7 @@ public class LocationModel : BaseModel
     public string Apartment_number { get; set; }
 }
 
-public class Location
+public class CleaningLocation
 {
     public int Id { get; set; }
 

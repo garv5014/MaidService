@@ -27,13 +27,14 @@ public partial class CustomerScheduleViewModel : ObservableObject
         {
             Appointments.Add(new SchedulerAppointment
             {
+                Id = schedule.Id,
                 StartTime = schedule.ScheduleDate,
                 EndTime = schedule.ScheduleDate + schedule.RequestedHours,
                 IsAllDay = false,
                 Subject = schedule?.CleaningType.Type,
                 Background = await customerService.IsScheduled(schedule.Id) ?
-                                            Brush.Red
-                                            : Brush.Green,
+                                                 Brush.Green
+                                                :Brush.Red,
             });
         }
     }

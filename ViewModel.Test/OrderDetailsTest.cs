@@ -35,12 +35,12 @@ namespace ViewModel.Test
         [Test]
         public void WhenContractExists_SetProperties()
         {
-            mockCustomer.Setup(x => x.GetCleaningDetailsById(1))
+            mockCustomer.Setup(x => x.GetCleaningDetailsById(It.IsAny<int>()))
                 .ReturnsAsync(new CleaningContract 
                 { 
                             ScheduleDate = new DateTime(2023, 03, 26, 11, 30, 00)
                             , Cost = "50.00"
-                            , Location = new Location { Address = "123 Main St" }
+                            , Location = new CleaningLocation { Address = "123 Main St" }
                             , CleaningType = new CleaningType {Type = "Maintenance"}
                             , Notes = "This is a note."
                             , Id = 1

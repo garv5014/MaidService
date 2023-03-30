@@ -17,7 +17,7 @@ public class MapperProfile : Profile
         CreateMap<CustomerPaymentModel, CustomerPayment>().ReverseMap();
         CreateMap<CustomerReviewCleanerModel, CustomerReviewCleaners>().ReverseMap();
         CreateMap<DayTemplateModel, DayTemplate>().ReverseMap();
-        CreateMap<LocationModel, Library.DbModels.Location>().ReverseMap();
+        CreateMap<LocationModel, Library.DbModels.CleaningLocation>().ReverseMap();
         CreateMap<ScheduleModel, Schedule>().ReverseMap();
     }
 }

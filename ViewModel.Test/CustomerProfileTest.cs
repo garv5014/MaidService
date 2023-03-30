@@ -37,7 +37,7 @@ namespace ViewModel.Test
             mockCustomer.Setup(x => x.GetUpcomingAppointments(1))
                 .ReturnsAsync(new List<CleaningContract>
                 { new CleaningContract
-                        { Location = new Location
+                        { Location = new CleaningLocation
                             {
                                 Address = "123 mains street"
                             }
@@ -49,7 +49,7 @@ namespace ViewModel.Test
                 new List<AppointmentCardViewModel>
                 { new AppointmentCardViewModel(
                     new CleaningContract {
-                        Location = new Location { Address = "123 mains street" }
+                        Location = new CleaningLocation { Address = "123 mains street" }
                         , ScheduleDate = new DateTime(2023, 03, 02)
                     }
                 , mockNavService.Object
