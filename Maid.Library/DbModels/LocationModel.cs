@@ -10,6 +10,10 @@ public class LocationModel : BaseModel
 
     [Column("address")]
     public string Address { get; set; }
+
+    [Column("City")]
+    public string City { get; set; }
+
     [Column("state")]
     public string State { get; set; }
 
@@ -25,6 +29,8 @@ public class CleaningLocation
     public int Id { get; set; }
 
     public string Address { get; set; }
+
+    public string City { get; set; }
 
     public string State { get; set; }
 
