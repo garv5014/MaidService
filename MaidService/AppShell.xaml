@@ -5,9 +5,6 @@
        xmlns:local="clr-namespace:MaidService.Views"
        Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"
-                  Title="Login"
-                  Route="LoginPage" />
     <TabBar>
         <Tab Title="Home"
              Route="MainPage">
@@ -25,4 +22,7 @@
     </TabBar>
             <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
 
+    <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"
+                  Title="Login"
+                  Route="LoginPage" />
 </Shell>
