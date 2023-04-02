@@ -10,6 +10,7 @@
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
+    
     <VerticalStackLayout>
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="*,*"

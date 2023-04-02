@@ -6,7 +6,7 @@ public partial class ScheduleForm : ContentPage
 {
 	public ScheduleForm(ScheduleFormViewModel vm)
 	{
-		InitializeComponent();
-		BindingContext = vm;
-	}
+        InitializeComponent();
+        BindingContext = vm;
+    }
 }

@@ -14,6 +14,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
     {
         this.customerService = customerService;
     }
+
     [ObservableProperty]
     private ObservableCollection<SchedulerAppointment> appointments;
 
