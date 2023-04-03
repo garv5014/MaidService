@@ -23,17 +23,19 @@ public partial class CustomerScheduleViewModel : ObservableObject
         Appointments = new();
 
         var contracts = await customerService.GetAllAppointments(1);
-        var translation = contracts.Select(x => new SchedulerAppointment
+        foreach (var schedule in contracts)
         {
-            StartTime = x.ScheduleDate,
-            EndTime = x.ScheduleDate + x.RequestedHours,
-            IsAllDay = false, 
-            Subject = x.CleaningType.Type,
-            Background = Brush.Blue
-        });
-        foreach (var schedule in translation) 
-        {
-            Appointments.Add(schedule);
+            Appointments.Add(new SchedulerAppointment
+            {
+                Id = schedule.Id,
+                StartTime = schedule.ScheduleDate,
+                EndTime = schedule.ScheduleDate + schedule.RequestedHours,
+                IsAllDay = false,
+                Subject = schedule?.CleaningType.Type,
+                Background = await customerService.IsScheduled(schedule.Id) ?
+                                                 Brush.Green
+                                                :Brush.Red,
+            });
         }
     }
 }

@@ -3,9 +3,9 @@ using Postgrest.Models;
 
 namespace MaidService.Library.DbModels;
 [Table("cleaning_contract")]
-public class CleaningContractModel : BaseModel
+public class CleaningContractModelNoCleaners : BaseModel
 {
-    [PrimaryKey("id")] 
+    [PrimaryKey("id")]
     public int Id { get; set; }
 
     [Column("cust_id")]
@@ -35,40 +35,10 @@ public class CleaningContractModel : BaseModel
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
 
-    [Reference(typeof(CleanerModel))]
-    public List<CleanerModel> Cleaners { get; set; }
-
     [Reference(typeof(LocationModel))]
-    public LocationModel Location{ get; set; }
+    public LocationModel Location { get; set; }
 
     [Reference(typeof(CleaningTypeModel))]
-    public CleaningTypeModel CleaningType { get; set;}
+    public CleaningTypeModel CleaningType { get; set; }
 
-}
-
-public class CleaningContract 
-{
-    public int Id { get; set; }
-
-    public int Customer_Id { get; set; }
-
-    public DateTime DateCompleted { get; set; }
-
-    public DateTime ScheduleDate { get; set; }
-
-    public string Cost { get; set; }
-
-    public TimeSpan RequestedHours { get; set; }
-
-    public int EstSqft { get; set; }
-
-    public int NumOfCleaners { get; set; }
-
-    public string Notes { get; set; }
-
-    public CleaningLocation Location { get; set; }
-
-    public CleaningType CleaningType { get; set; }
-
-    public List<Cleaner> Cleaners { get; set; }
 }

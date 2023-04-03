@@ -10,13 +10,14 @@ public class MapperProfile : Profile
         CreateMap<CleanerModel, Cleaner>().ReverseMap();
         CreateMap<CleanerReviewCustomersModel, CleanerReviewCustomers>().ReverseMap();
         CreateMap<CleaningContractModel, CleaningContract>().ReverseMap();
+        CreateMap<CleaningContractModelNoCleaners, CleaningContract>().ReverseMap();
         CreateMap<CleaningTypeModel, CleaningType>().ReverseMap();
         CreateMap<ContractScheduleModel, ContractSchedule>().ReverseMap();
         CreateMap<CustomerModel, Customer>().ReverseMap();
         CreateMap<CustomerPaymentModel, CustomerPayment>().ReverseMap();
         CreateMap<CustomerReviewCleanerModel, CustomerReviewCleaners>().ReverseMap();
         CreateMap<DayTemplateModel, DayTemplate>().ReverseMap();
-        CreateMap<LocationModel, Library.DbModels.Location>().ReverseMap();
+        CreateMap<LocationModel, Library.DbModels.CleaningLocation>().ReverseMap();
         CreateMap<ScheduleModel, Schedule>().ReverseMap();
     }
 }

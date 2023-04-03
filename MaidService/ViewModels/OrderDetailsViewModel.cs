@@ -39,7 +39,7 @@ public partial class OrderDetailsViewModel : ObservableObject
 	{
 		var result = await _customer.GetCleaningDetailsById(ContractId);
 
-		if (result.Id > 0)
+		if (result?.Id > 0)
 		{
 			Price = $"{result.Cost}";
 			ScheduledTime = result.ScheduleDate.ToShortTimeString();
