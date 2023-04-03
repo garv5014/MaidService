@@ -66,7 +66,7 @@ public class CleaningContract
 
     public string Notes { get; set; }
 
-    public CleaningLocation Location { get; set; }
+    public CleaningLocation Location { get; set; } = new();
 
     public CleaningType CleaningType { get; set; }
 
