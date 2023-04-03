@@ -18,6 +18,15 @@ public class CustomerService : ICustomerService
         _mapper = mapper;
     }
 
+    public async Task<IEnumerable<CleaningType>> GetCleaningTypes()
+    {
+        var result = await _client.From<CleaningTypeModel>().Get();
+
+        return result.Models.Count > 0
+            ? _mapper.Map<IEnumerable<CleaningType>>(result.Models)
+            : null;
+    }
+
     public async Task AddCustomer(string firstName, string lastName, string phoneNumber, string userEmail, string AuthId)
     {
         var model = new CustomerModel

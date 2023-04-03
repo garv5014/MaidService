@@ -74,7 +74,8 @@ Create table customer (
 
 Create table location (
 	id serial4 NOT NULL,
-	address text Not Null, 
+	address text Not Null,
+	city text Not Null,
 	state text Not Null, 
 	zipcode text Not Null,
 	apartment_number text null,

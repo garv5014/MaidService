@@ -37,7 +37,7 @@ public class CustomerScheduleViewModelTests
                 {
                     Id = 1,
                     ScheduleDate = new DateTime(2023, 03, 02),
-                    Location = new CleaningLocation
+                    Location =
                     {
                         Address = "123 Main St"
                     },

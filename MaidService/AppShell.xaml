@@ -17,6 +17,11 @@
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
         </Tab>
 
+        <Tab Title="Add"
+             Route="ScheduleForm">
+            <ShellContent ContentTemplate="{DataTemplate local:ScheduleForm}" />
+        </Tab>
+
         <Tab Title="Profile"
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
@@ -27,5 +32,4 @@
         </Tab>
     </TabBar>
             <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
-
 </Shell>
