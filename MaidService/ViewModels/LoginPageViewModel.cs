@@ -26,7 +26,7 @@ public partial class LoginPageViewModel : ObservableObject
     [RelayCommand]
     public async Task AttemptLogin()
     {
-        var session = await _auth.SignInUser(UserEmail,Password);
+        var session = await _auth.SignInUser(UserEmail, Password);
         if (session != null)
         {
             var roles = await _auth.GetUserRoles();
@@ -39,11 +39,10 @@ public partial class LoginPageViewModel : ObservableObject
                 await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
             }
         }
-        else 
+        else
         {
             LoginResponse = "Failed To Login";
         }
-        
     }
 
     [RelayCommand]

@@ -39,7 +39,7 @@ public class CustomerService : ICustomerService
         firstName = firstName.Trim();
         lastName = lastName.Trim();
         phoneNumber = phoneNumber.Trim();
-        AuthId = AuthId.Trim();  
+        AuthId = AuthId.Trim();
         var model = new CustomerModel
         {
             FirstName = firstName,
@@ -53,15 +53,15 @@ public class CustomerService : ICustomerService
 
     public async Task<IEnumerable<CleaningContract>> GetAllAppointments(int customerId)
     {
-       
+
         var result =
             await _client.From<CleaningContractModelNoCleaners>()
             .Filter("cust_id", Operator.Equals, customerId)
             .Get();
 
-        return result.Models.Count > 0
+        return result?.Models?.Count > 0
             ? _mapper.Map<IEnumerable<CleaningContract>>(result.Models)
-            : null; 
+            : new List<CleaningContract>();
     }
 
     public async Task<CleaningContract> GetCleaningDetailsById(int contractId)
@@ -85,7 +85,7 @@ public class CustomerService : ICustomerService
             .Get();
         return res.Models.Count > 0
             ? _mapper.Map<List<CleaningContract>>(res.Models)
-            : null;
+            : new List<CleaningContract>();
     }
 
     public async Task<bool> IsScheduled(int contractId)

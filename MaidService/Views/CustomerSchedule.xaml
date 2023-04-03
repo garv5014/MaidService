@@ -34,7 +34,7 @@
                        TextColor="Grey" />
 
                 <Label FontSize="Medium"
-                       Text="{Binding CleanerName}" />
+                       Text="{Binding CurrentCustomer.FullName}" />
             </VerticalStackLayout>
         </Grid>
 
