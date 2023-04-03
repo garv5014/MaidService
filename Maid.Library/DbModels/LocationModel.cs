@@ -11,7 +11,7 @@ public class LocationModel : BaseModel
     [Column("address")]
     public string Address { get; set; }
 
-    [Column("City")]
+    [Column("city")]
     public string City { get; set; }
 
     [Column("state")]

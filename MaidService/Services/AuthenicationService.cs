@@ -12,10 +12,10 @@ public class AuthenicationService : IAuthService
     {
         _client = client;
     }
-    public User GetUser(string email, string password)
+
+    public User GetCurrentUser()
     {
-        var user = _client.Auth.CurrentUser;
-        return user;
+        return _client.Auth.CurrentUser;
     }
 
     public async Task<Session> SignInUser(string email, string password)
@@ -59,4 +59,6 @@ public class AuthenicationService : IAuthService
         var response = await _client.Auth.Update(attrs);
         return response;
     }
+
+
 }

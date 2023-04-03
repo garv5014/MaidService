@@ -7,18 +7,17 @@ INSERT INTO customer (email, firstname, surname, phone_number) VALUES
 ( 'janedoe@example.com', 'Jane', 'Doe', '555-987-6543'),
 ( 'bobsmith@example.com', 'Bob', 'Smith', '555-555-5555');
 
-
 -- Location
-INSERT INTO location (address, state, zipcode, apartment_number)
-VALUES ('123 Main St', 'CA', '90210', null),
-       ('456 Elm St', 'NY', '10001', 'Apt 2B'),
-       ('789 Oak St', 'TX', '75001', null);
+INSERT INTO location (address, city, state, zipcode, apartment_number)
+VALUES ('123 Main St', 'Los Angeles' , 'CA', '90210', null),
+       ('456 Elm St', 'New York' ,'NY', '10001', 'Apt 2B'),
+       ('789 Oak St','Huston' , 'TX', '75001', null);
 
 -- Sample rows for cleaner table
-INSERT INTO cleaner (auth_id, email, firstname, surname, phone_number, bio, verified, hire_date) VALUES
-('8e882e4d-1de4-4eb4-8bdf-69d00e3e3ca3', 'janejones@example.com', 'Jane', 'Jones', '555-444-5555', 'I have been cleaning professionally for 5 years', true, '2022-01-01'),
-('c3c34d3b-f16e-47f9-ae31-64f92d8c01d6', 'petersmith@example.com', 'Peter', 'Smith', '555-666-7777', null, false, '2022-02-15'),
-('5b5e2c5d-9e37-49a2-bb54-8c453740134f', 'johnsmith@example.com', 'John', 'Smith', '555-555-1234', 'I am thorough and efficient', true, '2022-03-01');
+INSERT INTO cleaner ( email, firstname, surname, phone_number, bio, verified, hire_date) VALUES
+( 'janejones@example.com', 'Jane', 'Jones', '555-444-5555', 'I have been cleaning professionally for 5 years', true, '2022-01-01'),
+( 'petersmith@example.com', 'Peter', 'Smith', '555-666-7777', null, false, '2022-02-15'),
+( 'johnsmith@example.com', 'John', 'Smith', '555-555-1234', 'I am thorough and efficient', true, '2022-03-01');
 
 -- Cleaning Type
 INSERT INTO cleaning_type (type, description)

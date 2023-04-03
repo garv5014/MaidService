@@ -84,7 +84,7 @@ Create table location (
 
 Create table cleaner (
 	id serial4 Not Null, 
-	auth_id uuid Not Null REFERENCES auth.users,
+	auth_id uuid Null REFERENCES auth.users,
 	email text Not Null, 
 	firstname text Not Null,
 	surname text Not Null, 

@@ -25,8 +25,7 @@ public partial class LoginPageViewModel : ObservableObject
     public async Task AttemptLogin()
     {
         var session = await _auth.SignInUser(UserEmail,Password);
-
-        //If successful navigate to the correct nav bar.
+        
     }
 
     [RelayCommand]

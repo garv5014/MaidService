@@ -3,14 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.SignUpPage"
              Title="SignUpPage">
-    <Frame CornerRadius="10"
-           BackgroundColor="#F8F8F8"
-           Padding="20"
-           MaximumWidthRequest="200"
-           HeightRequest="400">
-        <VerticalStackLayout
-            HeightRequest="400">
-            <Label Text="Sign Up"
+    <VerticalStackLayout 
+                         Padding="30">
+            <Label Text="Create Account"
                    FontSize="Large"
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
@@ -36,7 +31,7 @@
             <Entry Placeholder="Phone Number"
                    Keyboard="Telephone"
                    Margin="0,10,0,0"
-                   Text="{Binding PhoneNumber}"/>
+                   Text="{Binding PhoneNumber}" />
 
             <Picker Title="Choose Account Type"
                     Margin="0,10,0,0"
@@ -44,16 +39,16 @@
                     SelectedItem="{Binding SelectedAccountType, Mode=TwoWay}">
             </Picker>
 
-            <Button Text="Sign Up "  
+            <Button Text="Sign Up "
                     BackgroundColor="#2196F3"
                     TextColor="White"
                     Margin="0,20,0,0"
                     VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="CenterAndExpand" 
-                    Command="{Binding SignUpUserCommand}"/>
-        <Label Text="{Binding ErrorMessage}"
-            /> 
+                    HorizontalOptions="CenterAndExpand"
+                    Command="{Binding SignUpUserCommand}" />
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   />
         </VerticalStackLayout>
-    </Frame>
-    
+
 </ContentPage>
