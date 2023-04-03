@@ -71,11 +71,12 @@ public partial class SignUpPageViewModel : ObservableObject
     }
     internal bool AreFieldsEmpty()
     { 
-        return   string.IsNullOrEmpty(UserEmail) 
-                && string.IsNullOrEmpty(Password) 
-                && string.IsNullOrEmpty(PhoneNumber) 
-                && string.IsNullOrEmpty(FirstName) 
-                && string.IsNullOrEmpty(LastName)
-                && string.IsNullOrEmpty(SelectedAccountType);
+        var res = !string.IsNullOrEmpty(UserEmail)
+                && !string.IsNullOrEmpty(Password)
+                && !string.IsNullOrEmpty(PhoneNumber)
+                && !string.IsNullOrEmpty(FirstName)
+                && !string.IsNullOrEmpty(LastName)
+                && !string.IsNullOrEmpty(SelectedAccountType);
+        return res; 
     }
 }
