@@ -20,9 +20,9 @@
                 <Label Text="Address" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="325"
-                                          Value="{Binding Contract.Location.Address}"
+                                          Value="{Binding Contract.Location.Address,Mode=TwoWay}"
                                           MaskType="RegEx"
-                                          Mask="[a-zA-Z]+" />
+                                          Mask="[a-zA-Z0-9]+"/>
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1">
@@ -60,8 +60,8 @@
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
                                           MaskType="RegEx"
-                                          Value="{Binding Contract.EstSqft}"
-                                          Mask="[1-9]\d\d\d\d\d" />
+                                          Value="{Binding Contract.EstSqft,Mode=TwoWay}"
+                                          Mask="([1-9])+" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="3"

@@ -10,6 +10,9 @@ public partial class ScheduleFormViewModel : ObservableObject
 {
     private ICustomerService service;
 
+    [ObservableProperty]
+    private string selectedCleaning;
+
     public ScheduleFormViewModel(ICustomerService service)
     {
         this.service = service;
