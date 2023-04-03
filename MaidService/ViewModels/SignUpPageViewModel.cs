@@ -41,21 +41,21 @@ public partial class SignUpPageViewModel : ObservableObject
     [RelayCommand]
     public async Task  SignUpUser()
     { 
-        var session =  await _auth.SignUpUser(UserEmail, Password);
 
-        if (session != null &&  AreFieldsEmpty()) 
+        if (AreFieldsEmpty()) 
         {
-            if (SelectedAccountType == "Cleaner")
+            var session =  await _auth.SignUpUser(UserEmail, Password);
+
+            if (SelectedAccountType == "Cleaner" && session != null)
             {
                 //await _customerService.AddCleaner(FirstName, LastName, PhoneNumber, UserEmail);
                 //await NavigateToCleanerTabs();
             }
-            else if (SelectedAccountType == "Customer")
+            else if (SelectedAccountType == "Customer" && session != null)
             {
                 await _customerService.AddCustomer(FirstName, LastName, PhoneNumber, UserEmail, session.User.Id);
-                await NavigateToCustomerTabs();
             }
-            
+                await NavigateToLogin();
         }
         else 
         {
@@ -65,9 +65,9 @@ public partial class SignUpPageViewModel : ObservableObject
         // then navigate to the correct nav bar.
     }
 
-    public async Task  NavigateToCustomerTabs()
+    public async Task  NavigateToLogin()
     { 
-        await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
+        await _nav.NavigateTo($"///{nameof(LoginPage)}");
     }
     internal bool AreFieldsEmpty()
     { 
