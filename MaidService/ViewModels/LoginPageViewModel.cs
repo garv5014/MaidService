@@ -10,10 +10,23 @@ public partial class LoginPageViewModel : ObservableObject
     private readonly INav _nav;
     private readonly IAuthService _auth;
 
+    [ObservableProperty]
+    private string userEmail;
+    [ObservableProperty]
+    private string password;
+
     public LoginPageViewModel(INav nav, IAuthService auth)
     {
         _nav = nav;
         _auth = auth;
+    }
+
+    [RelayCommand]
+    public async Task AttemptLogin()
+    {
+        var session = await _auth.SignInUser(UserEmail,Password);
+
+        //If successful navigate to the correct nav bar.
     }
 
     [RelayCommand]

@@ -30,10 +30,18 @@ public class AuthenicationService : IAuthService
             await _client.Auth.SignOut();
     }
 
-    public Task<Session> SignUpUser(string email, string password)
+    public async Task<Session> SignUpUser(string email, string password)
     {
-       var res = _client.Auth.SignUp(email, password);
-       return res;
+        Session session = null;
+        try
+        {
+            session =  await _client.Auth.SignUp(email, password);
+        }
+        catch (Exception e)
+        {
+            return session;
+        }
+        return session;
     }
 
     public async Task<User> UpdateEmail(string newEmail)

@@ -1,8 +1,11 @@
+SET
+    search_path TO public;
+
 -- Sample rows for customer table
-INSERT INTO customer (auth_id, email, firstname, surname, phone_number) VALUES
-('5b5e2c5d-9e37-49a2-bb54-8c453740134f', 'johndoe@example.com', 'John', 'Doe', '555-123-4567'),
-('7c8e38aa-3a97-4813-a6c7-fcfa9bfe2767', 'janedoe@example.com', 'Jane', 'Doe', '555-987-6543'),
-('18bba30e-bc28-4f56-aeed-4c4a4f578da1', 'bobsmith@example.com', 'Bob', 'Smith', '555-555-5555');
+INSERT INTO customer (email, firstname, surname, phone_number) VALUES
+( 'johndoe@example.com', 'John', 'Doe', '555-123-4567'),
+( 'janedoe@example.com', 'Jane', 'Doe', '555-987-6543'),
+( 'bobsmith@example.com', 'Bob', 'Smith', '555-555-5555');
 
 
 -- Location

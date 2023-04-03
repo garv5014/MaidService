@@ -17,6 +17,19 @@ public class CustomerService : ICustomerService
         _mapper = mapper;
     }
 
+    public async Task AddCustomer(string firstName, string lastName, string phoneNumber, string userEmail, string AuthId)
+    {
+        var model = new CustomerModel
+        {
+            FirstName = firstName,
+            SurName = lastName,
+            PhoneNumber = phoneNumber,
+            Email = userEmail,
+            AuthId = AuthId
+        };
+        await _client.From<CustomerModel>().Insert(model);
+    }
+
     public async Task<IEnumerable<CleaningContract>> GetAllAppointments(int customerId)
     {
         var result =

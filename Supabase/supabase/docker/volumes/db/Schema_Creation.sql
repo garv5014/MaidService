@@ -1,3 +1,49 @@
+SET
+    search_path TO public;
+
+DROP SCHEMA IF EXISTS public CASCADE;
+
+CREATE SCHEMA public;
+
+SET
+    search_path TO public;
+
+grant usage on schema public to postgres,
+anon,
+authenticated,
+service_role;
+
+--grant all privileges on all tables in schema public to postgres
+--anon,
+--authenticated,
+--service_role;
+
+grant all privileges on all functions in schema public to postgres,
+anon,
+authenticated,
+service_role;
+
+grant all privileges on all sequences in schema public to postgres,
+anon,
+authenticated,
+service_role;
+
+alter default privileges in schema public grant all on tables to postgres,
+anon,
+authenticated,
+service_role;
+
+alter default privileges in schema public grant all on functions to postgres,
+anon,
+authenticated,
+service_role;
+
+alter default privileges in schema public grant all on sequences to postgres,
+anon,
+authenticated,
+service_role;
+
+
 drop table if exists  customer cascade;
 drop table if exists location cascade;
 drop table if exists cleaner cascade;
@@ -17,7 +63,7 @@ drop table if exists contract_schedule cascade;
 
 Create table customer (
 	id serial4 Not Null, 
-	auth_id uuid Not Null,
+	auth_id uuid NULL REFERENCES auth.users,
 	email text Not Null, 
 	firstname text Not Null,
 	surname text Not Null, 
@@ -37,7 +83,7 @@ Create table location (
 
 Create table cleaner (
 	id serial4 Not Null, 
-	auth_id uuid Not Null,
+	auth_id uuid Not Null REFERENCES auth.users,
 	email text Not Null, 
 	firstname text Not Null,
 	surname text Not Null, 

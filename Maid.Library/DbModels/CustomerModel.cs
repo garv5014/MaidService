@@ -16,10 +16,12 @@ public class CustomerModel : BaseModel
     public string FirstName { get; set; }
 
     [Column("surname")]
-    public string Surname { get; set; }
+    public string SurName { get; set; }
 
     [Column("phone_number")]
     public string PhoneNumber { get; set; }
+    [Column("auth_id")]
+    public string AuthId { get; set; }
 }
 
 public class Customer
