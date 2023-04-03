@@ -35,4 +35,5 @@ public class Customer
     public string Surname { get; set; }
 
     public string PhoneNumber { get; set; }
+    public string AuthId { get; set; }
 }

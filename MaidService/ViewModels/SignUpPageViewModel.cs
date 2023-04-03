@@ -41,8 +41,6 @@ public partial class SignUpPageViewModel : ObservableObject
     [RelayCommand]
     public async Task  SignUpUser()
     { 
-        UserEmail = UserEmail.Trim();
-        Password = Password.Trim();
         var session =  await _auth.SignUpUser(UserEmail, Password);
 
         if (session != null &&  AreFieldsEmpty()) 

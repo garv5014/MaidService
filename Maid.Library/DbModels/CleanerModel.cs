@@ -28,6 +28,9 @@ public class CleanerModel : BaseModel
 
     [Column("hire_date")]
     public DateTime HireDate { get; set; }
+
+    [Column("auth_id")]
+    public string AuthId { get; set; }
 }
 
 public class Cleaner
@@ -40,4 +43,5 @@ public class Cleaner
     public string Bio { get; set; }
     public bool Verified { get; set; }
     public DateTime HireDate { get; set; }
+    public string AuthId { get; set; }
 }

@@ -27,8 +27,17 @@ public class CustomerService : ICustomerService
             : null;
     }
 
-    public async Task AddCustomer(string firstName, string lastName, string phoneNumber, string userEmail, string AuthId)
+    public async Task AddCustomer(string firstName,
+                        string lastName,
+                        string phoneNumber,
+                        string userEmail,
+                        string AuthId)
     {
+        userEmail = userEmail.Trim();
+        firstName = firstName.Trim();
+        lastName = lastName.Trim();
+        phoneNumber = phoneNumber.Trim();
+        AuthId = AuthId.Trim();  
         var model = new CustomerModel
         {
             FirstName = firstName,

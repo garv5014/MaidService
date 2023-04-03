@@ -19,7 +19,5 @@ public class ContractSchedule
 {
     public int Id { get; set; }
     public Schedule Schedule { get; set; }
-
     public CleaningContract CleaningContract { get; set; }
-
 }

@@ -14,6 +14,8 @@ public partial class LoginPageViewModel : ObservableObject
     private string userEmail;
     [ObservableProperty]
     private string password;
+    [ObservableProperty]
+    private string loginResponse;
 
     public LoginPageViewModel(INav nav, IAuthService auth)
     {
@@ -25,6 +27,22 @@ public partial class LoginPageViewModel : ObservableObject
     public async Task AttemptLogin()
     {
         var session = await _auth.SignInUser(UserEmail,Password);
+        if (session != null)
+        {
+            var roles = await _auth.GetUserRoles();
+            if (roles.Contains("Cleaner"))
+            {
+                //await _nav.NavigateTo($"///{nameof(CleanerProfile)}");
+            }
+            else if (roles.Contains("Customer"))
+            {
+                await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
+            }
+        }
+        else 
+        {
+            LoginResponse = "Failed To Login";
+        }
         
     }
 

@@ -1,6 +1,8 @@
 ﻿using Maid.Library.Interfaces;
+using MaidService.Library.DbModels;
 using Supabase;
 using Supabase.Gotrue;
+using static Postgrest.Constants;
 
 namespace MaidService.Services;
 
@@ -18,8 +20,32 @@ public class AuthenicationService : IAuthService
         return _client.Auth.CurrentUser;
     }
 
+    public async Task<IEnumerable<string>> GetUserRoles()
+    {
+        List<string> roles = new List<string>();
+        var customer = await _client
+            .From<CustomerModel>()
+            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+            .Single();
+        if (customer?.AuthId != null)
+        {
+            roles.Add("Customer");
+        }
+        var cleaner = await _client
+            .From<CleanerModel>()
+            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+            .Single();
+        if (cleaner?.AuthId != null)
+        {
+            roles.Add("Cleaner");
+        }
+        return roles;
+    }
+
     public async Task<Session> SignInUser(string email, string password)
     {
+        email = email.Trim();
+        password = password.Trim();
         var res = await _client.Auth.SignIn(email, password);
         return res;
     }
@@ -32,6 +58,8 @@ public class AuthenicationService : IAuthService
 
     public async Task<Session> SignUpUser(string email, string password)
     {
+        email = email.Trim();
+        password = password.Trim();
         Session session = null;
         try
         {
