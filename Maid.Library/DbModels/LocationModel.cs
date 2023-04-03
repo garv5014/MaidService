@@ -34,7 +34,7 @@ public class CleaningLocation
 
     public string State { get; set; }
 
-    public string Zipcode { get; set; }
+    public string ZipCode { get; set; }
 
     public string Apartment_number { get; set; }
 }

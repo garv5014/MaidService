@@ -40,8 +40,6 @@
 
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
-        
-        <!-- Syncfusion scheduler -->
         <scheduler:SfScheduler x:Name="Scheduler"
                                HeightRequest="650"
                                View="Week"

@@ -13,6 +13,9 @@ public partial class CustomerScheduleViewModel : ObservableObject
     [ObservableProperty]
     private Customer currentCustomer = new();
 
+    [ObservableProperty]
+    private string selectedCleaning;
+
     public CustomerScheduleViewModel(ICustomerService customerService)
     {
         _customerService = customerService;

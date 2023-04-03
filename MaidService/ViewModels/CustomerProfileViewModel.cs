@@ -14,6 +14,9 @@ public partial class CustomerProfileViewModel : ObservableObject
     private Customer currentCustomer = new();
 
     [ObservableProperty]
+    private CleaningContract customerContract;
+
+    [ObservableProperty]
     private IEnumerable<AppointmentCardViewModel> appointments;
 
     [ObservableProperty]

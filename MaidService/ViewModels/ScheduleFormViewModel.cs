@@ -16,6 +16,9 @@ public partial class ScheduleFormViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    private CleaningContract contract = new();
+    
+    [ObservableProperty]
     private ObservableCollection<CleaningType> cleaningTypes;
 
     [RelayCommand]
@@ -38,6 +41,7 @@ public partial class ScheduleFormViewModel : ObservableObject
     [RelayCommand]
     public async Task AddJob()
     {
+
 
     }
 }

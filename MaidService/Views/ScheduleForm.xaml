@@ -20,6 +20,7 @@
                 <Label Text="Address" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="325"
+                                          Value="{Binding Contract.Location.Address}"
                                           MaskType="RegEx"
                                           Mask="[a-zA-Z]+" />
             </VerticalStackLayout>
@@ -28,6 +29,7 @@
                 <Label Text="City" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
+                                          Value="{Binding Contract.Location.City}"
                                           MaskType="RegEx"
                                           Mask="[a-zA-Z]+" />
             </VerticalStackLayout>
@@ -37,8 +39,9 @@
                 <Label Text="State" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
+                                          Value="{Binding Contract.Location.State}"
                                           MaskType="RegEx"
-                                          Mask="[a-zA-Z]+" />
+                                          Mask="[a-zA-Z]+ " />
             </VerticalStackLayout>
             
             <VerticalStackLayout Grid.Row="2"
@@ -46,6 +49,7 @@
                 <Label Text="Zip Code" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
+                                          Value="{Binding Contract.Location.ZipCode}"
                                           MaskType="Simple"
                                           Mask="00000" />
             </VerticalStackLayout>
@@ -56,6 +60,7 @@
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
                                           MaskType="RegEx"
+                                          Value="{Binding Contract.EstSqft}"
                                           Mask="[1-9]\d\d\d\d\d" />
             </VerticalStackLayout>
 
@@ -64,6 +69,7 @@
                 <Label Text="Time Duration (hrs)" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
+                                          Value="{Binding Contract.RequestedHours}" 
                                           MaskType="RegEx"
                                           Mask="[1-9]\d\.\d\d" />
             </VerticalStackLayout>
@@ -73,6 +79,7 @@
                 <Label Text="Job Type" />
                 <syncfusion:SfComboBox DisplayMemberPath="Type"
                                        ItemsSource="{Binding CleaningTypes}"
+                                       SelectedItem="{Binding SelectedCleaning}"
                                        TextMemberPath="Type" />
             </VerticalStackLayout>
 
