@@ -33,19 +33,19 @@
                        Text="Name"
                        FontSize="Small" />
                 <Label HorizontalOptions="Start"
-                       Text="First Last"
+                       Text="{Binding CurrentCustomer.FullName}"
                        FontSize="Medium" />
                 <Label HorizontalOptions="Start"
                        Text="Phone"
                        FontSize="Small"/>
                 <Label HorizontalOptions="Start"
-                       Text="000-000-0000"
+                       Text="{Binding CurrentCustomer.PhoneNumber}"
                        FontSize="Medium" />
                 <Label HorizontalOptions="Start"
                        Text="Email"
                        FontSize="Small"/>
                 <Label HorizontalOptions="Start"
-                       Text="email@domain.com"
+                       Text="{Binding CurrentCustomer.Email}"
                        FontSize="Medium" />
             </VerticalStackLayout>
         </Grid>

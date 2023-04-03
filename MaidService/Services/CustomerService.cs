@@ -11,11 +11,13 @@ public class CustomerService : ICustomerService
 {
     private readonly Client _client;
     private readonly IMapper _mapper;
+    private readonly IAuthService _auth;
 
-    public CustomerService(Supabase.Client client, IMapper mapper)
+    public CustomerService(Client client, IMapper mapper, IAuthService auth)
     {
         _client = client;
         _mapper = mapper;
+        _auth = auth;
     }
 
     public async Task<IEnumerable<CleaningType>> GetCleaningTypes()
@@ -95,5 +97,18 @@ public class CustomerService : ICustomerService
          .Get();
 
         return res.Models?.Count == 0;
+    }
+
+    public async Task<Customer> GetCurrentCustomer()
+    {
+        var user = _auth.GetCurrentUser();
+
+        var cust = await _client
+            .From<CustomerModel>()
+            .Filter("auth_id", Operator.Equals, user.Id)
+            .Single();
+        return cust.AuthId != null
+            ? _mapper.Map<Customer>(cust)
+            : null;
     }
 }

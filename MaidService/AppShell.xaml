@@ -12,11 +12,6 @@
                   Title="Login"
                   Route="SignUpPage" />
     <TabBar>
-        <Tab Title="Home"
-             Route="MainPage">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
-        </Tab>
-
         <Tab Title="Add"
              Route="ScheduleForm">
             <ShellContent ContentTemplate="{DataTemplate local:ScheduleForm}" />

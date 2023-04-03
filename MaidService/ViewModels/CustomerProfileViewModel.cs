@@ -2,13 +2,17 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.ComponentsViewModels;
+using MaidService.Library.DbModels;
 
 namespace MaidService.ViewModels;
 
 public partial class CustomerProfileViewModel : ObservableObject
 {
     private readonly ICustomerService _customerService;
-    private readonly INav nav;
+    private readonly INav _nav;
+    [ObservableProperty]
+    private Customer currentCustomer = new();
+
     [ObservableProperty]
     private IEnumerable<AppointmentCardViewModel> appointments;
 
@@ -18,18 +22,19 @@ public partial class CustomerProfileViewModel : ObservableObject
     public CustomerProfileViewModel(ICustomerService customerService, INav nav)
     {
         _customerService = customerService;
-        this.nav = nav;
+        _nav = nav;
         AppointmentsHeader = "No Upcoming Appointments";
     }
 
     [RelayCommand]
     public async Task Appear()
     {
-        var res = await _customerService.GetUpcomingAppointments(1);
+        CurrentCustomer = await _customerService.GetCurrentCustomer();
+        var res = await _customerService.GetUpcomingAppointments(CurrentCustomer.Id);
         Appointments = new List<AppointmentCardViewModel>();
         if (res != null)
         {
-            Appointments = res.Select(a => new AppointmentCardViewModel(a, nav));
+            Appointments = res.Select(a => new AppointmentCardViewModel(a, _nav));
         }
 
         if (Appointments.Count() > 0 )

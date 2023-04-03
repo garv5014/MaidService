@@ -10,4 +10,5 @@ public interface ICustomerService
     Task<IEnumerable<CleaningType>> GetCleaningTypes();
     Task<bool> IsScheduled(int contractId);
     Task AddCustomer(string firstName, string lastName, string phoneNumber, string userEmail, string AuthId);
+    Task<Customer> GetCurrentCustomer();
 }

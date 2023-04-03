@@ -60,7 +60,6 @@ public static class MauiProgram
 
     private static void InitPages(MauiAppBuilder builder)
     {
-        builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<LoginPage>();
         builder.Services.AddSingleton<CustomerProfile>();
         builder.Services.AddSingleton<OrderDetails>();
@@ -71,7 +70,6 @@ public static class MauiProgram
 
     public static void InitViewModels(MauiAppBuilder builder)
     {
-        builder.Services.AddSingleton<MainPageViewModel>();
         builder.Services.AddSingleton<CustomerProfileViewModel>();
         builder.Services.AddSingleton<OrderDetailsViewModel>();
         builder.Services.AddSingleton<LoginPageViewModel>();
