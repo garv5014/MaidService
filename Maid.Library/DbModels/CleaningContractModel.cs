@@ -34,6 +34,8 @@ public class CleaningContractModel : BaseModel
 
     [Column("cleaning_type_id")]
     public int CleaningTypeId { get; set; }
+    [Column("location_id")]
+    public int LocationId { get; set; }
 
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
@@ -63,10 +65,9 @@ public class CleaningContract
 
     public TimeSpan RequestedHours { get; set; }
 
+
     public int EstSqft { get; set; }
-
     public int NumOfCleaners { get; set; }
-
     public string Notes { get; set; }
 
     public CleaningLocation Location { get; set; } = new();

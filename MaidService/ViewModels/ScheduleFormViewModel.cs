@@ -62,6 +62,7 @@ public partial class ScheduleFormViewModel : ObservableObject
         {
             // if all fields are good make add the contract to the database
             // and show a success message to the user
+            Contract.Cost = "0";
             Contract.RequestedHours = TimeSpan.FromHours(RequestedHours);
             Contract.CleaningType = new CleaningType { Type = CleaningTypes[SelectedIndex].Type, Id = CleaningTypes[SelectedIndex].Id };
             await _customerService.CreateNewContract(Contract);

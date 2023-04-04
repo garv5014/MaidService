@@ -220,8 +220,8 @@ services:
       - postgres
       - -c
       - config_file=/etc/postgresql/postgresql.conf
-      - -c
-      - log_min_messages=fatal # prevents Realtime polling queries from appearing in logs
+      - -c 
+      - "log_statement=all" # prevents Realtime polling queries from appearing in logs
     restart: unless-stopped
     ports:
       # Pass down internal port because it's set dynamically by other services

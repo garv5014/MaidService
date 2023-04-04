@@ -67,20 +67,20 @@ public class CustomerService : ICustomerService
     public async Task<CleaningContract> GetCleaningDetailsById(int contractId)
     {
         var contract = await _client
-            .From<CleaningContractModel>()
+            .From<CleaningContractModelNoCleaners>()
             .Where(c => c.Id == contractId)
             .Limit(1)
             .Get();
 
         return contract.ResponseMessage.IsSuccessStatusCode
-            ? _mapper.Map<CleaningContract>(contract.Models[0])
+            ? _mapper.Map<CleaningContract>(contract.Models.First())
             : new CleaningContract();
     }
 
     public async Task<IEnumerable<CleaningContract>> GetUpcomingAppointments(int customerId)
     {
         var res = await _client.Postgrest
-            .Table<CleaningContractModel>()
+            .Table<CleaningContractModelNoCleaners>()
             .Where(c => c.Customer_Id == customerId)
             .Get();
         return res.Models.Count > 0
@@ -114,6 +114,18 @@ public class CustomerService : ICustomerService
 
     public async Task CreateNewContract(CleaningContract contract)
     {
+
+        var location = new LocationModel()
+        {
+            Address = contract.Location.Address,
+            City = contract.Location.City,
+            State = contract.Location.State,
+            ZipCode = contract.Location.ZipCode
+        };
+        var resLoc = await _client
+            .From<LocationModel>()
+            .Insert(location);
+
         var cust = await GetCurrentCustomer();
         var contractModel = new CleaningContractModel
         {
@@ -121,16 +133,11 @@ public class CustomerService : ICustomerService
             Customer_Id =  cust.Id,
             ScheduleDate = contract.ScheduleDate,
             EstSqft = contract.EstSqft,
-            Location = new LocationModel()
-            {
-                Address = contract.Location.Address,
-                City = contract.Location.City,
-                State = contract.Location.State,
-                ZipCode = contract.Location.ZipCode
-
-            },
+            LocationId = resLoc.Models.First().Id,
             Notes = contract.Notes,
-            CleaningTypeId = contract.CleaningType.Id
+            CleaningTypeId = contract.CleaningType.Id,
+            Cost = contract.Cost,
+            NumOfCleaners = 1 //needs at least one cleaner  
         };
         try
         {

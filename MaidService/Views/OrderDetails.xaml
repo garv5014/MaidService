@@ -21,7 +21,7 @@
                        Text="Cleaner"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding CleanerName}" />
+                       Text="{Binding CleanerName, TargetNullValue='No Cleaner Assigned'}" />
             </StackLayout>
             
             <StackLayout Grid.Column="1"

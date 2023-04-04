@@ -46,7 +46,7 @@ public partial class OrderDetailsViewModel : ObservableObject
 			TypeOfCleaning = result.CleaningType.Type;
 			Location = result.Location.Address;
 			Notes = result.Notes;
-			CleanerName = result.Cleaners[0].FirstName;
+			CleanerName = result.Cleaners?.First()?.FirstName;
 		}
 	}
 }

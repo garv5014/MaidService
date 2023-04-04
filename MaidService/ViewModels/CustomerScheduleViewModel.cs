@@ -27,6 +27,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
+        Appointments = new();
         CurrentCustomer = await _customerService.GetCurrentCustomer();
 
         var contracts = await _customerService.GetAllAppointments(CurrentCustomer.Id);
