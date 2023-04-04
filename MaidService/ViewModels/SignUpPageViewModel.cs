@@ -42,7 +42,7 @@ public partial class SignUpPageViewModel : ObservableObject
     public async Task  SignUpUser()
     { 
 
-        if (AreFieldsEmpty()) 
+        if (AreFieldsValid()) 
         {
             var session =  await _auth.SignUpUser(UserEmail, Password);
 
@@ -69,7 +69,7 @@ public partial class SignUpPageViewModel : ObservableObject
     { 
         await _nav.NavigateTo($"///{nameof(LoginPage)}");
     }
-    internal bool AreFieldsEmpty()
+    internal bool AreFieldsValid()
     { 
         var res = !string.IsNullOrEmpty(UserEmail)
                 && !string.IsNullOrEmpty(Password)

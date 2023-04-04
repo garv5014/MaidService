@@ -72,8 +72,8 @@ public class CustomerService : ICustomerService
             .Limit(1)
             .Get();
 
-        return contract.ResponseMessage.IsSuccessStatusCode
-            ? _mapper.Map<CleaningContract>(contract.Models.First())
+        return contract.ResponseMessage.IsSuccessStatusCode && contract.Models.Count > 0
+            ? _mapper.Map<CleaningContract>(contract.Models?.First())
             : new CleaningContract();
     }
 
@@ -137,7 +137,8 @@ public class CustomerService : ICustomerService
             Notes = contract.Notes,
             CleaningTypeId = contract.CleaningType.Id,
             Cost = contract.Cost,
-            NumOfCleaners = 1 //needs at least one cleaner  
+            NumOfCleaners = 1,  //needs at least one cleaner 
+            DateCompleted = null
         };
         try
         {

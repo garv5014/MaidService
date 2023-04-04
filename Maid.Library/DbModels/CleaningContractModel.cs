@@ -12,7 +12,7 @@ public class CleaningContractModel : BaseModel
     public int Customer_Id { get; set; }
 
     [Column("date_completed")]
-    public DateTime DateCompleted { get; set; }
+    public DateTime? DateCompleted { get; set; }
 
     [Column("schedule_date")]
     public DateTime ScheduleDate { get; set; }

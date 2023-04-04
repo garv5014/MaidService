@@ -34,7 +34,6 @@ public partial class CustomerProfileViewModel : ObservableObject
     {
         CurrentCustomer = await _customerService.GetCurrentCustomer();
         var res = await _customerService.GetUpcomingAppointments(CurrentCustomer.Id);
-        Appointments = new List<AppointmentCardViewModel>();
         if (res != null)
         {
             Appointments = res.Select(a => new AppointmentCardViewModel(a, _nav));

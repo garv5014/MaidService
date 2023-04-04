@@ -10,7 +10,7 @@ public partial class OrderDetailsViewModel : ObservableObject
 
 	public OrderDetailsViewModel(ICustomerService customer)
 	{
-		this._customer = customer;
+		_customer = customer;
 	}
 
 	[ObservableProperty]
@@ -35,7 +35,7 @@ public partial class OrderDetailsViewModel : ObservableObject
 	private int contractId ;
 
     [RelayCommand]
-	public async Task Appear()
+	public async Task NavigatedTo()
 	{
 		var result = await _customer.GetCleaningDetailsById(ContractId);
 
@@ -46,7 +46,7 @@ public partial class OrderDetailsViewModel : ObservableObject
 			TypeOfCleaning = result.CleaningType.Type;
 			Location = result.Location.Address;
 			Notes = result.Notes;
-			CleanerName = result.Cleaners?.First()?.FirstName;
+			CleanerName = result?.Cleaners?.First()?.FirstName;
 		}
 	}
 }
