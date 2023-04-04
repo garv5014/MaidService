@@ -9,13 +9,15 @@ namespace MaidService.ViewModels;
 public partial class ScheduleFormViewModel : ObservableObject
 {
     private ICustomerService _customerService;
+    private IPlatformService _platform;
 
     [ObservableProperty]
-    private string selectedCleaning;
+    private int selectedIndex = 0;
 
-    public ScheduleFormViewModel(ICustomerService service)
+    public ScheduleFormViewModel(ICustomerService service, IPlatformService platform)
     {
         _customerService = service;
+        _platform = platform;
     }
 
     [ObservableProperty]
@@ -33,18 +35,19 @@ public partial class ScheduleFormViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
-        CleaningTypes = new();
-
+        CleaningTypes = new() { new CleaningType {Type = "Loading..." } } ;
+        var tempTypes = new ObservableCollection<CleaningType>();
         var allTypes = await _customerService.GetCleaningTypes();
         foreach (var type in allTypes)
         {
-            CleaningTypes.Add(new CleaningType
+            tempTypes.Add(new CleaningType
             {
                 Id = type.Id,
                 Type = type.Type,
                 Description = type.Description,
             });
         }
+        CleaningTypes = tempTypes;
     }
 
     [RelayCommand]
@@ -59,8 +62,10 @@ public partial class ScheduleFormViewModel : ObservableObject
         {
             // if all fields are good make add the contract to the database
             // and show a success message to the user
-            // and then navigate back to the main page
-
+            Contract.RequestedHours = TimeSpan.FromHours(RequestedHours);
+            Contract.CleaningType = new CleaningType { Type = CleaningTypes[SelectedIndex].Type, Id = CleaningTypes[SelectedIndex].Id };
+            await _customerService.CreateNewContract(Contract);
+            _platform.DisplayAlert("All Done", "Your appoinment was scheduled", "Ok");
         
         }
 
@@ -72,7 +77,6 @@ public partial class ScheduleFormViewModel : ObservableObject
             && !string.IsNullOrEmpty(Contract.Location.City)
             && !string.IsNullOrEmpty(Contract.Location.State)
             && !string.IsNullOrEmpty(Contract.Location.ZipCode)
-            && !string.IsNullOrEmpty(SelectedCleaning)
             && Contract.EstSqft > 0
             && RequestedHours >= 1
             && Contract.ScheduleDate > DateTime.Now;

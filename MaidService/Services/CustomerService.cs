@@ -111,4 +111,37 @@ public class CustomerService : ICustomerService
             ? _mapper.Map<Customer>(cust)
             : null;
     }
+
+    public async Task CreateNewContract(CleaningContract contract)
+    {
+        var cust = await GetCurrentCustomer();
+        var contractModel = new CleaningContractModel
+        {
+            RequestedHours = contract.RequestedHours,
+            Customer_Id =  cust.Id,
+            ScheduleDate = contract.ScheduleDate,
+            EstSqft = contract.EstSqft,
+            Location = new LocationModel()
+            {
+                Address = contract.Location.Address,
+                City = contract.Location.City,
+                State = contract.Location.State,
+                ZipCode = contract.Location.ZipCode
+
+            },
+            Notes = contract.Notes,
+            CleaningTypeId = contract.CleaningType.Id
+        };
+        try
+        {
+            var res = await _client
+                .From<CleaningContractModel>()
+                .Insert(contractModel);
+            res.ResponseMessage.EnsureSuccessStatusCode();
+        }
+        catch (Exception e)
+        {             
+            
+        }
+    }
 }

@@ -18,10 +18,10 @@ public class LocationModel : BaseModel
     public string State { get; set; }
 
     [Column("zipcode")]
-    public string Zipcode { get; set; }
-
+    public string ZipCode { get; set; }
+    
     [Column("apartment_number")]
-    public string Apartment_number { get; set; }
+    public string Apartment_Number { get; set; }
 }
 
 public class CleaningLocation

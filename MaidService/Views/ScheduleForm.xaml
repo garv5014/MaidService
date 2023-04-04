@@ -73,7 +73,7 @@
                                           WidthRequest="150"
                                           Value="{Binding RequestedHours,Mode=TwoWay}" 
                                           MaskType="RegEx"
-                                          Mask="[1-9]\d\.\d\d" />
+                                          Mask="([0-9])+" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Column="1"
@@ -81,7 +81,7 @@
                 <Label Text="Job Type" />
                 <syncfusion:SfComboBox DisplayMemberPath="Type"
                                        ItemsSource="{Binding CleaningTypes}"
-                                       SelectedItem="{Binding SelectedCleaning}"
+                                       SelectedIndex="{Binding SelectedIndex,Mode=TwoWay}"
                                        TextMemberPath="Type" />
             </VerticalStackLayout>
 

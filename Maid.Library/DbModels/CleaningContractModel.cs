@@ -32,6 +32,9 @@ public class CleaningContractModel : BaseModel
     [Column("notes")]
     public string Notes { get; set; }
 
+    [Column("cleaning_type_id")]
+    public int CleaningTypeId { get; set; }
+
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
 

@@ -48,6 +48,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICustomerService, CustomerService>();
         builder.Services.AddSingleton<INav, NavigationService>();
         builder.Services.AddSingleton<IAuthService, AuthenicationService>();
+        builder.Services.AddSingleton<IPlatformService, MauiPlatformService>();
 
         InitViewModels(builder);
 
