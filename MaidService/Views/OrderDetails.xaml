@@ -79,6 +79,10 @@
                    Text="{Binding Notes}" />
         </Frame>
 
+        <Button Command="{Binding GoBackCommand}"
+                Margin="10"
+                Text="Back" />
+
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
 

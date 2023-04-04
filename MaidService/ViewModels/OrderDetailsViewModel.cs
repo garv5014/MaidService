@@ -1,16 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
+using MaidService.Views;
 
 namespace MaidService.ViewModels;
 [QueryProperty(nameof(ContractId), nameof(ContractId))]
 public partial class OrderDetailsViewModel : ObservableObject
 {
 	private ICustomerService _customer;
+	private INav _navService;
 
-	public OrderDetailsViewModel(ICustomerService customer)
+	public OrderDetailsViewModel(ICustomerService customer, INav navService)
 	{
 		_customer = customer;
+		_navService = navService;
 	}
 
 	[ObservableProperty]
@@ -48,5 +51,11 @@ public partial class OrderDetailsViewModel : ObservableObject
 			Notes = result.Notes;
 			CleanerName = result?.Cleaners?.First()?.FirstName;
 		}
+	}
+
+	[RelayCommand]
+	public async Task GoBack()
+	{
+		await _navService.NavigateTo($"///{nameof(CustomerProfile)}");
 	}
 }

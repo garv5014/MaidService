@@ -20,11 +20,11 @@
         <Tab Title="Profile"
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
-            <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
         </Tab>
         <Tab Title="Schedule"
              Route="CustomerSchedule">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
         </Tab>
     </TabBar>
+            <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
 </Shell>
