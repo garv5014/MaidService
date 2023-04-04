@@ -12,36 +12,12 @@
     </ContentPage.Behaviors>
 
     <VerticalStackLayout>
-        <Grid ColumnDefinitions="*,*"
-              RowDefinitions="*"
-              ColumnSpacing="25">
-            <sfavatar:SfAvatarView ContentType="Custom"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   ImageSource="defaultprofile.jpg"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"
-                                   HeightRequest="125"
-                                   Margin="5"
-                                   CornerRadius="63"
-                                   WidthRequest="125" />
 
-            <VerticalStackLayout Grid.Column="1"
-                                 Grid.Row="0">
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Name"
-                       TextColor="Grey" />
-
-                <Label FontSize="Medium"
-                       Text="{Binding CurrentCustomer.FullName}" />
-            </VerticalStackLayout>
-        </Grid>
 
         <Label BackgroundColor="Grey"
                HeightRequest="2" />
         <scheduler:SfScheduler x:Name="Scheduler"
-                               HeightRequest="650"
+                               HeightRequest="700"
                                View="Week"
                                AppointmentsSource="{Binding Appointments}"
                                CellBorderBrush="DarkGray">

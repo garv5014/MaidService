@@ -4,6 +4,7 @@
              x:Class="MaidService.Views.ScheduleForm"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:calendar="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar"
              Title="ScheduleForm">
 
     <ContentPage.Behaviors>
@@ -13,7 +14,8 @@
 
     <ScrollView>
         <Grid ColumnDefinitions="*,*"
-              RowDefinitions="*,*,*,*,Auto,*,*"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+              RowSpacing="10"
               Margin="10"
               Padding="10">
             <VerticalStackLayout Grid.ColumnSpan="2">
@@ -22,16 +24,16 @@
                                           WidthRequest="325"
                                           Value="{Binding Contract.Location.Address,Mode=TwoWay}"
                                           MaskType="RegEx"
-                                          Mask="[a-zA-Z0-9]+"/>
+                                          Mask="[a-zA-Z0-9\s]+"/>
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1">
                 <Label Text="City" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.Location.City}"
+                                          Value="{Binding Contract.Location.City,Mode=TwoWay}"
                                           MaskType="RegEx"
-                                          Mask="[a-zA-Z]+" />
+                                          Mask="[a-zA-Z\s]+" />
             </VerticalStackLayout>
             
             <VerticalStackLayout Grid.Row="1" 
@@ -39,9 +41,9 @@
                 <Label Text="State" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.Location.State}"
+                                          Value="{Binding Contract.Location.State,Mode=TwoWay}"
                                           MaskType="RegEx"
-                                          Mask="[a-zA-Z]+ " />
+                                          Mask="[a-zA-Z\s]+ " />
             </VerticalStackLayout>
             
             <VerticalStackLayout Grid.Row="2"
@@ -49,7 +51,7 @@
                 <Label Text="Zip Code" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.Location.ZipCode}"
+                                          Value="{Binding Contract.Location.ZipCode,Mode=TwoWay}"
                                           MaskType="Simple"
                                           Mask="00000" />
             </VerticalStackLayout>
@@ -61,7 +63,7 @@
                                           WidthRequest="150"
                                           MaskType="RegEx"
                                           Value="{Binding Contract.EstSqft,Mode=TwoWay}"
-                                          Mask="([1-9])+" />
+                                          Mask="(\d)+" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="3"
@@ -69,7 +71,7 @@
                 <Label Text="Time Duration (hrs)" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.RequestedHours}" 
+                                          Value="{Binding RequestedHours,Mode=TwoWay}" 
                                           MaskType="RegEx"
                                           Mask="[1-9]\d\.\d\d" />
             </VerticalStackLayout>
@@ -83,7 +85,15 @@
                                        TextMemberPath="Type" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="4"
+            <VerticalStackLayout Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 Grid.Row="4">
+                <Label Text="Appointment Date" />
+                <DatePicker Date="{Binding Contract.ScheduleDate}"
+                            MinimumDate="{Binding MinDate}"/>
+            </VerticalStackLayout>  
+            
+            <VerticalStackLayout Grid.Row="5"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2">
                 <Label Text="Appoinment Notes" />
@@ -91,18 +101,19 @@
                        Padding="5,0">
                 <Editor HeightRequest="250"
                         MaxLength="500"
-                        Placeholder="Enter notes here..." />
+                        Placeholder="Enter notes here..."
+                        Text="{Binding Contract.Notes}"/>
                 </Frame>
             </VerticalStackLayout>
 
             <Label Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Grid.Row="5"
+                   Grid.Row="6"
                    HorizontalOptions="Start"
                    FontSize="Large"
                    Text="Price: $00.00" />
 
-            <Button Grid.Row="6"
+            <Button Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Command="{Binding AddJobCommand}"

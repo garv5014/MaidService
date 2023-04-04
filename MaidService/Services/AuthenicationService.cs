@@ -46,7 +46,17 @@ public class AuthenicationService : IAuthService
     {
         email = email.Trim();
         password = password.Trim();
-        var res = await _client.Auth.SignIn(email, password);
+        Session res = null;
+        try
+        {
+
+            res = await _client.Auth.SignIn(email, password);
+        }
+        catch (Exception e)
+        {
+
+            return res;
+        }
         return res;
     }
 
