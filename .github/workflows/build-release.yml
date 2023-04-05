@@ -6,58 +6,99 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '7.0.x'
-      - name: Install MAUI Workloads 
-        run: | 
-            dotnet workload install android --ignore-failed-sources
-            dotnet workload install maui --ignore-failed-sources
-            dotnet workload install maui-tizen --ignore-failed-sources
-      - name: Build Windows release
-        run: |
-          # Build your desktop app for Windows here
-          # Replace the following command with your build command
-          cd MaidService
-          dotnet publish -c Release -r win-x64 --self-contained false MaidService.csproj
-      - name: Upload Windows release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: bin/Release/MaidService_windows.zip
-          asset_name: MaidService_windows.zip
-          asset_content_type: application/zip
+  #build_windows:
+  #  runs-on: windows-latest
+  #  steps:
+  #    - name: Checkout code
+  #      uses: actions/checkout@v2
+  #    - name: Setup .NET
+  #      uses: actions/setup-dotnet@v1
+  #      with:
+  #        dotnet-version: '7.0.x'
+  #    - name: Install MAUI Workloads 
+  #      run: | 
+  #          dotnet workload install android --ignore-failed-sources
+  #          dotnet workload install maui --ignore-failed-sources
+  #          dotnet workload install maui-tizen --ignore-failed-sources
+  #    - name: Build Windows release
+  #      run: |
+  #         Build your desktop app for Windows here
+  #         Replace the following command with your build command
+  #        cd MaidService
+  #        dotnet publish -c Release -r win-x64 --self-contained false MaidService.csproj
+  #    - name: Upload Windows release
+  #      uses: actions/upload-release-asset@v1
+  #      with:
+  #        upload_url: ${{ github.event.release.upload_url }}
+  #        asset_path: bin/Release/MaidService_windows.zip
+  #        asset_name: MaidService_windows.zip
+  #        asset_content_type: application/zip
 
-  build_android:
-    runs-on: ubuntu-latest
+  build-windows:
+    runs-on: windows-2022
+    name: Windows Build
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup .NET
+
+      - name: Setup .NET 7
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '7.0.x'
-      - name: Install MAUI Workloads 
-        run: | 
-            dotnet workload install android --ignore-failed-sources
-            dotnet workload install maui --ignore-failed-sources
-            dotnet workload install maui-tizen --ignore-failed-sources
-      - name: Build Android release
-        run: |
-          # Build your Android APK here
-          # Replace the following command with your build command
-          cd MaidService
-          dotnet publish -c Release -r android-arm64 --self-contained false -o MaidService.csproj
-      - name: Upload Android release
-        uses: actions/upload-release-asset@v1
+          dotnet-version: 7.0.x
+          include-prerelease: true
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: bin/Release/MaidService_android.apk
-          asset_name: MaidService_android.apk
-          asset_content_type: application/vnd.android.package-archive
+          vs-prerelease: true
+
+      - name: Install MAUI Workloads
+        run: |
+          dotnet workload install maui --ignore-failed-sources
+
+      - name: Restore Dependencies
+        run: dotnet restore src/MaidService/MaidService.csproj
+
+      - name: Build MAUI Windows
+        run: msbuild src/MaidService/MaidService.csproj -r -p:Configuration=Release -p:RestorePackages=false -p:TargetFramework=net7.0-windows10.0.19041 /p:GenerateAppxPackageOnBuild=true
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: windows-ci-build
+          path: src/MaidService/bin/Release/net7.0-windows*/**/MaidService*.msix
+  # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
+  build-android:
+    runs-on: windows-2022
+    name: Android Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
+          include-prerelease: true
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'microsoft'
+          java-version: '11'
+
+      - name: Install MAUI Workloads
+        run: |
+          dotnet workload install android --ignore-failed-sources
+          dotnet workload install maui --ignore-failed-sources
+
+      - name: Restore Dependencies
+        run: dotnet restore src/MaidService/MaidService.csproj
+
+      - name: Build MAUI Android
+        run: dotnet build src/MaidService/MaidService.csproj -c Release -f net7.0-android --no-restore
+
+      - name: Upload Android Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: android-ci-build
+          path: src/MaidService/bin/Release/net7.0-android/*Signed.a*
