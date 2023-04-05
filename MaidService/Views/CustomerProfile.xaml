@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.CustomerProfile"
              xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-             xmlns:customComp ="clr-namespace:MaidService.CustomComponents"
+             xmlns:customComp="clr-namespace:MaidService.CustomComponents"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="CustomerProfile">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
-    
     <VerticalStackLayout>
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="*,*"
@@ -37,32 +36,35 @@
                        FontSize="Medium" />
                 <Label HorizontalOptions="Start"
                        Text="Phone"
-                       FontSize="Small"/>
+                       FontSize="Small" />
                 <Label HorizontalOptions="Start"
                        Text="{Binding CurrentCustomer.PhoneNumber}"
                        FontSize="Medium" />
                 <Label HorizontalOptions="Start"
                        Text="Email"
-                       FontSize="Small"/>
+                       FontSize="Small" />
                 <Label HorizontalOptions="Start"
                        Text="{Binding CurrentCustomer.Email}"
                        FontSize="Medium" />
             </VerticalStackLayout>
         </Grid>
+
         <Label BackgroundColor="Grey"
-               HeightRequest="2" />
-        <Label Text="{Binding AppointmentsHeader}"
-               FontSize="Title"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               Margin="0,10" />
-        <CollectionView ItemsSource="{Binding Appointments}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <customComp:AppointmentCard />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                       HeightRequest="2" />
+                <Label Text="{Binding AppointmentsHeader}"
+                       FontSize="Title"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       Margin="0,10" />
+
+            <CollectionView HeightRequest="450"
+                            ItemsSource="{Binding Appointments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <customComp:AppointmentCard />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
     </VerticalStackLayout>
 </ContentPage>
