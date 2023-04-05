@@ -19,6 +19,7 @@ jobs:
         run: |
           # Build your desktop app for Windows here
           # Replace the following command with your build command
+          cd MaidService
           dotnet publish -c Release -r win-x64 --self-contained false MaidService.csproj
       - name: Upload Windows release
         uses: actions/upload-release-asset@v1
@@ -45,7 +46,8 @@ jobs:
         run: |
           # Build your Android APK here
           # Replace the following command with your build command
-          dotnet publish -c Release -r android-arm64 --self-contained false MaidService.csproj
+          cd MaidService
+          dotnet publish -c Release -r android-arm64 --self-contained false -o MaidService.csproj
       - name: Upload Android release
         uses: actions/upload-release-asset@v1
         with:
