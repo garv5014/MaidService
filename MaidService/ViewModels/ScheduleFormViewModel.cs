@@ -18,6 +18,9 @@ public partial class ScheduleFormViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    private string displayPrice;
+
+    [ObservableProperty]
     private int selectedIndex = 0;
 
     [ObservableProperty]
@@ -26,11 +29,24 @@ public partial class ScheduleFormViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<CleaningType> cleaningTypes;
 
-    [ObservableProperty]
     private int requestedHours;
 
+    public int RequestedHours 
+    {
+        get 
+        {
+            return requestedHours;
+        }
+        set 
+        {
+            SetProperty(ref requestedHours, value);
+            Contract.Cost = (value * 65).ToString();
+            DisplayPrice = Contract.Cost;
+        }
+    }
+
     [ObservableProperty]
-    private DateTime minDate = DateTime.Now + TimeSpan.FromDays(3);
+    private DateTime minDate = DateTime.Now + TimeSpan.FromDays(2);
 
     [RelayCommand]
     public async Task Appear()
@@ -62,7 +78,6 @@ public partial class ScheduleFormViewModel : ObservableObject
         {
             // if all fields are good make add the contract to the database
             // and show a success message to the user
-            Contract.Cost = "0";
             Contract.RequestedHours = TimeSpan.FromHours(RequestedHours);
             Contract.CleaningType = new CleaningType { Type = CleaningTypes[SelectedIndex].Type, Id = CleaningTypes[SelectedIndex].Id };
             await _customerService.CreateNewContract(Contract);
