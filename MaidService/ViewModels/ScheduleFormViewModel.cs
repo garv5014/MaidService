@@ -11,14 +11,14 @@ public partial class ScheduleFormViewModel : ObservableObject
     private ICustomerService _customerService;
     private IPlatformService _platform;
 
-    [ObservableProperty]
-    private int selectedIndex = 0;
-
     public ScheduleFormViewModel(ICustomerService service, IPlatformService platform)
     {
         _customerService = service;
         _platform = platform;
     }
+
+    [ObservableProperty]
+    private int selectedIndex = 0;
 
     [ObservableProperty]
     private CleaningContract contract = new() { ScheduleDate = DateTime.Now };
@@ -56,7 +56,7 @@ public partial class ScheduleFormViewModel : ObservableObject
         // make sure the required fields are filled out
         if (!IsValidContract())
         {
-            // if not, show a message to the user
+            _platform.DisplayAlert("Missing Value In Fields", "Please make sure all the fields are filled in.", "Ok");
         }
         else 
         {
@@ -67,9 +67,8 @@ public partial class ScheduleFormViewModel : ObservableObject
             Contract.CleaningType = new CleaningType { Type = CleaningTypes[SelectedIndex].Type, Id = CleaningTypes[SelectedIndex].Id };
             await _customerService.CreateNewContract(Contract);
             _platform.DisplayAlert("All Done", "Your appoinment was scheduled", "Ok");
-        
+            ClearForm();
         }
-
     }
 
     private bool IsValidContract()
@@ -82,5 +81,20 @@ public partial class ScheduleFormViewModel : ObservableObject
             && RequestedHours >= 1
             && Contract.ScheduleDate > DateTime.Now;
         return res;
+    }
+
+    void ClearForm()
+    {
+        Contract.Location.Address = "";
+        Contract.Location.City = "";  
+        Contract.Location.State = "";
+        Contract.Location.ZipCode = "";
+        Contract.EstSqft = 0;
+        Contract.ScheduleDate = DateTime.Now;
+        Contract.Cost = "0";
+        Contract.Notes = "";
+        RequestedHours = 0;
+        OnPropertyChanged(nameof(Contract));
+        OnPropertyChanged(nameof(RequestedHours));
     }
 }

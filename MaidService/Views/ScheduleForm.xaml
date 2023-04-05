@@ -22,36 +22,36 @@
                 <Label Text="Address" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="325"
-                                          Value="{Binding Contract.Location.Address,Mode=TwoWay}"
+                                          Value="{Binding Contract.Location.Address, Mode=TwoWay}"
                                           MaskType="RegEx"
-                                          Mask="[a-zA-Z0-9\s]+"/>
+                                          Mask="[a-zA-Z0-9\s]+" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1">
                 <Label Text="City" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.Location.City,Mode=TwoWay}"
+                                          Value="{Binding Contract.Location.City, Mode=TwoWay}"
                                           MaskType="RegEx"
                                           Mask="[a-zA-Z\s]+" />
             </VerticalStackLayout>
-            
-            <VerticalStackLayout Grid.Row="1" 
+
+            <VerticalStackLayout Grid.Row="1"
                                  Grid.Column="1">
                 <Label Text="State" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.Location.State,Mode=TwoWay}"
+                                          Value="{Binding Contract.Location.State, Mode=TwoWay}"
                                           MaskType="RegEx"
                                           Mask="[a-zA-Z\s]+ " />
             </VerticalStackLayout>
-            
+
             <VerticalStackLayout Grid.Row="2"
                                  Grid.Column="0">
                 <Label Text="Zip Code" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding Contract.Location.ZipCode,Mode=TwoWay}"
+                                          Value="{Binding Contract.Location.ZipCode, Mode=TwoWay}"
                                           MaskType="Simple"
                                           Mask="00000" />
             </VerticalStackLayout>
@@ -62,7 +62,7 @@
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
                                           MaskType="RegEx"
-                                          Value="{Binding Contract.EstSqft,Mode=TwoWay}"
+                                          Value="{Binding Contract.EstSqft, Mode=TwoWay}"
                                           Mask="(\d)+" />
             </VerticalStackLayout>
 
@@ -71,7 +71,7 @@
                 <Label Text="Time Duration (hrs)" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="150"
-                                          Value="{Binding RequestedHours,Mode=TwoWay}" 
+                                          Value="{Binding RequestedHours, Mode=TwoWay}"
                                           MaskType="RegEx"
                                           Mask="([0-9])+" />
             </VerticalStackLayout>
@@ -81,7 +81,7 @@
                 <Label Text="Job Type" />
                 <syncfusion:SfComboBox DisplayMemberPath="Type"
                                        ItemsSource="{Binding CleaningTypes}"
-                                       SelectedIndex="{Binding SelectedIndex,Mode=TwoWay}"
+                                       SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                                        TextMemberPath="Type" />
             </VerticalStackLayout>
 
@@ -90,19 +90,19 @@
                                  Grid.Row="4">
                 <Label Text="Appointment Date" />
                 <DatePicker Date="{Binding Contract.ScheduleDate}"
-                            MinimumDate="{Binding MinDate}"/>
-            </VerticalStackLayout>  
-            
+                            MinimumDate="{Binding MinDate}" />
+            </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Row="5"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2">
                 <Label Text="Appoinment Notes" />
                 <Frame Margin="0,10"
                        Padding="5,0">
-                <Editor HeightRequest="250"
-                        MaxLength="500"
-                        Placeholder="Enter notes here..."
-                        Text="{Binding Contract.Notes}"/>
+                    <Editor HeightRequest="250"
+                            MaxLength="500"
+                            Placeholder="Enter notes here..."
+                            Text="{Binding Contract.Notes}" />
                 </Frame>
             </VerticalStackLayout>
 
