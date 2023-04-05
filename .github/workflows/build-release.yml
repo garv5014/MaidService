@@ -1,0 +1,78 @@
+name: Build and Release MaidService
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger workflow on tags with semantic versioning format (e.g. v1.0.0)
+  # Add other events to trigger the workflow, if needed
+
+jobs:
+  build-and-release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        # Add other build configurations here, if needed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          sdk-version: '31.0.0'
+
+      - name: Restore NuGet packages
+        run: nuget restore
+
+      - name: Build Windows release
+        run: msbuild.exe /p:Configuration=Release MaidService.sln
+        if: runner.os == 'Windows'
+        # Replace MaidService.sln with your actual C# solution file name
+
+      - name: Build Android release
+        run: ./gradlew assembleRelease
+        if: runner.os == 'Linux'
+        # Replace ./gradlew with the path to your Gradle wrapper script, if necessary
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            MaidService Release ${{ github.ref }}
+
+            ## Changes
+            Add release notes here
+
+          draft: false
+          prerelease: false
+
+      - name: Upload Windows release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: bin/Release/MaidService_windows.zip
+          asset_name: MaidService_windows.zip
+          asset_content_type: application/zip
+
+      - name: Upload Android release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/release/MaidService_android.apk
+          asset_name: MaidService_android.apk
+          asset_content_type: application/vnd.android.package-archive
