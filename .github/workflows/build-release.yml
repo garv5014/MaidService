@@ -33,7 +33,7 @@ jobs:
         run: dotnet restore ./MaidService/MaidService.csproj
 
       - name: Build MAUI Windows
-        run: msbuild ./MaidService/MaidService.csproj -r -p:Configuration=Release -p:RestorePackages=false -p:TargetFramework=net7.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
+        run: msbuild ./MaidService/MaidService.csproj -r -p:Configuration=Release -p:RestorePackages=false -p:TargetFramework=net7.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:WindowsPackageType=MSIX
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v2.3.1
