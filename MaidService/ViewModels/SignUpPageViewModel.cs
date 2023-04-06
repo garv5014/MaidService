@@ -11,14 +11,19 @@ public partial class SignUpPageViewModel : ObservableObject
     private readonly INav _nav;
     private readonly IAuthService _auth;
     private readonly ICustomerService _customerService;
+
     [ObservableProperty]
     private string userEmail;
+
     [ObservableProperty]
     private string password;
+
     [ObservableProperty]
     private string phoneNumber;
+
     [ObservableProperty]
     private string firstName;
+
     [ObservableProperty]
     private string lastName;
 
@@ -55,7 +60,8 @@ public partial class SignUpPageViewModel : ObservableObject
             {
                 await _customerService.AddCustomer(FirstName, LastName, PhoneNumber, UserEmail, session.User.Id);
             }
-                await NavigateToLogin();
+            
+            await NavigateToLogin();
         }
         else 
         {

@@ -5,14 +5,15 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="OrderDetails">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Loaded"
+        <toolkit:EventToCommandBehavior EventName="NavigatedTo"
                                         Command="{Binding NavigatedToCommand}" />
     </ContentPage.Behaviors>
     
     <VerticalStackLayout>
         <Grid ColumnDefinitions="*,*"
-              RowDefinitions="*,*,*"
+              RowDefinitions="*,*,*,*"
               Margin="10"
+              ColumnSpacing="10"
               RowSpacing="5">
             <StackLayout Grid.Column="0"
                          Grid.Row="0">
@@ -38,7 +39,7 @@
                          Grid.Row="1">
                 <Label FontAttributes="Bold"
                        FontSize="Small"
-                       Text="Time"
+                       Text="Date"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
                        Text="{Binding ScheduledTime}" />
@@ -55,9 +56,18 @@
             </StackLayout>
 
             <StackLayout Grid.Column="0"
-                         Grid.Row="2"
-                         Grid.ColumnSpan='2'
-                         HorizontalOptions="Center">
+                         Grid.Row="2">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Time Duration"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding TimeDuration}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="0"
+                         Grid.Row="3"
+                         Grid.ColumnSpan='2'>
                 <Label FontAttributes="Bold"
                        FontSize="Small"
                        Text="Location"

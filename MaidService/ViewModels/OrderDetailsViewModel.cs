@@ -26,6 +26,9 @@ public partial class OrderDetailsViewModel : ObservableObject
 	private string scheduledTime = null;
 
 	[ObservableProperty]
+	private string timeDuration = null;
+
+	[ObservableProperty]
 	private string typeOfCleaning = null;
 
 	[ObservableProperty]
@@ -45,9 +48,10 @@ public partial class OrderDetailsViewModel : ObservableObject
 		if (result?.Id > 0)
 		{
 			Price = $"{result.Cost}";
-			ScheduledTime = result.ScheduleDate.ToShortTimeString();
+			ScheduledTime = result.ScheduleDate.ToString("M/d/yyyy H:mm tt");
+			TimeDuration = $"{result.RequestedHours.Hours}:{result.RequestedHours.Minutes.ToString("D2")}";
 			TypeOfCleaning = result.CleaningType.Type;
-			Location = result.Location.Address;
+			Location = $"{result.Location.Address}, {result.Location.City}, {result.Location.State}";
 			Notes = result.Notes;
 			CleanerName = result?.Cleaners?.First()?.FirstName;
 		}
