@@ -34,7 +34,7 @@ namespace ViewModel.Test
         [Test]
         public void WhenModelHasOneItem_SetAppointmentToModel()
         {
-            mockCustomer.Setup(x => x.GetUpcomingAppointments(1))
+            mockCustomer.Setup(x => x.GetUpcomingAppointments(It.IsAny<int>()))
                 .ReturnsAsync(new List<CleaningContract>
                 { new CleaningContract
                         { Location = new CleaningLocation
@@ -44,6 +44,8 @@ namespace ViewModel.Test
                         , ScheduleDate = new DateTime(2023, 03, 02)
                         }
                 });
+            mockCustomer.Setup(x => x.GetCurrentCustomer()).ReturnsAsync(new Customer { Id = 1 });
+
             vm.AppearCommand.ExecuteAsync(null);
             vm.Appointments.Should().BeEquivalentTo(
                 new List<AppointmentCardViewModel>

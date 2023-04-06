@@ -42,18 +42,18 @@ public class OrderDetailsTest
             { 
                         ScheduleDate = new DateTime(2023, 03, 26, 11, 30, 00)
                         , Cost = "50.00"
-                        , Location = new CleaningLocation { Address = "123 Main St" }
+                        , Location = new CleaningLocation { Address = "123 Main St", City = "Manti", State = "Utah" }
                         , CleaningType = new CleaningType {Type = "Maintenance"}
                         , Notes = "This is a note."
                         , Id = 1
-
+                        
             });
         vm.NavigatedToCommand.ExecuteAsync(null);
 
         vm.Price.Should().Be("50.00");
-        vm.ScheduledTime.Should().Be(new DateTime(2023, 03, 26, 11, 30, 00).ToShortTimeString());
+        vm.ScheduledTime.Should().Be(new DateTime(2023, 03, 26, 11, 30, 00).ToString("M/d/yyyy H:mm tt"));
         vm.TypeOfCleaning.Should().Be("Maintenance");
-        vm.Location.Should().Be("123 Main St");
+        vm.Location.Should().Be("123 Main St, Manti, Utah");
         vm.Notes.Should().Be("This is a note.");
     }
 }

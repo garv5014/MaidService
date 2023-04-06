@@ -31,6 +31,7 @@ public class CustomerScheduleViewModelTests
     [Test]
     public void TranslationWithOneItemReturned()
     {
+        SetupGetCurrentCustomer();
         SetUpGetAllAppoinments(new List<CleaningContract>
                                       {
                 new CleaningContract
@@ -49,18 +50,19 @@ public class CustomerScheduleViewModelTests
         vm.AppearCommand.ExecuteAsync(null);
 
         vm.Appointments.Count.Should().Be(1);
-        vm.Appointments[0]
-            .Should().BeEquivalentTo(
-                new SchedulerAppointment
-                {
-                    Id = 1,
-                    Subject = "Deep Clean",
-                    StartTime = new DateTime(2023, 03, 02),
-                    IsAllDay = false,
-                    Background = Brush.Green,
-                    EndTime = new DateTime(2023, 03, 02) + TimeSpan.FromHours(1)
-                }
-            );
+        vm.Appointments[0].Id.Should().Be(1);
+        vm.Appointments[0].Subject.Should().Be("Deep Clean");
+        vm.Appointments[0].StartTime.Should().Be(new DateTime(2023, 03, 02));
+        vm.Appointments[0].IsAllDay.Should().Be(false);
+        vm.Appointments[0].Background.Should().Be(Brush.Red);
+        vm.Appointments[0].EndTime.Should().Be(new DateTime(2023, 03, 02) + TimeSpan.FromHours(1));
+    }
+
+    private void SetupGetCurrentCustomer()
+    {
+        mockCustomer.Setup(x =>
+                           x.GetCurrentCustomer()
+                           ).ReturnsAsync(new Customer { Id = 1 });
     }
 
     private void SetUpGetAllAppoinments(List<CleaningContract> list)
