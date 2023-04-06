@@ -8,13 +8,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaidService", "MaidService\
 		{227ACC91-5C9A-4805-B8FA-D066028D0C18} = {227ACC91-5C9A-4805-B8FA-D066028D0C18}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel.Test", "ViewModel.Test\ViewModel.Test.csproj", "{EEC9365D-6B7D-4886-836D-7454AF112C9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel.Test", "ViewModel.Test\ViewModel.Test.csproj", "{EEC9365D-6B7D-4886-836D-7454AF112C9A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{050F08DA-01C8-4208-B525-304A813E6BF7} = {050F08DA-01C8-4208-B525-304A813E6BF7}
 		{227ACC91-5C9A-4805-B8FA-D066028D0C18} = {227ACC91-5C9A-4805-B8FA-D066028D0C18}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maid.Library", "Maid.Library\Maid.Library.csproj", "{227ACC91-5C9A-4805-B8FA-D066028D0C18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maid.Library", "Maid.Library\Maid.Library.csproj", "{227ACC91-5C9A-4805-B8FA-D066028D0C18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B85C9EB1-743A-470F-B7C0-953169E0E68A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-release.yml = .github\workflows\build-release.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

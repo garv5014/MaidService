@@ -2,7 +2,7 @@
 
 namespace MaidService.Services;
 
-public class NavigationService : INav
+public class NavigationService : INavService
 {
     public async Task NavigateTo(string path)
     {

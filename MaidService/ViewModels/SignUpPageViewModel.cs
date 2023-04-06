@@ -8,7 +8,7 @@ namespace MaidService.ViewModels;
 
 public partial class SignUpPageViewModel : ObservableObject
 {
-    private readonly INav _nav;
+    private readonly INavService _nav;
     private readonly IAuthService _auth;
     private readonly ICustomerService _customerService;
 
@@ -34,7 +34,7 @@ public partial class SignUpPageViewModel : ObservableObject
     private string selectedAccountType;
 
     public List<string> AccountTypes { get; set; } = new(); 
-    public SignUpPageViewModel(INav nav, IAuthService auth, ICustomerService customerService)
+    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService)
     {
         _nav = nav;
         _auth = auth;

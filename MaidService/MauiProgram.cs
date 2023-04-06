@@ -46,7 +46,7 @@ public static class MauiProgram
         // Note the creation as a singleton.
         builder.Services.AddSingleton(new Supabase.Client(url, key, options: options));
         builder.Services.AddSingleton<ICustomerService, CustomerService>();
-        builder.Services.AddSingleton<INav, NavigationService>();
+        builder.Services.AddSingleton<INavService, NavigationService>();
         builder.Services.AddSingleton<IAuthService, AuthenicationService>();
         builder.Services.AddSingleton<IPlatformService, MauiPlatformService>();
 

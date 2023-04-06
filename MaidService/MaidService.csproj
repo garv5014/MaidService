@@ -13,7 +13,6 @@
 
 		<!-- Display name -->
 		<ApplicationTitle>MaidService</ApplicationTitle>
-
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.maidservice</ApplicationId>
 		<ApplicationIdGuid>7fe499e6-d980-4f4d-9e5a-8cb9a181f068</ApplicationIdGuid>

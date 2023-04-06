@@ -9,7 +9,7 @@ namespace MaidService.ViewModels;
 public partial class CustomerProfileViewModel : ObservableObject
 {
     private readonly ICustomerService _customerService;
-    private readonly INav _nav;
+    private readonly INavService _nav;
     [ObservableProperty]
     private Customer currentCustomer = new();
 
@@ -22,7 +22,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     [ObservableProperty]
     private string appointmentsHeader;
 
-    public CustomerProfileViewModel(ICustomerService customerService, INav nav)
+    public CustomerProfileViewModel(ICustomerService customerService, INavService nav)
     {
         _customerService = customerService;
         _nav = nav;

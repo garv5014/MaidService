@@ -11,7 +11,7 @@ namespace ViewModel.Test
     {
         private Mock<ICustomerService> mockCustomer;
 
-        public Mock<INav> mockNavService;
+        public Mock<INavService> mockNavService;
 
         private CustomerProfileViewModel vm;
 
@@ -19,7 +19,7 @@ namespace ViewModel.Test
         public void Setup()
         {
             mockCustomer = new Mock<ICustomerService>();
-            mockNavService = new Mock<INav>();
+            mockNavService = new Mock<INavService>();
             vm = new CustomerProfileViewModel(mockCustomer.Object, mockNavService.Object);
         }
 

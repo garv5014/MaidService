@@ -7,7 +7,7 @@ namespace MaidService.ViewModels;
 
 public partial class LoginPageViewModel : ObservableObject
 {
-    private readonly INav _nav;
+    private readonly INavService _nav;
     private readonly IAuthService _auth;
 
     [ObservableProperty]
@@ -17,7 +17,7 @@ public partial class LoginPageViewModel : ObservableObject
     [ObservableProperty]
     private string loginResponse;
 
-    public LoginPageViewModel(INav nav, IAuthService auth)
+    public LoginPageViewModel(INavService nav, IAuthService auth)
     {
         _nav = nav;
         _auth = auth;

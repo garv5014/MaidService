@@ -8,9 +8,9 @@ namespace MaidService.ViewModels;
 public partial class OrderDetailsViewModel : ObservableObject
 {
 	private ICustomerService _customer;
-	private INav _navService;
+	private INavService _navService;
 
-	public OrderDetailsViewModel(ICustomerService customer, INav navService)
+	public OrderDetailsViewModel(ICustomerService customer, INavService navService)
 	{
 		_customer = customer;
 		_navService = navService;

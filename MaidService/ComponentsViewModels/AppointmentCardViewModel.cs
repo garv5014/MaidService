@@ -14,12 +14,12 @@ public partial class AppointmentCardViewModel : ObservableObject
 
     [ObservableProperty]
     private DateTime? cleaningDate;
-    private readonly INav _nav;
+    private readonly INavService _nav;
 
     public int ContractId { get; init; }
 
 
-    public AppointmentCardViewModel(CleaningContract cleaningContract, INav nav)
+    public AppointmentCardViewModel(CleaningContract cleaningContract, INavService nav)
     {
         Address = cleaningContract.Location.Address;
         CleaningDate = cleaningContract.ScheduleDate;
