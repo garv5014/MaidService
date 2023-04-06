@@ -46,7 +46,7 @@ jobs:
       - name: Install MAUI Workloads 
         run: | 
             dotnet workload install android --ignore-failed-sources
-            dotnet workload install maui --ignore-failed-sources
+            #dotnet workload install maui --ignore-failed-sources
             dotnet workload install maui-tizen --ignore-failed-sources
       - name: Build Android release
         run: |
