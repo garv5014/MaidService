@@ -71,6 +71,9 @@
 	  <MauiXaml Update="CustomComponents\AppointmentCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CleanerProfile.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomerProfile.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
