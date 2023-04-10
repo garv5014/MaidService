@@ -11,7 +11,7 @@ public partial class SignUpPageViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly IAuthService _auth;
     private readonly ICustomerService _customerService;
-
+    private readonly IServiceProvider serviceProvider;
     [ObservableProperty]
     private string userEmail;
 
@@ -34,11 +34,12 @@ public partial class SignUpPageViewModel : ObservableObject
     private string selectedAccountType;
 
     public List<string> AccountTypes { get; set; } = new(); 
-    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService)
+    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService, IServiceProvider serviceProvider)
     {
         _nav = nav;
         _auth = auth;
         _customerService = customerService;
+        this.serviceProvider = serviceProvider;
         AccountTypes.Add("Cleaner");
         AccountTypes.Add("Customer");
     }
@@ -73,8 +74,8 @@ public partial class SignUpPageViewModel : ObservableObject
 
     [RelayCommand]
     public async Task  NavigateToLogin()
-    { 
-        await _nav.NavigateTo($"///{nameof(LoginPage)}");
+    {
+        App.Current.MainPage = new LoginPage(serviceProvider.GetRequiredService<LoginPageViewModel>());
     }
 
     internal bool AreFieldsValid()
