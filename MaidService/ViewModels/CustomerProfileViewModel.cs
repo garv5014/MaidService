@@ -10,6 +10,7 @@ public partial class CustomerProfileViewModel : ObservableObject
 {
     private readonly ICustomerService _customerService;
     private readonly INavService _nav;
+
     [ObservableProperty]
     private Customer currentCustomer = new();
 
@@ -43,5 +44,11 @@ public partial class CustomerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
+    }
+
+    [RelayCommand]
+    public async Task UploadPicture()
+    {
+        await _customerService.UploadPhoto();
     }
 }

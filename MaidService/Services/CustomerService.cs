@@ -12,12 +12,14 @@ public class CustomerService : ICustomerService
     private readonly Client _client;
     private readonly IMapper _mapper;
     private readonly IAuthService _auth;
+    private readonly IPlatformService _platformService;
 
-    public CustomerService(Client client, IMapper mapper, IAuthService auth)
+    public CustomerService(Client client, IMapper mapper, IAuthService auth, IPlatformService platformService)
     {
         _client = client;
         _mapper = mapper;
         _auth = auth;
+        _platformService = platformService;
     }
 
     public async Task<IEnumerable<CleaningType>> GetCleaningTypes()
@@ -150,6 +152,24 @@ public class CustomerService : ICustomerService
         catch (Exception e)
         {             
             
+        }
+    }
+
+    public async Task UploadPhoto()
+    {
+        var res = await _platformService.PickFile();
+        var photoUrl = res.FullPath;
+        var cust = await GetCurrentCustomer();
+        string supabaseUrl = cust.AuthId[..5] + "profile_picture";
+        try
+        {
+            await _client.Storage
+              .From("profile-pictures")
+              .Upload(photoUrl,supabaseUrl);
+        }
+        catch (Exception e)
+        {
+        //
         }
     }
 }

@@ -25,6 +25,12 @@
                                    Margin="5"
                                    CornerRadius="63"
                                    WidthRequest="125" />
+            <Button
+                BackgroundColor="Transparent"
+                Text="Edit"
+                Grid.Column="0"
+                Grid.Row="0" 
+                Command="{Binding UploadPictureCommand} "/>
             <VerticalStackLayout Grid.Row="0"
                                  Grid.Column="1"
                                  Grid.RowSpan="3">

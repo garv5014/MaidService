@@ -11,7 +11,7 @@
         <Frame CornerRadius="10"
                BackgroundColor="#F8F8F8"
                Padding="20"
-               MaximumWidthRequest="200"
+               MaximumWidthRequest="400"
                MaximumHeightRequest="500"
                HeightRequest="250"
                WidthRequest="150">

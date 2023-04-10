@@ -9,7 +9,6 @@ public partial class LoginPageViewModel : ObservableObject
 {
     private readonly INavService _nav;
     private readonly IAuthService _auth;
-
     [ObservableProperty]
     private string userEmail;
     [ObservableProperty]
