@@ -15,6 +15,9 @@ public partial class CustomerProfileViewModel : ObservableObject
     private Customer currentCustomer = new();
 
     [ObservableProperty]
+    private string profilePicturePath;
+
+    [ObservableProperty]
     private CleaningContract customerContract;
 
     [ObservableProperty]
@@ -44,6 +47,7 @@ public partial class CustomerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
+        ProfilePicturePath = await _customerService.GetProfilePicturePath();
     }
 
     [RelayCommand]

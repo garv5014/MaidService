@@ -2,19 +2,19 @@
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using Supabase;
-using System.Diagnostics.Contracts;
+using Supabase.Storage;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly Client _client;
+    private readonly Supabase.Client _client;
     private readonly IMapper _mapper;
     private readonly IAuthService _auth;
     private readonly IPlatformService _platformService;
 
-    public CustomerService(Client client, IMapper mapper, IAuthService auth, IPlatformService platformService)
+    public CustomerService(Supabase.Client client, IMapper mapper, IAuthService auth, IPlatformService platformService)
     {
         _client = client;
         _mapper = mapper;
@@ -132,7 +132,7 @@ public class CustomerService : ICustomerService
         var contractModel = new CleaningContractModel
         {
             RequestedHours = contract.RequestedHours,
-            Customer_Id =  cust.Id,
+            Customer_Id = cust.Id,
             ScheduleDate = contract.ScheduleDate,
             EstSqft = contract.EstSqft,
             LocationId = resLoc.Models.First().Id,
@@ -150,26 +150,65 @@ public class CustomerService : ICustomerService
             res.ResponseMessage.EnsureSuccessStatusCode();
         }
         catch (Exception e)
-        {             
-            
+        {
+
         }
     }
 
-    public async Task UploadPhoto()
+    public async Task UploadPhoto(int retryAttempts = 0)
     {
-        var res = await _platformService.PickFile();
-        var photoUrl = res.FullPath;
-        var cust = await GetCurrentCustomer();
-        string supabaseUrl = cust.AuthId[..5] + "profile_picture";
+        string photoUrl = await PickAPhoto();
+        string supabaseUrl = await GetCustomerProfileHash();
         try
         {
             await _client.Storage
               .From("profile-pictures")
-              .Upload(photoUrl,supabaseUrl);
+              .Upload(photoUrl, supabaseUrl);
+        }
+        catch (BadRequestException e)
+        {
+            if (e.ErrorResponse.Error == "Duplicate")
+            {
+                var res = await _client.Storage
+                    .From("profile-pictures")
+                    .Remove(new List<string> { supabaseUrl });
+                await _client.Storage
+                    .From("profile-pictures")
+                    .Upload(photoUrl, supabaseUrl);
+            }
+        }
+    }
+
+    private async Task<string> PickAPhoto()
+    {
+        var res = await _platformService.PickFile();
+        var photoUrl = res.FullPath;
+        return photoUrl;
+    }
+
+    public async Task<string> GetProfilePicturePath()
+    {
+        var profilePicture = await GetCustomerProfileHash();
+        string publicUrl = "";
+        try
+        {
+            publicUrl = _client
+                            .Storage
+                            .From("profile-pictures")
+                            .GetPublicUrl(profilePicture);
         }
         catch (Exception e)
         {
-        //
+            //
         }
+        return publicUrl;
+
     }
+    private async Task<string> GetCustomerProfileHash()
+    {
+        var cust = await GetCurrentCustomer();
+        string supabaseUrl = cust.AuthId[..5] + "profile_picture";
+        return supabaseUrl;
+    }
+
 }

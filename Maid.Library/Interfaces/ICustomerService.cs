@@ -13,5 +13,6 @@ public interface ICustomerService
     Task<Customer> GetCurrentCustomer();
     Task CreateNewContract(CleaningContract contract);
 
-    Task UploadPhoto();
+    Task UploadPhoto(int retries = 0);
+    Task<string> GetProfilePicturePath();
 }
