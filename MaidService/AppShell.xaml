@@ -3,14 +3,16 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:MaidService.Views"
-       Shell.FlyoutBehavior="Disabled">
-
+       FlyoutBehavior="Disabled">
+    
     <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"
                   Title="Login"
                   Route="LoginPage" />
+
     <ShellContent ContentTemplate="{DataTemplate local:SignUpPage}"
-                  Title="Login"
+                  Title="Sign up"
                   Route="SignUpPage" />
+
     <TabBar>
         <Tab Title="Add"
              Route="ScheduleForm">
@@ -21,10 +23,12 @@
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
         </Tab>
+        
         <Tab Title="Schedule"
              Route="CustomerSchedule">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
         </Tab>
     </TabBar>
-            <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
+    
+    <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
 </Shell>

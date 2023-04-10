@@ -71,10 +71,12 @@ public partial class SignUpPageViewModel : ObservableObject
         // then navigate to the correct nav bar.
     }
 
+    [RelayCommand]
     public async Task  NavigateToLogin()
     { 
         await _nav.NavigateTo($"///{nameof(LoginPage)}");
     }
+
     internal bool AreFieldsValid()
     { 
         var res = !string.IsNullOrEmpty(UserEmail)
