@@ -2,47 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.SignUpPage"
-             Title="SignUpPage">
+             Title="SignUpPage"
+             FlyoutItem.IsVisible="False">
+
     <VerticalStackLayout Padding="30">
-            <Label Text="Create Account"
-                   FontSize="Large"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
 
-            <Entry Placeholder="First Name"
-                   Margin="0,10,0,0"
-                   Text="{Binding FirstName}" />
+        <Label Text="Create Account"
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="CenterAndExpand" />
 
-            <Entry Placeholder="Last Name"
-                   Margin="0,10,0,0"
-                   Text="{Binding LastName}" />
+        <Entry Placeholder="First Name"
+               Margin="0,10,0,0"
+               Text="{Binding FirstName}" />
 
-            <Entry Placeholder="Email"
-                   Keyboard="Email"
-                   Margin="0,10,0,0"
-                   Text="{Binding UserEmail}" />
+        <Entry Placeholder="Last Name"
+               Margin="0,10,0,0"
+               Text="{Binding LastName}" />
 
-            <Entry Placeholder="Password"
-                   Margin="0,10,0,0"
-                   IsPassword="True"
-                   Text="{Binding Password}" />
+        <Entry Placeholder="Email"
+               Keyboard="Email"
+               Margin="0,10,0,0"
+               Text="{Binding UserEmail}" />
 
-            <Entry Placeholder="Phone Number"
-                   Keyboard="Telephone"
-                   Margin="0,10,0,0"
-                   Text="{Binding PhoneNumber}" />
+        <Entry Placeholder="Password"
+               Margin="0,10,0,0"
+               IsPassword="True"
+               Text="{Binding Password}" />
 
-            <Picker Title="Choose Account Type"
-                    Margin="0,10,0,0"
-                    ItemsSource="{Binding AccountTypes}"
-                    SelectedItem="{Binding SelectedAccountType, Mode=TwoWay}">
-            </Picker>
+        <Entry Placeholder="Phone Number"
+               Keyboard="Telephone"
+               Margin="0,10,0,0"
+               Text="{Binding PhoneNumber}" />
+
+        <Picker Title="Choose Account Type"
+                Margin="0,10,0,0"
+                ItemsSource="{Binding AccountTypes}"
+                SelectedItem="{Binding SelectedAccountType, Mode=TwoWay}">
+        </Picker>
 
         <Grid ColumnDefinitions="*,*"
               RowDefinitions="*"
               ColumnSpacing="50"
               HorizontalOptions="Center"
               Margin="0,40,0,0">
+
             <Button Grid.Column="0"
                     Grid.Row="0"
                     Text="Back"
@@ -61,8 +65,10 @@
                     HorizontalOptions="CenterAndExpand"
                     Command="{Binding SignUpUserCommand}" />
         </Grid>
-            <Label Text="{Binding ErrorMessage}"
-                   TextColor="Red" />
-        </VerticalStackLayout>
+
+        <Label Text="{Binding ErrorMessage}"
+               TextColor="Red" />
+
+    </VerticalStackLayout>
 
 </ContentPage>

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Views;
+using System.Runtime.CompilerServices;
 
 namespace MaidService.ViewModels;
 
