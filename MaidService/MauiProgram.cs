@@ -67,6 +67,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<CustomerSchedule>();
         builder.Services.AddSingleton<SignUpPage>();
         builder.Services.AddSingleton<ScheduleForm>();
+        builder.Services.AddSingleton<SignOutPage>();
     }
 
     public static void InitViewModels(MauiAppBuilder builder)

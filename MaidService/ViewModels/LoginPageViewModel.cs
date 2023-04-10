@@ -9,6 +9,7 @@ public partial class LoginPageViewModel : ObservableObject
 {
     private readonly INavService _nav;
     private readonly IAuthService _auth;
+    private readonly IServiceProvider _services;
     [ObservableProperty]
     private string userEmail;
     [ObservableProperty]
@@ -16,10 +17,11 @@ public partial class LoginPageViewModel : ObservableObject
     [ObservableProperty]
     private string loginResponse;
 
-    public LoginPageViewModel(INavService nav, IAuthService auth)
+    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services)
     {
         _nav = nav;
         _auth = auth;
+        _services = services;
     }
 
     [RelayCommand]
@@ -35,7 +37,7 @@ public partial class LoginPageViewModel : ObservableObject
             }
             else if (roles.Contains("Customer"))
             {
-                await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
+                App.Current.MainPage = new AppShell();
             }
         }
         else
@@ -47,6 +49,7 @@ public partial class LoginPageViewModel : ObservableObject
     [RelayCommand]
     public async Task NavigateToSignUP()
     {
-        await _nav.NavigateTo($"///{nameof(SignUpPage)}");
+        //await _nav.NavigateTo($"///{nameof(SignUpPage)}");
+        App.Current.MainPage = new SignUpPage(_services.GetRequiredService<SignUpPageViewModel>());
     }
 }
