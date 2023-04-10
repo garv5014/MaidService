@@ -11,6 +11,7 @@ public interface ICustomerService
     Task<bool> IsScheduled(int contractId);
     Task AddCustomer(string firstName, string lastName, string phoneNumber, string userEmail, string AuthId);
     Task<Customer> GetCurrentCustomer();
+    Task<Cleaner> GetCurrentCleaner();
     Task CreateNewContract(CleaningContract contract);
 
     Task UploadPhoto(int retries = 0);

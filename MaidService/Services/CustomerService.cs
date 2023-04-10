@@ -114,6 +114,19 @@ public class CustomerService : ICustomerService
             : null;
     }
 
+    public async Task<Cleaner> GetCurrentCleaner()
+    {
+        var user = _auth.GetCurrentUser();
+
+        var cleaner = await _client
+            .From<CleanerModel>()
+            .Filter("auth_id", Operator.Equals, user.Id)
+            .Single();
+        return cleaner.AuthId != null
+            ? _mapper.Map<Cleaner>(cleaner)
+            : null;
+    }
+
     public async Task CreateNewContract(CleaningContract contract)
     {
 
