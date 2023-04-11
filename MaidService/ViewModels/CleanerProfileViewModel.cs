@@ -10,7 +10,7 @@ public partial class CleanerProfileViewModel : ObservableObject
 {
     private readonly ICustomerService _customerService;
     private readonly INavService _nav;
-
+    private readonly ICleanerService _cleanerService;
     [ObservableProperty]
     private Cleaner currentCleaner = new();
 
@@ -23,17 +23,18 @@ public partial class CleanerProfileViewModel : ObservableObject
     [ObservableProperty]
     private string appointmentsHeader;
 
-    public CleanerProfileViewModel(ICustomerService customerService, INavService nav)
+    public CleanerProfileViewModel(ICustomerService customerService, INavService nav, ICleanerService cleanerService)
     {
         _customerService = customerService;
         _nav = nav;
+        _cleanerService = cleanerService;
         AppointmentsHeader = "No Upcoming Appointments";
     }
 
     [RelayCommand]
     public async Task Appear()
     {
-        CurrentCleaner = await _customerService.GetCurrentCleaner();
+        CurrentCleaner = await _cleanerService.GetCurrentCleaner();
         var res = await _customerService.GetUpcomingAppointments(CurrentCleaner.Id);
         if (res != null)
         {

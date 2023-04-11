@@ -20,6 +20,13 @@
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
         </Tab>
     </TabBar>
+
+    <TabBar>
+        <Tab Title="Profile"
+             Route="CleanerProfile">
+            <ShellContent ContentTemplate="{DataTemplate local:CleanerProfile}" />
+        </Tab>
+    </TabBar>
     <FlyoutItem Title="SignOut">
         <Tab>
 

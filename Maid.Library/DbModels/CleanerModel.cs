@@ -15,7 +15,7 @@ public class CleanerModel : BaseModel
     public string FirstName { get; set; }
 
     [Column("surname")]
-    public string Surname { get; set; }
+    public string SurName { get; set; }
 
     [Column("phone_number")]
     public string PhoneNumber { get; set; }
@@ -44,4 +44,6 @@ public class Cleaner
     public bool Verified { get; set; }
     public DateTime HireDate { get; set; }
     public string AuthId { get; set; }
+
+    public string FullName => $"{FirstName} {Surname}";
 }

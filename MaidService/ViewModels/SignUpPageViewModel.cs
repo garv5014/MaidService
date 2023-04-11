@@ -11,7 +11,10 @@ public partial class SignUpPageViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly IAuthService _auth;
     private readonly ICustomerService _customerService;
+    private readonly ICleanerService _cleanerService;
     private readonly IServiceProvider serviceProvider;
+
+
     [ObservableProperty]
     private string userEmail;
 
@@ -34,12 +37,14 @@ public partial class SignUpPageViewModel : ObservableObject
     private string selectedAccountType;
 
     public List<string> AccountTypes { get; set; } = new(); 
-    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService, IServiceProvider serviceProvider)
+    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService, IServiceProvider serviceProvider, ICleanerService cleanerService
+        )
     {
         _nav = nav;
         _auth = auth;
         _customerService = customerService;
         this.serviceProvider = serviceProvider;
+        _cleanerService = cleanerService;
         AccountTypes.Add("Cleaner");
         AccountTypes.Add("Customer");
     }
@@ -54,8 +59,7 @@ public partial class SignUpPageViewModel : ObservableObject
 
             if (SelectedAccountType == "Cleaner" && session != null)
             {
-                //await _customerService.AddCleaner(FirstName, LastName, PhoneNumber, UserEmail);
-                //await NavigateToCleanerTabs();
+                await _cleanerService.AddCleaner(FirstName, LastName, PhoneNumber, UserEmail, session.User.Id);
             }
             else if (SelectedAccountType == "Customer" && session != null)
             {
@@ -68,8 +72,7 @@ public partial class SignUpPageViewModel : ObservableObject
         {
             ErrorMessage = "Please fill out all fields";
         }
-        // if successful add them to the the respective table
-        // then navigate to the correct nav bar.
+
     }
 
     [RelayCommand]

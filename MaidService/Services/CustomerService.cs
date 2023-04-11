@@ -35,20 +35,20 @@ public class CustomerService : ICustomerService
                         string lastName,
                         string phoneNumber,
                         string userEmail,
-                        string AuthId)
+                        string authId)
     {
         userEmail = userEmail.Trim();
         firstName = firstName.Trim();
         lastName = lastName.Trim();
         phoneNumber = phoneNumber.Trim();
-        AuthId = AuthId.Trim();
+        authId = authId.Trim();
         var model = new CustomerModel
         {
             FirstName = firstName,
             SurName = lastName,
             PhoneNumber = phoneNumber,
             Email = userEmail,
-            AuthId = AuthId
+            AuthId = authId
         };
         await _client.From<CustomerModel>().Insert(model);
     }
@@ -111,19 +111,6 @@ public class CustomerService : ICustomerService
             .Single();
         return cust.AuthId != null
             ? _mapper.Map<Customer>(cust)
-            : null;
-    }
-
-    public async Task<Cleaner> GetCurrentCleaner()
-    {
-        var user = _auth.GetCurrentUser();
-
-        var cleaner = await _client
-            .From<CleanerModel>()
-            .Filter("auth_id", Operator.Equals, user.Id)
-            .Single();
-        return cleaner.AuthId != null
-            ? _mapper.Map<Cleaner>(cleaner)
             : null;
     }
 

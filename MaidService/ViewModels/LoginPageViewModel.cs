@@ -18,7 +18,7 @@ public partial class LoginPageViewModel : ObservableObject
     [ObservableProperty]
     private string loginResponse;
 
-    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services)
+    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services )
     {
         _nav = nav;
         _auth = auth;
@@ -34,17 +34,24 @@ public partial class LoginPageViewModel : ObservableObject
             var roles = await _auth.GetUserRoles();
             if (roles.Contains("Cleaner"))
             {
-                //await _nav.NavigateTo($"///{nameof(CleanerProfile)}");
+                App.Current.MainPage = new AppShell();
+                await _nav.NavigateTo($"///{nameof(CleanerProfile)}");
             }
             else if (roles.Contains("Customer"))
             {
                 App.Current.MainPage = new AppShell();
+                await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
             }
         }
         else
         {
             LoginResponse = "Failed To Login";
         }
+    }
+
+    private Task NavigateToCleanerTabs()
+    {
+        throw new NotImplementedException();
     }
 
     [RelayCommand]

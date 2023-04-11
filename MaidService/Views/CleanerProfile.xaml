@@ -6,75 +6,106 @@
              xmlns:customComp="clr-namespace:MaidService.CustomComponents"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="CleanerProfile">
-    
+
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
-    
-    <VerticalStackLayout>
-        
-        <Grid RowDefinitions="*,*,*"
-              ColumnDefinitions="*,*"
-              Padding="0,10,0,10">
-            
-            <sfavatar:SfAvatarView Grid.RowSpan="3"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   ContentType="Custom"
-                                   ImageSource="defaultprofile.jpg"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"
-                                   HeightRequest="125"
-                                   Margin="5"
-                                   CornerRadius="63"
-                                   WidthRequest="125" />
-            
-            <VerticalStackLayout Grid.Row="0"
-                                 Grid.Column="1"
-                                 Grid.RowSpan="3">
-                
-                <Label HorizontalOptions="Start"
-                       Text="Name"
-                       FontSize="Small" />
-                <Label HorizontalOptions="Start"
-                       Text="{Binding CurrentCleaner.FullName}"
-                       FontSize="Medium" />
-                
-                <Label HorizontalOptions="Start"
-                       Text="Phone"
-                       FontSize="Small" />
-                <Label HorizontalOptions="Start"
-                       Text="{Binding CurrentCleaner.PhoneNumber}"
-                       FontSize="Medium" />
-                
-                <Label HorizontalOptions="Start"
-                       Text="Email"
-                       FontSize="Small" />
-                <Label HorizontalOptions="Start"
-                       Text="{Binding CurrentCleaner.Email}"
-                       FontSize="Medium" />
-                
-            </VerticalStackLayout>
-        </Grid>
+    <ScrollView>
 
-        <Label BackgroundColor="Grey"
-                       HeightRequest="2" />
+        <VerticalStackLayout>
 
-        <Label Text="{Binding AppointmentsHeader}"
-                       FontSize="Title"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       Margin="0,10" />
-        <CollectionView HeightRequest="450"
+            <Grid RowDefinitions="*,*,auto"
+                  ColumnDefinitions="3*,4*"
+                  Padding="0,10,0,10">
+
+                <sfavatar:SfAvatarView Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       ContentType="Custom"
+                                       ImageSource="defaultprofile.jpg"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       HeightRequest="125"
+                                       CornerRadius="63"
+                                       WidthRequest="125" 
+                                       />
+
+                <VerticalStackLayout Grid.Row="0"
+                                     Grid.Column="1"
+                                     Grid.RowSpan="2">
+
+                    <Label HorizontalOptions="Start"
+                           Text="Name"
+                           FontSize="Small" />
+                    <Label HorizontalOptions="Start"
+                           Text="{Binding CurrentCleaner.FullName}"
+                           FontSize="Medium" />
+
+                    <Label HorizontalOptions="Start"
+                           Text="Phone"
+                           FontSize="Small" />
+                    <Label HorizontalOptions="Start"
+                           Text="{Binding CurrentCleaner.PhoneNumber}"
+                           FontSize="Medium" />
+
+                    <Label HorizontalOptions="Start"
+                           Text="Email"
+                           FontSize="Small" />
+                    <Label HorizontalOptions="Start"
+                           Text="{Binding CurrentCleaner.Email}"
+                           FontSize="Medium" />
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="0"
+                                     Grid.Row="2"
+                                     Grid.ColumnSpan="2"
+                                     Margin="10,0">
+
+                    <HorizontalStackLayout Margin="0"
+                                           Padding="0">
+
+                        <Label Text="Bio"
+                               FontSize="Large"
+                               Padding="5,5,0,0"
+                               VerticalOptions="End"
+                               />
+
+                        <Button BackgroundColor="Transparent"
+                                Command="{Binding EditBioCommand}"
+                                Text="Edit"
+                                TextColor="Grey"
+                                Padding="0"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="Effective communication is key to success in any endeavor. Whether you're writing an email to a colleague, giving a presentation to a group, or simply having a conversation with a friend, the ability to convey your ideas clearly and effectively is essential. To do this, it's important to use language that is appropriate for your audience, organize your thoughts in a logical manner, and use examples and anecdotes to illustrate your points. Additionally, active listening is just as important as speaking; being able to truly hear and understand the perspectives of others is crucial for building strong relationships and achieving common goals. By honing your communication skills, you can improve your personal and professional relationships, increase your effectiveness at work, and enhance your overall quality of life."
+                           Padding="5,0"
+                           FontSize="Small" 
+                           Margin="0"/>
+                </VerticalStackLayout>
+
+            </Grid>
+
+            <Label BackgroundColor="Grey"
+                   HeightRequest="2"
+                   Margin="0,10,0,0" />
+
+            <Label Text="{Binding AppointmentsHeader}"
+                   FontSize="Title"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,10" />
+            <CollectionView HeightRequest="450"
                             ItemsSource="{Binding Appointments}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <customComp:AppointmentCard />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <customComp:AppointmentCard />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-    </VerticalStackLayout>
-    
+        </VerticalStackLayout>
+
+    </ScrollView>
 </ContentPage>
