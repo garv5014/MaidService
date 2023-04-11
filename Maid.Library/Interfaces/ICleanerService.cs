@@ -6,4 +6,5 @@ public interface ICleanerService
 {
     Task<Cleaner> GetCurrentCleaner();
     Task AddCleaner(string firstName, string lastName, string phoneNumber, string userEmail,string authId);
+    Task UpdateCleanerBio(string bioText);
 }

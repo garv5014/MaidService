@@ -55,4 +55,15 @@ public class CleanerService : ICleanerService
             ? _mapper.Map<Cleaner>(cleaner)
             : null;
     }
+
+    public async Task UpdateCleanerBio(string bioText)
+    {
+        var cleaner = await GetCurrentCleaner();
+
+        var update = await _client
+                       .From<CleanerModel>()
+                       .Where(x => x.AuthId == cleaner.AuthId)
+                       .Set(x => x.Bio, bioText)
+                       .Update();
+    }
 }

@@ -11,6 +11,7 @@ public partial class CleanerProfileViewModel : ObservableObject
     private readonly ICustomerService _customerService;
     private readonly INavService _nav;
     private readonly ICleanerService _cleanerService;
+
     [ObservableProperty]
     private Cleaner currentCleaner = new();
 
@@ -22,6 +23,15 @@ public partial class CleanerProfileViewModel : ObservableObject
 
     [ObservableProperty]
     private string appointmentsHeader;
+
+    [ObservableProperty]
+    private bool isEditing = false;
+
+    [ObservableProperty]
+    private bool isNotEditing = true;
+
+    [ObservableProperty]
+    private string bioText;
 
     public CleanerProfileViewModel(ICustomerService customerService, INavService nav, ICleanerService cleanerService)
     {
@@ -35,6 +45,7 @@ public partial class CleanerProfileViewModel : ObservableObject
     public async Task Appear()
     {
         CurrentCleaner = await _cleanerService.GetCurrentCleaner();
+        BioText = CurrentCleaner.Bio;
         var res = await _customerService.GetUpcomingAppointments(CurrentCleaner.Id);
         if (res != null)
         {
@@ -45,5 +56,26 @@ public partial class CleanerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
+    }
+
+    [RelayCommand]
+    public async Task EditBio()
+    {
+        ToggleEditing();
+    }
+
+
+    [RelayCommand]
+    public async Task UpdateBio()
+    {
+        ToggleEditing();
+
+        await _cleanerService.UpdateCleanerBio(BioText);
+        await Appear();
+    }
+    private void ToggleEditing()
+    {
+        IsEditing = !IsEditing;
+        IsNotEditing = !IsNotEditing;
     }
 }

@@ -28,8 +28,7 @@
                                        HorizontalOptions="Center"
                                        HeightRequest="125"
                                        CornerRadius="63"
-                                       WidthRequest="125" 
-                                       />
+                                       WidthRequest="125" />
 
                 <VerticalStackLayout Grid.Row="0"
                                      Grid.Column="1"
@@ -69,20 +68,28 @@
                         <Label Text="Bio"
                                FontSize="Large"
                                Padding="5,5,0,0"
-                               VerticalOptions="End"
-                               />
+                               VerticalOptions="End" />
 
                         <Button BackgroundColor="Transparent"
                                 Command="{Binding EditBioCommand}"
+                                IsVisible="{Binding IsNotEditing}"
                                 Text="Edit"
                                 TextColor="Grey"
-                                Padding="0"/>
+                                Padding="0" />
+
+                        <Button BackgroundColor="Green"
+                                Command="{Binding UpdateBioCommand}"
+                                IsVisible="{Binding IsEditing}"
+                                Padding="0"
+                                Text="Done" />
                     </HorizontalStackLayout>
 
-                    <Label Text="Effective communication is key to success in any endeavor. Whether you're writing an email to a colleague, giving a presentation to a group, or simply having a conversation with a friend, the ability to convey your ideas clearly and effectively is essential. To do this, it's important to use language that is appropriate for your audience, organize your thoughts in a logical manner, and use examples and anecdotes to illustrate your points. Additionally, active listening is just as important as speaking; being able to truly hear and understand the perspectives of others is crucial for building strong relationships and achieving common goals. By honing your communication skills, you can improve your personal and professional relationships, increase your effectiveness at work, and enhance your overall quality of life."
-                           Padding="5,0"
-                           FontSize="Small" 
-                           Margin="0"/>
+                    <Editor Text="{Binding BioText}"
+                            FontSize="Small"
+                            IsReadOnly="{Binding IsNotEditing}"
+                            Margin="0"
+                            MaxLength="500"
+                            AutoSize="TextChanges"/>
                 </VerticalStackLayout>
 
             </Grid>
@@ -106,6 +113,5 @@
             </CollectionView>
 
         </VerticalStackLayout>
-
     </ScrollView>
 </ContentPage>
