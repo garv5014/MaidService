@@ -54,13 +54,24 @@ public partial class ScheduleFormViewModel : ObservableObject
         CleaningTypes = new() { new CleaningType {Type = "Loading..." } } ;
         var tempTypes = new ObservableCollection<CleaningType>();
         var allTypes = await _customerService.GetCleaningTypes();
-        foreach (var type in allTypes)
+        if (allTypes != null)
         {
+            foreach (var type in allTypes)
+            {
+                tempTypes.Add(new CleaningType
+                {
+                    Id = type.Id,
+                    Type = type.Type,
+                    Description = type.Description,
+                });
+            }
+        }
+        else {
             tempTypes.Add(new CleaningType
             {
-                Id = type.Id,
-                Type = type.Type,
-                Description = type.Description,
+                Id = 0,
+                Type = "No Cleaning",
+                Description = "No Availble types",
             });
         }
         CleaningTypes = tempTypes;

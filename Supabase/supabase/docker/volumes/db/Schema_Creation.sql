@@ -120,12 +120,6 @@ CREATE TABLE cleaning_contract (
 	CONSTRAINT cleaning_contract_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE cc_cleaner (
-	id serial4 Not Null,
-	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
-	cleaner_id int4 Not Null REFERENCES cleaner (id) on delete set null,
-	CONSTRAINT cc_cleaner_pk PRIMARY KEY (contract_id, cleaner_id)
-);
 
 
 CREATE TABLE cust_review_cleaner  (
@@ -149,8 +143,8 @@ CREATE TABLE cleaner_review_cust  (
 
 CREATE TABLE customer_payment (
 	id serial4 Not Null,
-	cust_id int4 Not Null REFERENCES customer (id) on delete set null,
-	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
+	cust_id int4 Not Null REFERENCES customer (id) ,
+	contract_id int4 Not Null  REFERENCES cleaning_contract (id) ,
 	amount_paid money Not Null, 
 	received_date date Not Null,
 	CONSTRAINT customer_receipt_pk PRIMARY KEY (id)
@@ -168,12 +162,36 @@ CREATE TABLE schedule (
 	date DATE Not Null,
 	start_time TIME Not Null,
 	duration INTERVAL Not NULL,
-	CONSTRAINT schedule_pk PRIMARY KEY (id)
+	CONSTRAINT schedule_pk PRIMARY KEY (id),
+	constraint schedule_uniq unique (date, start_time)
 );
 
-CREATE TABLE contract_schedule (
+CREATE TABLE cleaner_availability (
 	id serial4 Not Null,
-	contract_id int4 Not Null REFERENCES cleaning_contract (id) on delete set null, 
-	schedule_id int4 Not Null REFERENCES schedule (id) on delete set null, 
+	cleaner_id int4 Not Null REFERENCES cleaner (id) , 
+	schedule_id int4 Not Null REFERENCES schedule (id) , 
 	CONSTRAINT contract_schedule_pk PRIMARY KEY (contract_id, schedule_id)
 );
+
+CREATE TABLE cleaner_assingments( 
+	id serial4 Not Null,
+	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
+	cleaner_availabilty_id int4 Not Null REFERENCES cleaner_availabilty (id) on delete set null,
+	CONSTRAINT cc_cleaner_pk PRIMARY KEY (contract_id, cleaner_id)
+);
+
+
+CREATE OR REPLACE procedure  public.MakeScheduleForASpecificDay(target_day date)
+ LANGUAGE plpgsql
+AS $function$
+declare
+template_curs cursor for select * from public.day_template ;
+begin
+	for r in template_curs 
+	loop
+		INSERT INTO public.schedule ("date", start_time, duration)
+			VALUES(target_day, r.start_time, r.duration);
+	end loop;
+end;
+$function$
+;
