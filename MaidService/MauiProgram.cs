@@ -41,8 +41,12 @@ public static class MauiProgram
 
         // ComponentViewModels
         builder.Services.AddSingleton<CustomerAppointmentCardViewModel>();
+        builder.Services.AddSingleton<CleanerAppointmentCardViewModel>();
+
         // Components
         builder.Services.AddSingleton<CustomerAppointmentCard>();
+        builder.Services.AddSingleton<CleanerAppointmentCards>();
+
         // Note the creation as a singleton.
         builder.Services.AddSingleton(new Supabase.Client(url, key, options: options));
         builder.Services.AddSingleton<ICustomerService, CustomerService>();
@@ -66,6 +70,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<CustomerProfile>();
         builder.Services.AddSingleton<CleanerProfile>();
         builder.Services.AddSingleton<CustomerOrderDetails>();
+        builder.Services.AddSingleton<CleanerOrderDetails>();
         builder.Services.AddSingleton<CustomerSchedule>();
         builder.Services.AddSingleton<SignUpPage>();
         builder.Services.AddSingleton<ScheduleForm>();
@@ -78,6 +83,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<CustomerProfileViewModel>();
         builder.Services.AddSingleton<CleanerProfileViewModel>();
         builder.Services.AddSingleton<CustomerOrderDetailsViewModel>();
+        builder.Services.AddSingleton<CleanerOrderDetailsViewModel>();
         builder.Services.AddSingleton<LoginPageViewModel>();
         builder.Services.AddSingleton<CustomerScheduleViewModel>();
         builder.Services.AddSingleton<SignUpPageViewModel>();
