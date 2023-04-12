@@ -155,7 +155,7 @@ public class CustomerService : ICustomerService
         }
     }
 
-    public async Task UploadPhoto(int retryAttempts = 0)
+    public async Task UploadProfilePicture(int retryAttempts = 0)
     {
         string photoUrl = await PickAPhoto();
         string supabaseUrl = await GetCustomerProfileHash();
@@ -202,7 +202,6 @@ public class CustomerService : ICustomerService
             //
         }
         return publicUrl;
-
     }
     private async Task<string> GetCustomerProfileHash()
     {

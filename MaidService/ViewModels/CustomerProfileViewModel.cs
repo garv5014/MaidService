@@ -53,6 +53,6 @@ public partial class CustomerProfileViewModel : ObservableObject
     [RelayCommand]
     public async Task UploadPicture()
     {
-        await _customerService.UploadPhoto();
+        await _customerService.UploadProfilePicture();
     }
 }
