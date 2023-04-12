@@ -7,6 +7,7 @@ public class CleanerAssignmentsModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
+
     [Reference(typeof(CleanerAvailabilityModel))]
     public CleanerAvailabilityModel Cleaner_Availability{ get; set; }
 

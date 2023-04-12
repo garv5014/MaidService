@@ -53,12 +53,12 @@ public class CustomerService : ICustomerService
         await _client.From<CustomerModel>().Insert(model);
     }
 
-    public async Task<IEnumerable<CleaningContract>> GetAllAppointments(int customerId)
+    public async Task<IEnumerable<CleaningContract>> GetAllAppointments()
     {
-
+        var cust = await GetCurrentCustomer();
         var result =
             await _client.From<CleaningContractModelNoCleaners>()
-            .Filter("cust_id", Operator.Equals, customerId)
+            .Filter("cust_id", Operator.Equals, cust.Id)
             .Get();
 
         return result?.Models?.Count > 0
@@ -109,7 +109,7 @@ public class CustomerService : ICustomerService
             .From<CustomerModel>()
             .Filter("auth_id", Operator.Equals, user.Id)
             .Single();
-        return cust.AuthId != null
+        return cust?.AuthId != null
             ? _mapper.Map<Customer>(cust)
             : null;
     }
@@ -151,7 +151,7 @@ public class CustomerService : ICustomerService
         }
         catch (Exception e)
         {
-
+            throw e;
         }
     }
 
