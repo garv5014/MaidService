@@ -20,16 +20,15 @@ public class AuthenicationService : IAuthService
         return _client.Auth.CurrentUser;
     }
 
-    public async Task<IEnumerable<string>> GetUserRoles()
+    public async Task<string> GetUserRoles()
     {
-        List<string> roles = new List<string>();
         var customer = await _client
             .From<CustomerModel>()
             .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
             .Single();
         if (customer?.AuthId != null)
         {
-            roles.Add("Customer");
+            return"Customer";
         }
         var cleaner = await _client
             .From<CleanerModel>()
@@ -37,9 +36,9 @@ public class AuthenicationService : IAuthService
             .Single();
         if (cleaner?.AuthId != null)
         {
-            roles.Add("Cleaner");
+            return "Cleaner";
         }
-        return roles;
+        return "";
     }
 
     public async Task<Session> SignInUser(string email, string password)

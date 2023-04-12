@@ -11,14 +11,17 @@ public partial class LoginPageViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly IAuthService _auth;
     private readonly IServiceProvider _services;
+
     [ObservableProperty]
     private string userEmail;
+
     [ObservableProperty]
     private string password;
+
     [ObservableProperty]
     private string loginResponse;
 
-    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services )
+    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services)
     {
         _nav = nav;
         _auth = auth;
@@ -31,13 +34,13 @@ public partial class LoginPageViewModel : ObservableObject
         var session = await _auth.SignInUser(UserEmail, Password);
         if (session != null)
         {
-            var roles = await _auth.GetUserRoles();
-            if (roles.Contains("Cleaner"))
+            var role = await _auth.GetUserRoles();
+            if (role == "Cleaner")
             {
                 App.Current.MainPage = new AppShell();
                 await _nav.NavigateTo($"///{nameof(CleanerProfile)}");
             }
-            else if (roles.Contains("Customer"))
+            else if (role == "Customer")
             {
                 App.Current.MainPage = new AppShell();
                 await _nav.NavigateTo($"///{nameof(CustomerProfile)}");

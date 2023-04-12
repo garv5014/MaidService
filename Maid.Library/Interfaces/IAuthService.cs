@@ -10,7 +10,7 @@ public interface IAuthService
     public Task<User> UpdateEmail(string email);
     public Task<User> UpdatePassword(string password);
 
-    public Task<IEnumerable<string>> GetUserRoles(); 
+    public Task<string> GetUserRoles(); 
 
     public User GetCurrentUser();
 }

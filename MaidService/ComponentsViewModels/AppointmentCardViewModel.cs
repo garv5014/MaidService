@@ -7,17 +7,17 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace MaidService.ComponentsViewModels;
 
-public partial class AppointmentCardViewModel : ObservableObject 
+public partial class AppointmentCardViewModel : ObservableObject
 {
     [ObservableProperty]
     private string address;
 
     [ObservableProperty]
     private DateTime? cleaningDate;
+
     private readonly INavService _nav;
 
     public int ContractId { get; init; }
-
 
     public AppointmentCardViewModel(CleaningContract cleaningContract, INavService nav)
     {
