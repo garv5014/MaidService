@@ -170,14 +170,14 @@ CREATE TABLE cleaner_availability (
 	id serial4 Not Null,
 	cleaner_id int4 Not Null REFERENCES cleaner (id) , 
 	schedule_id int4 Not Null REFERENCES schedule (id) , 
-	CONSTRAINT contract_schedule_pk PRIMARY KEY (contract_id, schedule_id)
+	CONSTRAINT contract_schedule_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE cleaner_assingments( 
 	id serial4 Not Null,
 	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
-	cleaner_availabilty_id int4 Not Null REFERENCES cleaner_availabilty (id) on delete set null,
-	CONSTRAINT cc_cleaner_pk PRIMARY KEY (contract_id, cleaner_id)
+	cleaner_availability_id int4 Not Null REFERENCES cleaner_availability (id) on delete set null,
+	CONSTRAINT cleaner_assingments_pk PRIMARY KEY (contract_id, cleaner_availability_id)
 );
 
 

@@ -91,7 +91,16 @@ public partial class ScheduleFormViewModel : ObservableObject
             // and show a success message to the user
             Contract.RequestedHours = TimeSpan.FromHours(RequestedHours);
             Contract.CleaningType = new CleaningType { Type = CleaningTypes[SelectedIndex].Type, Id = CleaningTypes[SelectedIndex].Id };
-            await _customerService.CreateNewContract(Contract);
+            try
+            {
+                await _customerService.CreateNewContract(Contract);
+
+            }
+            catch (Exception)
+            {
+                _platform.DisplayAlert("Error", "There was an issue submitting your form. Please try again later", "Ok");
+                return;
+            }
             _platform.DisplayAlert("All Done", "Your appoinment was scheduled", "Ok");
             ClearForm();
         }

@@ -40,8 +40,6 @@ public class CleaningContractModel : BaseModel
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
 
-    [Reference(typeof(CleanerModel))]
-    public List<CleanerModel> Cleaners { get; set; }
 
     [Reference(typeof(LocationModel))]
     public LocationModel Location{ get; set; }
@@ -64,7 +62,6 @@ public class CleaningContract
     public string Cost { get; set; }
 
     public TimeSpan RequestedHours { get; set; }
-
 
     public int EstSqft { get; set; }
     public int NumOfCleaners { get; set; }

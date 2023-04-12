@@ -12,7 +12,7 @@ public class MapperProfile : Profile
         CreateMap<CleaningContractModel, CleaningContract>().ReverseMap();
         CreateMap<CleaningContractModelNoCleaners, CleaningContract>().ReverseMap();
         CreateMap<CleaningTypeModel, CleaningType>().ReverseMap();
-        CreateMap<CleanerAssignmentsModel, CleanerAssignments>().ReverseMap();
+        CreateMap<CleanerAssignmentsModel, CleanerAssignmentsModel>().ReverseMap();
         CreateMap<CustomerModel, Customer>().ReverseMap();
         CreateMap<CustomerPaymentModel, CustomerPayment>().ReverseMap();
         CreateMap<CustomerReviewCleanerModel, CustomerReviewCleaners>().ReverseMap();

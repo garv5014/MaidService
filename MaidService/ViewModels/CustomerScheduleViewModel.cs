@@ -10,15 +10,20 @@ namespace MaidService.ViewModels;
 public partial class CustomerScheduleViewModel : ObservableObject
 {
     private ICustomerService _customerService;
+    private readonly ICleanerService _cleanerService;
+    private readonly IAuthService _auth;
+
     [ObservableProperty]
-    private Customer currentCustomer = new();
+    private bool isCleaner;
 
     [ObservableProperty]
     private string selectedCleaning;
 
-    public CustomerScheduleViewModel(ICustomerService customerService)
+    public CustomerScheduleViewModel(ICustomerService customerService, ICleanerService cleanerService, IAuthService auth)
     {
         _customerService = customerService;
+        _cleanerService = cleanerService;
+        _auth = auth;
     }
 
     [ObservableProperty]
@@ -28,9 +33,27 @@ public partial class CustomerScheduleViewModel : ObservableObject
     public async Task Appear()
     {
         Appointments = new();
-        CurrentCustomer = await _customerService.GetCurrentCustomer();
+        var roles = await _auth.GetUserRoles();
+        if (roles.Contains("Customer"))
+        {
+            await CustomerSetup();
+        }
+        else if (roles.Contains("Cleaner"))
+        {
+            await CleanerSetup();
+        }
+    }
 
-        var contracts = await _customerService.GetAllAppointments(CurrentCustomer.Id);
+    private async Task CleanerSetup()
+    {
+        // get all cleaner appointments
+        IsCleaner = true;
+    }
+
+    private async Task CustomerSetup()
+    {
+        IsCleaner = false;
+        var contracts = await _customerService.GetAllAppointments();
         foreach (var schedule in contracts)
         {
             Appointments.Add(new SchedulerAppointment
