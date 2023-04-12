@@ -4,4 +4,6 @@ namespace MaidService.ViewModels;
 
 partial class AvailableCleanerAppointmentsViewModel : ObservableObject
 {
+
+
 }

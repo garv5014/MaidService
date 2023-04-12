@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace MaidService.ComponentsViewModels
+namespace MaidService.ComponentsViewModels;
+
+public partial class CleanerAppointmentCardViewModel : ObservableObject
 {
-    internal class CleanerAppointmentCardViewModel
-    {
-    }
 }

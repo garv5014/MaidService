@@ -80,6 +80,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="CustomComponents\CleanerAppointmentCards.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="CustomComponents\CustomerAppointmentCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
