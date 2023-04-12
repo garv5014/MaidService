@@ -30,6 +30,6 @@ public partial class AppointmentCardViewModel : ObservableObject
     [RelayCommand]
     public async Task TapCard()
     {
-        await _nav.NavigateTo($"///./{nameof(OrderDetails)}?ContractId={ContractId}");
+        await _nav.NavigateTo($"///./{nameof(CustomerOrderDetails)}?ContractId={ContractId}");
     }
 }

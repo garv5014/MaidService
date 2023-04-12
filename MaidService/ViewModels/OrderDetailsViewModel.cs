@@ -5,12 +5,12 @@ using MaidService.Views;
 
 namespace MaidService.ViewModels;
 [QueryProperty(nameof(ContractId), nameof(ContractId))]
-public partial class OrderDetailsViewModel : ObservableObject
+public partial class CustomerOrderDetailsViewModel : ObservableObject
 {
 	private ICustomerService _customer;
 	private INavService _navService;
 
-	public OrderDetailsViewModel(ICustomerService customer, INavService navService)
+	public CustomerOrderDetailsViewModel(ICustomerService customer, INavService navService)
 	{
 		_customer = customer;
 		_navService = navService;

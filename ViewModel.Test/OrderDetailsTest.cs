@@ -10,14 +10,14 @@ public class OrderDetailsTest
 {
     private Mock<ICustomerService> mockCustomer;
     private Mock<INavService> mockNav;
-    private OrderDetailsViewModel vm;
+    private CustomerOrderDetailsViewModel vm;
 
     [SetUp]
     public void SetUp()
     {
         mockCustomer = new Mock<ICustomerService>();
         mockNav = new Mock<INavService>();
-        vm = new OrderDetailsViewModel(mockCustomer.Object, mockNav.Object);
+        vm = new CustomerOrderDetailsViewModel(mockCustomer.Object, mockNav.Object);
     }
 
     [Test]

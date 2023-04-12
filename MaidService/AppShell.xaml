@@ -40,5 +40,6 @@
         </Tab>
     </FlyoutItem>
 
-    <ShellContent ContentTemplate="{DataTemplate local:OrderDetails}" Route="OrderDetails"/>
+    <ShellContent ContentTemplate="{DataTemplate local:CustomerOrderDetails}"
+                  Route="CustomerOrderDetails"/>
 </Shell>
