@@ -20,7 +20,7 @@ public class AuthenicationService : IAuthService
         return _client.Auth.CurrentUser;
     }
 
-    public async Task<string> GetUserRoles()
+    public async Task<string> GetUserRole()
     {
         var customer = await _client
             .From<CustomerModel>()

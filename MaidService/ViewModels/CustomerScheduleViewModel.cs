@@ -33,7 +33,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
     public async Task Appear()
     {
         Appointments = new();
-        var role = await _auth.GetUserRoles();
+        var role = await _auth.GetUserRole();
         if (role == "Customer")
         {
             await CustomerSetup();

@@ -34,7 +34,7 @@ public partial class LoginPageViewModel : ObservableObject
         var session = await _auth.SignInUser(UserEmail, Password);
         if (session != null)
         {
-            var role = await _auth.GetUserRoles();
+            var role = await _auth.GetUserRole();
             if (role == "Cleaner")
             {
                 App.Current.MainPage = new AppShell();
