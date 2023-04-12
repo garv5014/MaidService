@@ -206,7 +206,7 @@ public class CustomerService : ICustomerService
     private async Task<string> GetCustomerProfileHash()
     {
         var cust = await GetCurrentCustomer();
-        string supabaseUrl = cust.AuthId[..5] + "profile_picture";
+        string supabaseUrl = "profile_picture" + cust.AuthId[..5];
         return supabaseUrl;
     }
 
