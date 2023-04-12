@@ -5,22 +5,37 @@
              xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MaidService.Views.CustomerSchedule"
-             Title="CustomerSchedule">
+             Title="Customer Schedule">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
 
-    <VerticalStackLayout>
+    <Grid ColumnDefinitions="*"
+          RowDefinitions="*">
 
-
-        <Label BackgroundColor="Grey"
-               HeightRequest="2" />
         <scheduler:SfScheduler x:Name="Scheduler"
+                               Grid.Column="0"
+                               Grid.Row="0"
                                HeightRequest="700"
                                View="Week"
                                AppointmentsSource="{Binding Appointments}"
                                CellBorderBrush="DarkGray">
         </scheduler:SfScheduler>
-    </VerticalStackLayout>
+
+        <Button Grid.Column="0"
+                Grid.Row="0"
+                BackgroundColor="CornflowerBlue"
+                CornerRadius="50"
+                HeightRequest="50"
+                WidthRequest="50"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Padding="0"
+                IsVisible="{Binding IsCleaner}"
+                FontSize="30"
+                FontAttributes="Bold"
+                Margin="25"
+                Text="+" />
+    </Grid>
 </ContentPage>

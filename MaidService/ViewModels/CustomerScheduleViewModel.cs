@@ -14,6 +14,9 @@ public partial class CustomerScheduleViewModel : ObservableObject
     private readonly IAuthService _auth;
 
     [ObservableProperty]
+    private bool isCleaner;
+
+    [ObservableProperty]
     private string selectedCleaning;
 
     public CustomerScheduleViewModel(ICustomerService customerService, ICleanerService cleanerService, IAuthService auth)
@@ -43,11 +46,13 @@ public partial class CustomerScheduleViewModel : ObservableObject
 
     private async Task CleanerSetup()
     {
-        var currentCleaner = await _cleanerService.GetCurrentCleaner();
+        // get all cleaner appointments
+        IsCleaner = true;
     }
 
     private async Task CustomerSetup()
     {
+        IsCleaner = false;
         var contracts = await _customerService.GetAllAppointments();
         foreach (var schedule in contracts)
         {
