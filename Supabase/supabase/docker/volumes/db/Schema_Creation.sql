@@ -93,7 +93,7 @@ Create table cleaner (
 	verified bool null, 
 	/* service_radius int4 null,
 	*/
-	hire_date timestamp Not Null,
+	hire_date date default CURRENT_DATE,
 	CONSTRAINT cleaner_pk PRIMARY key (id),
 	unique(auth_id)
 );
