@@ -48,8 +48,8 @@ namespace ViewModel.Test
 
             vm.AppearCommand.ExecuteAsync(null);
             vm.Appointments.Should().BeEquivalentTo(
-                new List<AppointmentCardViewModel>
-                { new AppointmentCardViewModel(
+                new List<CustomerAppointmentCardViewModel>
+                { new CustomerAppointmentCardViewModel(
                     new CleaningContract {
                         Location = new CleaningLocation { Address = "123 mains street" }
                         , ScheduleDate = new DateTime(2023, 03, 02)

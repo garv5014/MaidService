@@ -71,13 +71,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="CustomComponents\CustomerAppointmentCard.xaml.cs">
+	    <DependentUpon>CustomerAppointmentCard.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CustomerOrderDetails.xaml.cs">
 	    <DependentUpon>CustomerOrderDetails.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="CustomComponents\AppointmentCard.xaml">
+	  <MauiXaml Update="CustomComponents\CustomerAppointmentCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AvailableCleanerAppointments.xaml">

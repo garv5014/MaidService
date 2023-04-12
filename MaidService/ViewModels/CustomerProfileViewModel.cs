@@ -21,7 +21,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     private CleaningContract customerContract;
 
     [ObservableProperty]
-    private IEnumerable<AppointmentCardViewModel> appointments;
+    private IEnumerable<CustomerAppointmentCardViewModel> appointments;
 
     [ObservableProperty]
     private string appointmentsHeader;
@@ -40,7 +40,7 @@ public partial class CustomerProfileViewModel : ObservableObject
         var res = await _customerService.GetUpcomingAppointments(CurrentCustomer.Id);
         if (res != null)
         {
-            Appointments = res.Select(a => new AppointmentCardViewModel(a, _nav));
+            Appointments = res.Select(a => new CustomerAppointmentCardViewModel(a, _nav));
         }
 
         if (Appointments.Count() > 0 )

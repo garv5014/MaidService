@@ -40,9 +40,9 @@ public static class MauiProgram
         InitPages(builder);
 
         // ComponentViewModels
-        builder.Services.AddSingleton<AppointmentCardViewModel>();
+        builder.Services.AddSingleton<CustomerAppointmentCardViewModel>();
         // Components
-        builder.Services.AddSingleton<AppointmentCard>();
+        builder.Services.AddSingleton<CustomerAppointmentCard>();
         // Note the creation as a singleton.
         builder.Services.AddSingleton(new Supabase.Client(url, key, options: options));
         builder.Services.AddSingleton<ICustomerService, CustomerService>();
