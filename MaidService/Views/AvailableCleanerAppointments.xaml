@@ -17,7 +17,7 @@
                         ItemsSource="{Binding Appointments}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <customComp:CleanerAppointmentCard />
+                    <customComp:CleanerAppointmentCards />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
