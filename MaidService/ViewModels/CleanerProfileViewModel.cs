@@ -69,9 +69,11 @@ public partial class CleanerProfileViewModel : ObservableObject
     public async Task UpdateBio()
     {
         ToggleEditing();
-
-        await _cleanerService.UpdateCleanerBio(BioText);
-        await Appear();
+        if (!string.IsNullOrEmpty(BioText))
+        { 
+            await _cleanerService.UpdateCleanerBio(BioText);
+            await Appear();
+        }
     }
     private void ToggleEditing()
     {
