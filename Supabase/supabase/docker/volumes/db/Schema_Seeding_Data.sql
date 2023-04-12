@@ -33,11 +33,6 @@ VALUES                        (1, '2023-03-17', '2023-03-17 10:00:00', 250.00, '
                               (1, null, (select NOW() + INTERVAL '2 days'), 100.00, '2 hours', 500, 1, null, 1, 1),
                               (1, null, (select NOW() + INTERVAL '3 days'), 120.00, '4 hours', 250, 1 ,'Do not be mean', 2, 2);
 
--- CC Cleaner
-INSERT INTO cc_cleaner (contract_id, cleaner_id)
-VALUES (1, 1),
-       (1, 2),
-       (2, 2);
 
 -- Cust Review Cleaner
 INSERT INTO cust_review_cleaner (cust_id, cleaner_id, rating, review)
@@ -68,14 +63,18 @@ INSERT INTO schedule (date, start_time, duration)
 VALUES ('2023-03-17', '08:00:00', '2 hours'), 
        ('2023-03-18', '10:00:00', '2 hours'), 
        ('2023-03-19','12:00:00', '2 hours');
+      
+      -- CC Cleaner
+INSERT INTO cleaner_availability (cleaner_id, schedule_id)
+VALUES (1, 1),
+       (1, 2),
+       (2, 2);
 
 -- Conract_schedule
-INSERT INTO contract_schedule (contract_id, schedule_id)
+INSERT INTO cleaner_assingments (contract_id, cleaner_availability_id)
 VALUES (1, 1),
        (1, 2),
        (2, 3);
 
-
-
-
+call MakeScheduleForTheNextMonth();
 

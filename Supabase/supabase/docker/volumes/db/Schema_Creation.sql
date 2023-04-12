@@ -49,14 +49,14 @@ drop table if exists location cascade;
 drop table if exists cleaner cascade;
 drop table if exists cleaning_type cascade;
 drop table if exists cleaning_contract cascade;
-drop table if exists cc_cleaner cascade;
+drop table if exists cleaner_assingments cascade;
 drop table if exists cust_review_cleaner cascade;
 drop table if exists cleaner_review_cust  cascade;
 drop table if exists customer_payment cascade;
 drop table if exists day_template cascade;
 drop table if exists customer_payment cascade;
 drop table if exists schedule cascade;
-drop table if exists contract_schedule cascade;
+drop table if exists cleaner_availability cascade;
 
 
 
@@ -180,7 +180,7 @@ CREATE TABLE cleaner_assingments(
 	CONSTRAINT cleaner_assingments_pk PRIMARY KEY (contract_id, cleaner_availability_id)
 );
 
-
+-- Functions
 CREATE OR REPLACE procedure  public.MakeScheduleForASpecificDay(target_day date)
  LANGUAGE plpgsql
 AS $function$
@@ -192,6 +192,26 @@ begin
 		INSERT INTO public.schedule ("date", start_time, duration)
 			VALUES(target_day, r.start_time, r.duration);
 	end loop;
+end;
+$function$
+;
+
+CREATE OR REPLACE procedure  MakeScheduleForTheNextMonth(start_date date default current_date)
+ LANGUAGE plpgsql
+AS $function$
+declare
+template_curs cursor for select * from public.day_template ;
+interval_offset interval = interval '0 days';
+begin
+	for counter in 0..28 loop
+		for r in template_curs 
+		loop
+			INSERT INTO public.schedule ("date", start_time, duration)
+				VALUES(start_date + interval_offset, r.start_time, r.duration);
+			
+		end loop;
+		interval_offset = interval_offset + interval '1 days';
+	end loop; 
 end;
 $function$
 ;
