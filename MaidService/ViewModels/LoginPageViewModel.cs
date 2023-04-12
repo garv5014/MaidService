@@ -37,14 +37,13 @@ public partial class LoginPageViewModel : ObservableObject
             var role = await _auth.GetUserRole();
             if (role == "Cleaner")
             {
-                App.Current.MainPage = new AppShell();
                 await _nav.NavigateTo($"///{nameof(CleanerProfile)}");
             }
             else if (role == "Customer")
             {
-                App.Current.MainPage = new AppShell();
                 await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
             }
+            Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
         }
         else
         {
@@ -60,7 +59,6 @@ public partial class LoginPageViewModel : ObservableObject
     [RelayCommand]
     public async Task NavigateToSignUP()
     {
-        //await _nav.NavigateTo($"///{nameof(SignUpPage)}");
-        App.Current.MainPage = new SignUpPage(_services.GetRequiredService<SignUpPageViewModel>());
+        await _nav.NavigateTo($"///{nameof(SignUpPage)}");
     }
 }

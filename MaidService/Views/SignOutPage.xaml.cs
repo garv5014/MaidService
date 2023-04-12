@@ -7,19 +7,22 @@ public partial class SignOutPage : ContentPage
 {
     private readonly IAuthService auth;
     private readonly LoginPageViewModel vm;
+    private readonly INavService nav;
 
-    public SignOutPage(IAuthService auth, LoginPageViewModel vm)
+    public SignOutPage(IAuthService auth, LoginPageViewModel vm, INavService nav)
 	{
 		InitializeComponent();
         this.auth = auth;
         this.vm = vm;
+        this.nav = nav;
     }
 
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected async override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
         auth.SignOutUser();
-        App.Current.MainPage = new LoginPage(vm);
+        await nav.NavigateTo($"///{nameof(LoginPage)}");
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
     }
 }
