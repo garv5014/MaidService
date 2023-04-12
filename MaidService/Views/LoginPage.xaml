@@ -44,7 +44,7 @@
                             HorizontalOptions="CenterAndExpand"
                             Command="{Binding AttemptLoginCommand}" />
 
-                    <Button Text="SignUp"
+                    <Button Text="Sign Up"
                             BackgroundColor="#2196F3"
                             TextColor="White"
                             Margin="10,20,0,0"
