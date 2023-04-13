@@ -21,11 +21,7 @@ public partial class SignOutPage : ContentPage
     protected async override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-<<<<<<< HEAD
         auth.SignOutUser();
-=======
-        await auth.SignOutUser();
->>>>>>> AddingTemplateForCleaners
         await nav.NavigateTo($"///{nameof(LoginPage)}");
         Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
     }

@@ -23,7 +23,6 @@ public class MauiPlatformService : IPlatformService
                     var image = ImageSource.FromStream(() => stream);
                 }
             }
-
             return result;
         }
         catch (Exception ex)

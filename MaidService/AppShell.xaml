@@ -4,36 +4,24 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:MaidService.Views"
        Shell.FlyoutBehavior="Disabled">
-<<<<<<< HEAD
-
-    <TabBar>
-        <Tab Title="Loging"
-=======
     <TabBar>
         <Tab Title="Login"
->>>>>>> AddingTemplateForCleaners
              Route="LoginPage">
-            <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
+            
+        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
         </Tab>
+
     </TabBar>
-<<<<<<< HEAD
-    
-    <TabBar>
-        <Tab Title="Sign Up"
-=======
+
 
     <TabBar>
         <Tab Title="SignUp"
->>>>>>> AddingTemplateForCleaners
              Route="SignUpPage">
-            <ShellContent ContentTemplate="{DataTemplate local:SignUpPage}" />
+            
+        <ShellContent ContentTemplate="{DataTemplate local:SignUpPage}" />
         </Tab>
     </TabBar>
-<<<<<<< HEAD
     
-=======
-
->>>>>>> AddingTemplateForCleaners
     <TabBar>
         <Tab Title="Add"
              Route="ScheduleForm">
@@ -44,7 +32,7 @@
              Route="CustomerProfile">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerProfile}" />
         </Tab>
-        
+
         <Tab Title="Schedule"
              Route="CustomerSchedule">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
