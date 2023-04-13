@@ -78,7 +78,7 @@ public partial class SignUpPageViewModel : ObservableObject
     [RelayCommand]
     public async Task  NavigateToLogin()
     {
-        App.Current.MainPage = new LoginPage(serviceProvider.GetRequiredService<LoginPageViewModel>());
+        await _nav.NavigateTo($"///{nameof(LoginPage)}");
     }
 
     internal bool AreFieldsValid()
