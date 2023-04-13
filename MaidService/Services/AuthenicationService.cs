@@ -22,40 +22,22 @@ public class AuthenicationService : IAuthService
 
     public async Task<string> GetUserRole()
     {
-        if (await IsCustomer())
+        if (await isCustomer())
         {
             return "Customer";
         }
 
-        if (await IsCLeaner())
+        if (await isCLeaner())
         {
             return "Cleaner";
         }
         return "";
     }
 
-    private async Task<bool> IsCLeaner()
-    {
-        var cleaner = await _client
-            .From<CleanerModel>()
-            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
-            .Single();
-        return cleaner?.AuthId != null;
-    }
-
-    private async Task<bool> IsCustomer()
-    {
-        var customer = await _client
-                        .From<CustomerModel>()
-                        .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
-                        .Single();
-        return customer?.AuthId != null;
-    }
-
     public async Task<Session> SignInUser(string email, string password)
     {
-        email = HandelEmptyInput(email);
-        password = HandelEmptyInput(password);
+        email = handleEmptyInput(email);
+        password = handleEmptyInput(password);
         Session res = null;
         try
         {
@@ -69,23 +51,17 @@ public class AuthenicationService : IAuthService
         return res;
     }
 
-    private static string HandelEmptyInput(string input)
-    {
-        return string.IsNullOrEmpty(input)
-                    ? ""
-                    : input.Trim();
-    }
-
     public async Task SignOutUser()
     {
-        if (_client.Auth.CurrentUser != null)
+        if (isLoggedInUser())
             await _client.Auth.SignOut();
     }
 
+
     public async Task<Session> SignUpUser(string email, string password)
     {
-        email = email.Trim();
-        password = password.Trim();
+        email = handleEmptyInput(email);
+        password = handleEmptyInput(password);
         Session session = null;
         try
         {
@@ -114,5 +90,34 @@ public class AuthenicationService : IAuthService
         return response;
     }
 
+    private async Task<bool> isCLeaner()
+    {
+        var cleaner = await _client
+            .From<CleanerModel>()
+            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+            .Single();
+        return cleaner?.AuthId != null;
+    }
+
+    private async Task<bool> isCustomer()
+    {
+        var customer = await _client
+                        .From<CustomerModel>()
+                        .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+                        .Single();
+        return customer?.AuthId != null;
+    }
+
+
+    private static string handleEmptyInput(string input)
+    {
+        return string.IsNullOrEmpty(input)
+                    ? ""
+                    : input.Trim();
+    }
+    private bool isLoggedInUser()
+    {
+        return _client.Auth.CurrentUser != null;
+    }
 
 }
