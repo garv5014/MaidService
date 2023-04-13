@@ -22,7 +22,6 @@ public class AuthenicationService : IAuthService
 
     public async Task<string> GetUserRole()
     {
-
         if (await IsCustomer())
         {
             return "Customer";
@@ -55,12 +54,11 @@ public class AuthenicationService : IAuthService
 
     public async Task<Session> SignInUser(string email, string password)
     {
-        email = email.Trim();
-        password = password.Trim();
+        email = HandelEmptyInput(email);
+        password = HandelEmptyInput(password);
         Session res = null;
         try
         {
-
             res = await _client.Auth.SignIn(email, password);
         }
         catch (Exception e)
@@ -69,6 +67,13 @@ public class AuthenicationService : IAuthService
             return res;
         }
         return res;
+    }
+
+    private static string HandelEmptyInput(string input)
+    {
+        return string.IsNullOrEmpty(input)
+                    ? ""
+                    : input.Trim();
     }
 
     public async Task SignOutUser()
