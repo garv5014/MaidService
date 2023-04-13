@@ -1,5 +1,6 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
+using System;
 
 namespace MaidService.Library.DbModels;
 [Table("cleaning_contract")]
@@ -39,7 +40,6 @@ public class CleaningContractModel : BaseModel
 
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
-
 
     [Reference(typeof(LocationModel))]
     public LocationModel Location{ get; set; }

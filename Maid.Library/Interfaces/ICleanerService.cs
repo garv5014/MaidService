@@ -9,4 +9,5 @@ public interface ICleanerService
     Task UpdateCleanerBio(string bioText);
     Task UploadProfilePicture(int retries = 0);
     Task<string> GetProfilePicturePath();
+    Task<IEnumerable<CleaningContract>> GetAllAvailableAppointments();
 }

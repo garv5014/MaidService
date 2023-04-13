@@ -54,7 +54,12 @@
                           Route="SignOutPage" />
         </Tab>
     </FlyoutItem>
-
-    <ShellContent ContentTemplate="{DataTemplate local:CustomerOrderDetails}"
-                  Route="CustomerOrderDetails"/>
+    <TabBar>
+        <ShellContent ContentTemplate="{DataTemplate local:CustomerOrderDetails}"
+                      Route="CustomerOrderDetails" />
+    </TabBar>
+    <TabBar>
+        <ShellContent Route="AvailableCleanerAppointments"
+                      ContentTemplate="{DataTemplate local:AvailableCleanerAppointments}" />
+    </TabBar>
 </Shell>

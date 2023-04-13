@@ -49,7 +49,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
     [RelayCommand]
     public async Task NavigateToAllAvailableAppointments()
     {
-        await _nav.NavigateTo($"///{nameof(AvailableCleanerAppointments)}");
+        await _nav.NavigateTo($"////{nameof(AvailableCleanerAppointments)}");
     }
 
     private async Task CleanerSetup()

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Maid.Library.Interfaces;
+using MaidService.ComponentsViewModels;
 using MaidService.Library.DbModels;
 using Supabase.Storage;
 using static Postgrest.Constants;
@@ -42,6 +43,11 @@ public class CleanerService : ICleanerService
             AuthId = authId
         };
         await _client.From<CleanerModel>().Insert(model);
+    }
+
+    public async Task<IEnumerable<CleaningContract>> GetAllAvailableAppointments()
+    {
+       throw new NotImplementedException();
     }
 
     public async Task<Cleaner> GetCurrentCleaner()

@@ -2,11 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.AvailableCleanerAppointments"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:customComp="clr-namespace:MaidService.CustomComponents"
              Title="Available Appointments">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing"
+                                        Command="{Binding AppearCommand}" />
+    </ContentPage.Behaviors>
+
     <VerticalStackLayout>
-        <Label BackgroundColor="Grey"
-               HeightRequest="2" />
         <Label Text="{Binding AppointmentsHeader}"
                FontSize="Title"
                FontAttributes="Bold"
