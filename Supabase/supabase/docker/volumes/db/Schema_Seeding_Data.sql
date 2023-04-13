@@ -71,7 +71,7 @@ VALUES (1, 1),
        (2, 2);
 
 -- Conract_schedule
-INSERT INTO cleaner_assingments (contract_id, cleaner_availability_id)
+INSERT INTO cleaner_assignments (contract_id, cleaner_availability_id)
 VALUES (1, 1),
        (1, 2),
        (2, 3);

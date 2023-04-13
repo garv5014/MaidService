@@ -9,7 +9,7 @@ public class CleanerAvailabilityModel : BaseModel
     public int Id { get; set; }
 
     [Reference(typeof(ScheduleModel))]
-    public CleaningContractModel Schedule{ get; set; }
+    public ScheduleModel Schedule { get; set; }
 
     [Reference(typeof(CleanerModel))]
     public CleanerModel Cleaner { get; set; }
@@ -23,3 +23,4 @@ public class CleanerAvailability
 
     public Cleaner Cleaner { get; set; }
 }
+

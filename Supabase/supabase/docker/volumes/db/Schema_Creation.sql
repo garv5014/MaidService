@@ -173,7 +173,7 @@ CREATE TABLE cleaner_availability (
 	CONSTRAINT contract_schedule_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE cleaner_assingments( 
+CREATE TABLE cleaner_assignments( 
 	id serial4 Not Null,
 	contract_id int4 Not Null  REFERENCES cleaning_contract (id) on delete set null,
 	cleaner_availability_id int4 Not Null REFERENCES cleaner_availability (id) on delete set null,

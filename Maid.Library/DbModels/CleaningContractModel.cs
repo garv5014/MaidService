@@ -1,5 +1,6 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
+using System;
 
 namespace MaidService.Library.DbModels;
 [Table("cleaning_contract")]
@@ -34,12 +35,15 @@ public class CleaningContractModel : BaseModel
 
     [Column("cleaning_type_id")]
     public int CleaningTypeId { get; set; }
+
     [Column("location_id")]
     public int LocationId { get; set; }
 
+    [Reference(typeof(CleanerAvailabilityModel))]
+     public List<CleanerAvailabilityModel> Cleaners { get; set; }
+
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
-
 
     [Reference(typeof(LocationModel))]
     public LocationModel Location{ get; set; }
@@ -71,5 +75,5 @@ public class CleaningContract
 
     public CleaningType CleaningType { get; set; }
 
-    public List<Cleaner> Cleaners { get; set; }
+    public List<CleanerAvailability> Cleaners { get; set; }
 }

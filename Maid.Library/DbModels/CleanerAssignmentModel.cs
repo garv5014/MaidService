@@ -3,16 +3,16 @@ using Postgrest.Models;
 
 namespace MaidService.Library.DbModels;
 [Table("cleaner_assignments")]
-public class CleanerAssignmentsModel : BaseModel
+public class CleanerAssignmentModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
 
     [Reference(typeof(CleanerAvailabilityModel))]
-    public CleanerAvailabilityModel Cleaner_Availability{ get; set; }
+    public CleanerAvailabilityModel Cleaner_Availability { get; set; }
 
     [Reference(typeof(CleaningContractModel))]
-    public CleaningContractModel CleaningContract { get;set; }
+    public CleaningContractModel CleaningContract { get; set; }
 
 }
 

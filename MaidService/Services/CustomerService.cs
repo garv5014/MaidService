@@ -57,7 +57,7 @@ public class CustomerService : ICustomerService
     {
         var cust = await GetCurrentCustomer();
         var result =
-            await _client.From<CleaningContractModelNoCleaners>()
+            await _client.From<CleaningContractModel>()
             .Filter("cust_id", Operator.Equals, cust.Id)
             .Get();
 
@@ -69,21 +69,23 @@ public class CustomerService : ICustomerService
     public async Task<CleaningContract> GetCleaningDetailsById(int contractId)
     {
         var contract = await _client
-            .From<CleaningContractModelNoCleaners>()
+            .From<CleaningContractModel>()
             .Where(c => c.Id == contractId)
             .Limit(1)
             .Get();
-
-        return contract.ResponseMessage.IsSuccessStatusCode && contract.Models.Count > 0
-            ? _mapper.Map<CleaningContract>(contract.Models?.First())
-            : new CleaningContract();
+        if (contract.ResponseMessage.IsSuccessStatusCode && contract.Models.Count > 0)
+        {
+            var cleaningContract = _mapper.Map<CleaningContract>(contract.Models?.First());
+            return cleaningContract;
+        }
+        return new CleaningContract();
     }
 
     public async Task<IEnumerable<CleaningContract>> GetUpcomingAppointments(int customerId)
     {
         var res = await _client.Postgrest
-            .Table<CleaningContractModelNoCleaners>()
-            .Where(c => c.Customer_Id == customerId)
+            .Table<CleaningContractModel>()
+            .Where(c => c.Customer_Id == customerId && c.ScheduleDate > DateTime.Now)  
             .Get();
         return res.Models.Count > 0
             ? _mapper.Map<List<CleaningContract>>(res.Models)

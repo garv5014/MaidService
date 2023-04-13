@@ -31,6 +31,10 @@ public class CleanerModel : BaseModel
 
     [Column("auth_id")]
     public string AuthId { get; set; }
+
+    //[Reference(typeof(CleaningContractModel), includeInQuery: false)]    
+    //public List<CleaningContractModel> CleaningContract { get; set; }
+
 }
 
 public class Cleaner
