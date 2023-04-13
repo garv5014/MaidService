@@ -69,24 +69,6 @@ public class CleanerService : ICleanerService
         return cleaner;
     }
 
-    public async Task<string> GetProfilePicturePath()
-    {
-        var profilePicture = await getCleanerProfileHash();
-        string publicUrl = "";
-        try
-        {
-            publicUrl = _client
-                            .Storage
-                            .From("profile-pictures")
-                            .GetPublicUrl(profilePicture);
-        }
-        catch (Exception e)
-        {
-            //
-        }
-        return publicUrl;
-    }
-
     public async Task UpdateCleanerBio(string bioText)
     {
         var cleaner = await GetCurrentCleaner();
@@ -96,47 +78,5 @@ public class CleanerService : ICleanerService
                        .Where(x => x.AuthId == cleaner.AuthId)
                        .Set(x => x.Bio, bioText)
                        .Update();
-    }
-
-    public async Task UploadProfilePicture(int retries = 0)
-    {
-        string photoDevicePath = await pickAPhotoFromFileSystem();
-        string fileNameForSupabase = await getCleanerProfileHash();
-        try
-        { await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase);}
-        catch (BadRequestException e)
-        {
-            if (e.ErrorResponse.Error == "Duplicate")
-                await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
-        }
-    }
-
-    private async Task replaceProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
-    {
-        await _client.Storage
-            .From("profile-pictures")
-            .Remove(new List<string> { fileNameForSupabase });
-        await storeProfilePictureInBucket(photoToBeUploadedPath, fileNameForSupabase);
-    }
-
-    private async Task storeProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
-    {
-        await _client.Storage
-                      .From("profile-pictures")
-                      .Upload(photoToBeUploadedPath, fileNameForSupabase);
-    }
-
-    private async Task<string> getCleanerProfileHash()
-    {
-        var cleaner = await GetCurrentCleaner();
-        string supabaseUrl = "profile_picture_" + cleaner.AuthId[..5];
-        return supabaseUrl;
-    }
-
-    private async Task<string> pickAPhotoFromFileSystem()
-    {
-        var res = await _platformService.PickFile();
-        var photoUrl = res.FullPath;
-        return photoUrl;
     }
 }

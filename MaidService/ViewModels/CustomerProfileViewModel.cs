@@ -9,6 +9,7 @@ namespace MaidService.ViewModels;
 public partial class CustomerProfileViewModel : ObservableObject
 {
     private readonly ICustomerService _customerService;
+    private readonly ISupabaseStorage _storage;
     private readonly INavService _nav;
 
     [ObservableProperty]
@@ -18,7 +19,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     private string profilePicturePath;
 
     [ObservableProperty]
-    private CleaningContract customerContract;
+    private CleaningContract _customerContract;
 
     [ObservableProperty]
     private IEnumerable<CustomerAppointmentCardViewModel> appointments;
@@ -26,9 +27,10 @@ public partial class CustomerProfileViewModel : ObservableObject
     [ObservableProperty]
     private string appointmentsHeader;
 
-    public CustomerProfileViewModel(ICustomerService customerService, INavService nav)
+    public CustomerProfileViewModel( ICustomerService customerService,ISupabaseStorage storage, INavService nav)
     {
         _customerService = customerService;
+        _storage = storage;
         _nav = nav;
         AppointmentsHeader = "No Upcoming Appointments";
     }
@@ -47,12 +49,12 @@ public partial class CustomerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
-        ProfilePicturePath = await _customerService.GetProfilePicturePath();
+        ProfilePicturePath = await _storage.GetProfilePictureFromSupabase();
     }
 
     [RelayCommand]
     public async Task UploadPicture()
     {
-        await _customerService.UploadProfilePicture();
+        await _storage.UploadProfilePicture();
     }
 }
