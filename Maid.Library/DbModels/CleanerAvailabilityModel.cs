@@ -8,10 +8,10 @@ public class CleanerAvailabilityModel : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Column("schedule_id")]
+    [Reference(typeof(ScheduleModel), shouldFilterTopLevel: true)]
     public ScheduleModel Schedule { get; set; }
 
-    [Column("cleaner_id")]
+    [Reference(typeof(CleanerModel), shouldFilterTopLevel: true)]
     public CleanerModel Cleaner { get; set; }
 
     [Reference(typeof(CleanerAssignmentModel))]
