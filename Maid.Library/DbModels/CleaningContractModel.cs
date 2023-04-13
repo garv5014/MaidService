@@ -39,7 +39,7 @@ public class CleaningContractModel : BaseModel
     [Column("location_id")]
     public int LocationId { get; set; }
 
-    [Reference(typeof(CleanerAvailabilityModel))]
+    [Reference(typeof(CleanerAvailabilityModel), shouldFilterTopLevel: false)]
      public List<CleanerAvailabilityModel> Cleaners { get; set; }
 
     [Reference(typeof(CustomerModel))]
