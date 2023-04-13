@@ -22,7 +22,7 @@ public class CleanerService : ICleanerService
         _platformService = platformService;
     }
 
-    public async Task AddCleaner(
+    public async Task AddNewCleaner(
         string firstName
         ,string lastName
         ,string phoneNumber
@@ -52,20 +52,26 @@ public class CleanerService : ICleanerService
 
     public async Task<Cleaner> GetCurrentCleaner()
     {
+        CleanerModel cleaner = await queryForCurrentCleaner();
+        return cleaner.AuthId != null
+            ? _mapper.Map<Cleaner>(cleaner)
+            : null;
+    }
+
+    private async Task<CleanerModel> queryForCurrentCleaner()
+    {
         var user = _auth.GetCurrentUser();
 
         var cleaner = await _client
             .From<CleanerModel>()
             .Filter("auth_id", Operator.Equals, user.Id)
             .Single();
-        return cleaner.AuthId != null
-            ? _mapper.Map<Cleaner>(cleaner)
-            : null;
+        return cleaner;
     }
 
     public async Task<string> GetProfilePicturePath()
     {
-        var profilePicture = await GetCleanerProfileHash();
+        var profilePicture = await getCleanerProfileHash();
         string publicUrl = "";
         try
         {
@@ -94,36 +100,40 @@ public class CleanerService : ICleanerService
 
     public async Task UploadProfilePicture(int retries = 0)
     {
-        string photoUrl = await PickAPhoto();
-        string supabaseUrl = await GetCleanerProfileHash();
+        string photoDevicePath = await pickAPhotoFromFileSystem();
+        string fileNameForSupabase = await getCleanerProfileHash();
         try
-        {
-            await _client.Storage
-              .From("profile-pictures")
-              .Upload(photoUrl, supabaseUrl);
-        }
+        { await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase);}
         catch (BadRequestException e)
         {
             if (e.ErrorResponse.Error == "Duplicate")
-            {
-                var res = await _client.Storage
-                    .From("profile-pictures")
-                    .Remove(new List<string> { supabaseUrl });
-                await _client.Storage
-                    .From("profile-pictures")
-                    .Upload(photoUrl, supabaseUrl);
-            }
+                await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
         }
     }
 
-    private async Task<string> GetCleanerProfileHash()
+    private async Task replaceProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
+    {
+        await _client.Storage
+            .From("profile-pictures")
+            .Remove(new List<string> { fileNameForSupabase });
+        await storeProfilePictureInBucket(photoToBeUploadedPath, fileNameForSupabase);
+    }
+
+    private async Task storeProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
+    {
+        await _client.Storage
+                      .From("profile-pictures")
+                      .Upload(photoToBeUploadedPath, fileNameForSupabase);
+    }
+
+    private async Task<string> getCleanerProfileHash()
     {
         var cleaner = await GetCurrentCleaner();
-        string supabaseUrl = "profile_picture" + cleaner.AuthId[..5];
+        string supabaseUrl = "profile_picture_" + cleaner.AuthId[..5];
         return supabaseUrl;
     }
 
-    private async Task<string> PickAPhoto()
+    private async Task<string> pickAPhotoFromFileSystem()
     {
         var res = await _platformService.PickFile();
         var photoUrl = res.FullPath;

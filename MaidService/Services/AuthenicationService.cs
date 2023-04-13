@@ -57,7 +57,6 @@ public class AuthenicationService : IAuthService
             await _client.Auth.SignOut();
     }
 
-
     public async Task<Session> SignUpUser(string email, string password)
     {
         email = handleEmptyInput(email);
@@ -107,7 +106,6 @@ public class AuthenicationService : IAuthService
                         .Single();
         return customer?.AuthId != null;
     }
-
 
     private static string handleEmptyInput(string input)
     {
