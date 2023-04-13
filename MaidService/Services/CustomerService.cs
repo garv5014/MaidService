@@ -80,9 +80,8 @@ public class CustomerService : ICustomerService
             var cleaner = await _client
                 .From<CleanerAssignmentModel>()
                 .Where(c => c.CleaningContract.Id == cleaningContract.Id )
-                .Single();
+                .Get();
             return cleaningContract;
-
         }
         return new CleaningContract();
     }

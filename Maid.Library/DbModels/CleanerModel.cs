@@ -1,6 +1,5 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
-using System.Text.Json.Serialization;
 
 namespace MaidService.Library.DbModels;
 [Table("cleaner")]
@@ -33,8 +32,9 @@ public class CleanerModel : BaseModel
     [Column("auth_id")]
     public string AuthId { get; set; }
 
-    [Reference(typeof(CleaningContractModel), shouldFilterTopLevel:false)]
-    public List<CleaningContractModel> Contract { get; set; }
+    //[Reference(typeof(CleaningContractModel), includeInQuery: false)]    
+    //public List<CleaningContractModel> CleaningContract { get; set; }
+
 }
 
 public class Cleaner

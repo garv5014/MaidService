@@ -8,10 +8,10 @@ public class CleanerAssignmentModel : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Reference(typeof(CleanerAvailabilityModel), shouldFilterTopLevel: true)]
+    [Reference(typeof(CleanerAvailabilityModel))]
     public CleanerAvailabilityModel Cleaner_Availability { get; set; }
 
-    [Reference(typeof(CleaningContractModel), shouldFilterTopLevel: true)]
+    [Reference(typeof(CleaningContractModel))]
     public CleaningContractModel CleaningContract { get; set; }
 
 }

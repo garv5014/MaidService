@@ -1,8 +1,9 @@
 ﻿using Postgrest.Attributes;
+using Postgrest.Models;
 
 namespace MaidService.Library.DbModels;
 [Table("schedule")]
-public class ScheduleModel
+public class ScheduleModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }

@@ -8,14 +8,11 @@ public class CleanerAvailabilityModel : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Reference(typeof(ScheduleModel), shouldFilterTopLevel: true)]
+    [Reference(typeof(ScheduleModel))]
     public ScheduleModel Schedule { get; set; }
 
-    [Reference(typeof(CleanerModel), shouldFilterTopLevel: true)]
+    [Reference(typeof(CleanerModel))]
     public CleanerModel Cleaner { get; set; }
-
-    [Reference(typeof(CleanerAssignmentModel))]
-    public List<CleanerAssignmentModel> CleanerAssignments { get; set; }
 }
 
 public class CleanerAvailability
