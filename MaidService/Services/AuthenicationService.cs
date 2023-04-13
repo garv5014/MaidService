@@ -22,23 +22,35 @@ public class AuthenicationService : IAuthService
 
     public async Task<string> GetUserRole()
     {
-        var customer = await _client
-            .From<CustomerModel>()
-            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
-            .Single();
-        if (customer?.AuthId != null)
+
+        if (await IsCustomer())
         {
-            return"Customer";
+            return "Customer";
         }
-        var cleaner = await _client
-            .From<CleanerModel>()
-            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
-            .Single();
-        if (cleaner?.AuthId != null)
+
+        if (await IsCLeaner())
         {
             return "Cleaner";
         }
         return "";
+    }
+
+    private async Task<bool> IsCLeaner()
+    {
+        var cleaner = await _client
+            .From<CleanerModel>()
+            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+            .Single();
+        return cleaner?.AuthId != null;
+    }
+
+    private async Task<bool> IsCustomer()
+    {
+        var customer = await _client
+                        .From<CustomerModel>()
+                        .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+                        .Single();
+        return customer?.AuthId != null;
     }
 
     public async Task<Session> SignInUser(string email, string password)
@@ -72,7 +84,7 @@ public class AuthenicationService : IAuthService
         Session session = null;
         try
         {
-            session =  await _client.Auth.SignUp(email, password);
+            session = await _client.Auth.SignUp(email, password);
         }
         catch (Exception e)
         {
@@ -83,7 +95,7 @@ public class AuthenicationService : IAuthService
 
     public async Task<User> UpdateEmail(string newEmail)
     {
-        var attrs = new UserAttributes 
+        var attrs = new UserAttributes
         { Email = newEmail };
         var response = await _client.Auth.Update(attrs);
         return response;
