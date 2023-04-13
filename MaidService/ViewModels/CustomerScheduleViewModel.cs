@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
+using MaidService.Views;
 using Syncfusion.Maui.Scheduler;
 using System.Collections.ObjectModel;
 
@@ -12,18 +13,19 @@ public partial class CustomerScheduleViewModel : ObservableObject
     private ICustomerService _customerService;
     private readonly ICleanerService _cleanerService;
     private readonly IAuthService _auth;
-
+    private readonly INavService _nav;
     [ObservableProperty]
     private bool isCleaner;
 
     [ObservableProperty]
     private string selectedCleaning;
 
-    public CustomerScheduleViewModel(ICustomerService customerService, ICleanerService cleanerService, IAuthService auth)
+    public CustomerScheduleViewModel(ICustomerService customerService, ICleanerService cleanerService, IAuthService auth, INavService nav)
     {
         _customerService = customerService;
         _cleanerService = cleanerService;
         _auth = auth;
+        _nav = nav;
     }
 
     [ObservableProperty]
@@ -42,6 +44,12 @@ public partial class CustomerScheduleViewModel : ObservableObject
         {
             await CleanerSetup();
         }
+    }
+
+    [RelayCommand]
+    public async Task NavigateToAllAvailableAppointments()
+    {
+        await _nav.NavigateTo($"///{nameof(AvailableCleanerAppointments)}");
     }
 
     private async Task CleanerSetup()

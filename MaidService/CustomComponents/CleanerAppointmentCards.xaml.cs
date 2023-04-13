@@ -1,6 +1,6 @@
 namespace MaidService.CustomComponents;
 
-public partial class CleanerAppointmentCards : ContentPage
+public partial class CleanerAppointmentCards : Frame
 {
 	public CleanerAppointmentCards()
 	{
