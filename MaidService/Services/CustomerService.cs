@@ -76,11 +76,6 @@ public class CustomerService : ICustomerService
         if (contract.ResponseMessage.IsSuccessStatusCode && contract.Models.Count > 0)
         {
             var cleaningContract = _mapper.Map<CleaningContract>(contract.Models?.First());
-
-            var cleaner = await _client
-                .From<CleanerAssignmentModel>()
-                .Where(c => c.CleaningContract.Id == cleaningContract.Id )
-                .Get();
             return cleaningContract;
         }
         return new CleaningContract();
