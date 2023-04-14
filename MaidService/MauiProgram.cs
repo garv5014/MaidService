@@ -54,6 +54,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<INavService, NavigationService>();
         builder.Services.AddSingleton<IAuthService, AuthenicationService>();
         builder.Services.AddSingleton<IPlatformService, MauiPlatformService>();
+        builder.Services.AddSingleton<ISupabaseStorage, MaidStorage>();
+
 
         InitViewModels(builder);
 

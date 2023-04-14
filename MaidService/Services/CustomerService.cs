@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
+using Postgrest.Responses;
 using Supabase;
 using Supabase.Storage;
 using static Postgrest.Constants;
@@ -73,23 +74,28 @@ public class CustomerService : ICustomerService
             .Where(c => c.Id == contractId)
             .Limit(1)
             .Get();
-        if (contract.ResponseMessage.IsSuccessStatusCode && contract.Models.Count > 0)
-        {
-            var cleaningContract = _mapper.Map<CleaningContract>(contract.Models?.First());
-            return cleaningContract;
-        }
-        return new CleaningContract();
+
+        return isResponseSucessfulAndPopulated(contract)
+            ? _mapper.Map<CleaningContract>(contract.Models?.First())
+            : new CleaningContract();
+    }
+
+    private bool isResponseSucessfulAndPopulated(ModeledResponse<CleaningContractModel> contract)
+    {
+        return contract.ResponseMessage.IsSuccessStatusCode
+                    && contract.Models.Count > 0;
     }
 
     public async Task<IEnumerable<CleaningContract>> GetUpcomingAppointments(int customerId)
     {
         var yesterday = DateTime.Now - TimeSpan.FromDays(1);
-        var res = await _client.Postgrest
+        var result = await _client.Postgrest
             .Table<CleaningContractModel>()
-            .Where(c => c.Customer_Id == customerId && c.ScheduleDate > (yesterday))
+            .Where(c => c.Customer_Id == customerId && c.ScheduleDate > yesterday)
             .Get();
-        return res.Models.Count > 0
-            ? _mapper.Map<List<CleaningContract>>(res.Models)
+
+        return isResponseSucessfulAndPopulated(result)
+            ? _mapper.Map<List<CleaningContract>>(result.Models)
             : new List<CleaningContract>();
     }
 
@@ -106,20 +112,25 @@ public class CustomerService : ICustomerService
 
     public async Task<Customer> GetCurrentCustomer()
     {
-        var user = _auth.GetCurrentUser();
+        CustomerModel customer = await queryForCurrentCustomer();
+        return customer?.AuthId != null
+            ? _mapper.Map<Customer>(customer)
+            : null;
+    }
 
-        var cust = await _client
+    private async Task<CustomerModel> queryForCurrentCustomer()
+    {
+        var user = _auth.GetCurrentUser();
+        var customer = await _client
             .From<CustomerModel>()
             .Filter("auth_id", Operator.Equals, user.Id)
             .Single();
-        return cust?.AuthId != null
-            ? _mapper.Map<Customer>(cust)
-            : null;
+
+        return customer;
     }
 
     public async Task CreateNewContract(CleaningContract contract)
     {
-
         var location = new LocationModel()
         {
             Address = contract.Location.Address,
@@ -127,18 +138,18 @@ public class CustomerService : ICustomerService
             State = contract.Location.State,
             ZipCode = contract.Location.ZipCode
         };
-        var resLoc = await _client
+        var locationResult = await _client
             .From<LocationModel>()
             .Insert(location);
 
-        var cust = await GetCurrentCustomer();
+        var customer = await GetCurrentCustomer();
         var contractModel = new CleaningContractModel
         {
             RequestedHours = contract.RequestedHours,
-            Customer_Id = cust.Id,
+            Customer_Id = customer.Id,
             ScheduleDate = contract.ScheduleDate,
             EstSqft = contract.EstSqft,
-            LocationId = resLoc.Models.First().Id,
+            LocationId = locationResult.Models.First().Id,
             Notes = contract.Notes,
             CleaningTypeId = contract.CleaningType.Id,
             Cost = contract.Cost,
@@ -147,10 +158,10 @@ public class CustomerService : ICustomerService
         };
         try
         {
-            var res = await _client
+            var result = await _client
                 .From<CleaningContractModel>()
                 .Insert(contractModel);
-            res.ResponseMessage.EnsureSuccessStatusCode();
+            result.ResponseMessage.EnsureSuccessStatusCode();
         }
         catch (Exception e)
         {
@@ -209,7 +220,7 @@ public class CustomerService : ICustomerService
     private async Task<string> GetCustomerProfileHash()
     {
         var cust = await GetCurrentCustomer();
-        string supabaseUrl = "profile_picture" + cust.AuthId[..5];
+        string supabaseUrl = "profile_picture_" + cust.AuthId[..5];
         return supabaseUrl;
     }
 

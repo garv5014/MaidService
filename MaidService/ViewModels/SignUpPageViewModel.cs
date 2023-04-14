@@ -59,7 +59,7 @@ public partial class SignUpPageViewModel : ObservableObject
 
             if (SelectedAccountType == "Cleaner" && session != null)
             {
-                await _cleanerService.AddCleaner(FirstName, LastName, PhoneNumber, UserEmail, session.User.Id);
+                await _cleanerService.AddNewCleaner(FirstName, LastName, PhoneNumber, UserEmail, session.User.Id);
             }
             else if (SelectedAccountType == "Customer" && session != null)
             {

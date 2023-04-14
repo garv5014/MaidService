@@ -22,19 +22,12 @@ public class AuthenicationService : IAuthService
 
     public async Task<string> GetUserRole()
     {
-        var customer = await _client
-            .From<CustomerModel>()
-            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
-            .Single();
-        if (customer?.AuthId != null)
+        if (await isCustomer())
         {
-            return"Customer";
+            return "Customer";
         }
-        var cleaner = await _client
-            .From<CleanerModel>()
-            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
-            .Single();
-        if (cleaner?.AuthId != null)
+
+        if (await isCLeaner())
         {
             return "Cleaner";
         }
@@ -43,12 +36,11 @@ public class AuthenicationService : IAuthService
 
     public async Task<Session> SignInUser(string email, string password)
     {
-        email = email.Trim();
-        password = password.Trim();
+        email = handleEmptyInput(email);
+        password = handleEmptyInput(password);
         Session res = null;
         try
         {
-
             res = await _client.Auth.SignIn(email, password);
         }
         catch (Exception e)
@@ -61,18 +53,18 @@ public class AuthenicationService : IAuthService
 
     public async Task SignOutUser()
     {
-        if (_client.Auth.CurrentUser != null)
+        if (isLoggedInUser())
             await _client.Auth.SignOut();
     }
 
     public async Task<Session> SignUpUser(string email, string password)
     {
-        email = email.Trim();
-        password = password.Trim();
+        email = handleEmptyInput(email);
+        password = handleEmptyInput(password);
         Session session = null;
         try
         {
-            session =  await _client.Auth.SignUp(email, password);
+            session = await _client.Auth.SignUp(email, password);
         }
         catch (Exception e)
         {
@@ -83,7 +75,7 @@ public class AuthenicationService : IAuthService
 
     public async Task<User> UpdateEmail(string newEmail)
     {
-        var attrs = new UserAttributes 
+        var attrs = new UserAttributes
         { Email = newEmail };
         var response = await _client.Auth.Update(attrs);
         return response;
@@ -97,5 +89,33 @@ public class AuthenicationService : IAuthService
         return response;
     }
 
+    private async Task<bool> isCLeaner()
+    {
+        var cleaner = await _client
+            .From<CleanerModel>()
+            .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+            .Single();
+        return cleaner?.AuthId != null;
+    }
+
+    private async Task<bool> isCustomer()
+    {
+        var customer = await _client
+                        .From<CustomerModel>()
+                        .Filter("auth_id", Operator.Equals, _client.Auth.CurrentUser.Id)
+                        .Single();
+        return customer?.AuthId != null;
+    }
+
+    private static string handleEmptyInput(string input)
+    {
+        return string.IsNullOrEmpty(input)
+                    ? ""
+                    : input.Trim();
+    }
+    private bool isLoggedInUser()
+    {
+        return _client.Auth.CurrentUser != null;
+    }
 
 }
