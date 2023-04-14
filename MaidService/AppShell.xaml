@@ -4,6 +4,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:MaidService.Views"
        Shell.FlyoutBehavior="Disabled">
+    <!-- Login work Flow-->
     <TabBar>
         <Tab Title="Login"
              Route="LoginPage">
@@ -22,6 +23,7 @@
         </Tab>
     </TabBar>
     
+    <!-- Customer Tab Bar-->
     <TabBar>
         <Tab Title="Add"
              Route="ScheduleForm">
@@ -38,7 +40,8 @@
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
         </Tab>
     </TabBar>
-
+    
+    <!-- Cleaner Tab Bar-->
     <TabBar>
         <Tab Title="Profile"
              Route="CleanerProfile">
@@ -48,16 +51,24 @@
              Route="CleanerSchedule">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
         </Tab>
+        <Tab Title="Add Shifts"
+             Route="CleanerAcceptsShifts">
+            <ShellContent ContentTemplate="{DataTemplate local:CleanerAcceptsShifts}" />
+
+        </Tab>
     </TabBar>
-        
+    
+    <!-- Shared Flyout Bar -->
     <FlyoutItem Title="SignOut">
         <Tab>
 
-            <ShellContent ContentTemplate="{DataTemplate local:SignOutPage}"
-                          
+            <ShellContent ContentTemplate="{DataTemplate local:SignOutPage}"                          
                           Route="SignOutPage" />
         </Tab>
     </FlyoutItem>
+
+    <!-- Shared Stand Alone Pages -->
+
     <TabBar>
         <ShellContent ContentTemplate="{DataTemplate local:CustomerOrderDetails}"
                       Route="CustomerOrderDetails" />
@@ -70,4 +81,5 @@
         <ShellContent Route="AvailableCleanerAppointments"
                       ContentTemplate="{DataTemplate local:AvailableCleanerAppointments}" />
     </TabBar>
+    
 </Shell>

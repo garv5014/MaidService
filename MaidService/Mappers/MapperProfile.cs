@@ -14,6 +14,7 @@ public class MapperProfile : Profile
         CreateMap<CleaningTypeModel, CleaningType>().ReverseMap();
         CreateMap<CleanerAssignmentModel, CleanerAssignments>().ReverseMap(); 
         CreateMap<CleanerAvailabilityModel, CleanerAvailability>().ReverseMap();
+        CreateMap<CleanerAvailabilityModel, CleanerAvailabilitySchedule>().ReverseMap();
         CreateMap<CustomerModel, Customer>().ReverseMap();
         CreateMap<CustomerPaymentModel, CustomerPayment>().ReverseMap();
         CreateMap<CustomerReviewCleanerModel, CustomerReviewCleaners>().ReverseMap();

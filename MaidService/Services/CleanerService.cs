@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Maid.Library.Interfaces;
-using MaidService.ComponentsViewModels;
 using MaidService.Library.DbModels;
-using Supabase.Storage;
+using MaidService.ViewModels;
+using Postgrest.Interfaces;
+using System.Linq;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -12,14 +13,12 @@ public class CleanerService : ICleanerService
     private readonly Supabase.Client _client;
     private readonly IMapper _mapper;
     private readonly IAuthService _auth;
-    private readonly IPlatformService _platformService;
 
-    public CleanerService(Supabase.Client client, IMapper mapper, IAuthService auth, IPlatformService platformService)
+    public CleanerService(Supabase.Client client, IMapper mapper, IAuthService auth)
     {
         _client = client;
         _mapper = mapper;
         _auth = auth;
-        _platformService = platformService;
     }
 
     public async Task AddNewCleaner(
@@ -86,5 +85,31 @@ public class CleanerService : ICleanerService
                        .Where(x => x.AuthId == cleaner.AuthId)
                        .Set(x => x.Bio, bioText)
                        .Update();
+    }
+
+    public async Task<IEnumerable<Schedule>> GetSchedulesForADate(DateTime scheduleDate)
+    {
+        var availableSchedules = new List<Schedule>();
+        var cleaner = await GetCurrentCleaner();
+        var schedulesModels = await _client.From<ScheduleModel>()
+            .Where(ca => ca.Date == scheduleDate)
+            .Get();
+        var schedules = _mapper.Map<IEnumerable<Schedule>>(schedulesModels.Models);
+        var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
+            .Where(ca => ca.Cleaner.Id == cleaner.Id)
+            .Get();
+
+        var cleanerAvailabileSchedules = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(cleanerAvailability.Models);
+        foreach (var schedule in schedules)
+        {
+            foreach (var cleanerAvailabileSchedule in cleanerAvailabileSchedules)
+            {
+                if (!cleanerAvailabileSchedule.Schedule.Id == schedule.Id)
+                {
+                    availableSchedules.Add(schedule);
+                }
+            }
+        }
+        return availableSchedules;
     }
 }

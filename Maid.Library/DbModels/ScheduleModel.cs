@@ -7,10 +7,13 @@ public class ScheduleModel : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
+
     [Column("date")]
     public DateTime Date { get; set; }
+
     [Column("start_time")]
     public TimeSpan StartTime { get; set; }
+
     [Column("duration")]
     public TimeSpan Duration { get; set; }
 }
