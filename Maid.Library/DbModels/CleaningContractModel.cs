@@ -43,7 +43,7 @@ public class CleaningContractModel : BaseModel
     public List<CleanerAssignmentModel> AssingedCleaners { get; set; }
 
     [Reference(typeof(CleanerAvailabilityModel), shouldFilterTopLevel: false)]
-     public List<CleanerAvailabilityModel> Cleaners { get; set; }
+     public List<CleanerAvailabilityModel> AvailableCleaners { get; set; }
 
     [Reference(typeof(CustomerModel))]
     public CustomerModel Customer { get; set; }
@@ -78,5 +78,5 @@ public class CleaningContract
 
     public CleaningType CleaningType { get; set; }
 
-    public List<CleanerAvailability> Cleaners { get; set; }
+    public List<CleanerAvailability> AvailableCleaners { get; set; }
 }

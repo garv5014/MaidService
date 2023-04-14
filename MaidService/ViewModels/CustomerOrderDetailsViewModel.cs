@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
+using MaidService.Library.DbModels;
 using MaidService.Views;
 
 namespace MaidService.ViewModels;
@@ -53,11 +54,27 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject
 			TypeOfCleaning = result.CleaningType.Type;
 			Location = $"{result.Location.Address}, {result.Location.City}, {result.Location.State}";
 			Notes = result.Notes;
-			CleanerName = result?.Cleaners?.First().Cleaner.FullName;
+			CleanerName = allCleanersFirstNames(result);
 		}
 	}
+    private string allCleanersFirstNames(CleaningContract contract)
+    {
+        var allCleaners = contract.AvailableCleaners;
+        List<string> allCleanersNames = new();
+        if (allCleaners.Count > 0)
+        {
+            foreach (var cleaner in allCleaners)
+            {
+                allCleanersNames.Add(cleaner.Cleaner.FirstName);
+            }
+            var res = string.Join(", ", allCleanersNames);
+            return res;
+        }
+        return "No Cleaners Yet";
+    }
 
-	[RelayCommand]
+
+    [RelayCommand]
 	public async Task GoBack()
 	{
 		await _navService.NavigateTo($"///{nameof(CustomerProfile)}");

@@ -61,7 +61,7 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
 
     private string allCleanersFirstNames(CleaningContract result)
     {
-        var allCleaners = result.Cleaners;
+        var allCleaners = result.AvailableCleaners;
         List<string> allCleanersNames = new();
         if (allCleaners.Count > 0)
         {
