@@ -19,7 +19,8 @@
                Margin="0,10" />
 
         <CollectionView HeightRequest="450"
-                        ItemsSource="{Binding Appointments}">
+                        ItemsSource="{Binding Appointments}"
+                        >
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <customComp:CleanerAppointmentCards />

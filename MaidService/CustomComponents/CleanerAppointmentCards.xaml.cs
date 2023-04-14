@@ -1,6 +1,6 @@
 namespace MaidService.CustomComponents;
 
-public partial class CleanerAppointmentCards : Frame
+public partial class CleanerAppointmentCards : SwipeView
 {
 	public CleanerAppointmentCards()
 	{

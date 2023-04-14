@@ -47,7 +47,15 @@ public class CleanerService : ICleanerService
 
     public async Task<IEnumerable<CleaningContract>> GetAllAvailableAppointments()
     {
-       throw new NotImplementedException();
+        var yesterday = DateTime.Now.AddDays(-1);
+        var allContracts = await _client.From<CleaningContractModel>()
+                   .Where(c => c.ScheduleDate > yesterday)
+                   .Get();
+
+        var availableAppointments = allContracts.Models.Where(x =>
+          x.AssingedCleaners.Count < x.NumOfCleaners
+        ).ToList();
+        return _mapper.Map<IEnumerable<CleaningContract>>(availableAppointments);
     }
 
     public async Task<Cleaner> GetCurrentCleaner()

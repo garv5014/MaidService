@@ -6,16 +6,16 @@ using System.Collections.ObjectModel;
 
 namespace MaidService.ViewModels;
 
-partial class AvailableCleanerAppointmentsViewModel : ObservableObject
+public partial class AvailableCleanerAppointmentsViewModel : ObservableObject
 {
     private readonly INavService _nav;
     private readonly ICleanerService _cleanerService;
 
     [ObservableProperty]
-    private string appointmentsHeader;
+    private string appointmentsHeader = "No Available Appointments";
 
     [ObservableProperty]
-    private ObservableCollection<CleanerAppointmentCardViewModel> appointments;
+    private IEnumerable<CleanerAppointmentCardViewModel> appointments;
 
     public AvailableCleanerAppointmentsViewModel(INavService nav, ICleanerService cleanerService)
     {
@@ -26,6 +26,16 @@ partial class AvailableCleanerAppointmentsViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
-        var result = await _cleanerService.GetAllAvailableAppointments();
+       var appointments = await _cleanerService.GetAllAvailableAppointments();
+
+        if (appointments != null)
+        {
+            Appointments = appointments.Select(a => new CleanerAppointmentCardViewModel(a, _nav));
+        }
+
+        if (Appointments?.Count() > 0)
+        {
+            AppointmentsHeader = "Available Appointments";
+        }
     }
 }

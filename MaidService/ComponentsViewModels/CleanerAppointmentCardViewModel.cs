@@ -12,7 +12,7 @@ public partial class CleanerAppointmentCardViewModel : ObservableObject
     private string address;
 
     [ObservableProperty]
-    private DateTime? cleaningDate;
+    private string? cleaningDate;
 
     private readonly INavService _nav;
 
@@ -21,14 +21,14 @@ public partial class CleanerAppointmentCardViewModel : ObservableObject
     public CleanerAppointmentCardViewModel(CleaningContract cleaningContract, INavService nav)
     {
         Address = cleaningContract.Location.Address;
-        CleaningDate = cleaningContract.ScheduleDate;
+        CleaningDate = cleaningContract.ScheduleDate.ToShortDateString();
         ContractId = cleaningContract.Id;
         _nav = nav;
     }
 
     [RelayCommand]
-    public async Task TapCard()
+    public async Task NavigateToCleanerDetails()
     {
-        await _nav.NavigateTo($"///./{nameof(CustomerOrderDetails)}?ContractId={ContractId}");
+        await _nav.NavigateTo($"///{nameof(CleanerOrderDetails)}?ContractId={ContractId}");
     }
 }

@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Frame xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       x:Class="MaidService.CustomComponents.CleanerAppointmentCards"
-       x:Name="AppointmentFrame"
-       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-       xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-       Margin="10"
-       BorderColor="Black"
-       CornerRadius="25"
-       HasShadow="True">
-    <Frame.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding TapCardCommand}" />
-    </Frame.GestureRecognizers>
-    <HorizontalStackLayout>
-        <sfavatar:SfAvatarView Grid.RowSpan="3"
-                               Grid.Column="0"
-                               Grid.Row="0"
-                               ContentType="Custom"
-                               ImageSource="defaultprofile.jpg"
-                               VerticalOptions="Center"
-                               HorizontalOptions="Center"
-                               HeightRequest="100"
-                               Margin="5"
-                               CornerRadius="44"
-                               WidthRequest="100" />
-        <VerticalStackLayout WidthRequest="200">
-            <Label Text="Address"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start"
-                   FontSize="Medium" />
-            <Label Text="{Binding Address, FallbackValue='fallback value', TargetNullValue='targetnull value'}"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start" />
-            <Label Text="Date/Time"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start"
-                   FontSize="Medium" />
-            <Label Text="{Binding CleaningDate }"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start" />
-        </VerticalStackLayout>
-    </HorizontalStackLayout>
-</Frame>
+
+<SwipeView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           x:Class="MaidService.CustomComponents.CleanerAppointmentCards"
+           x:Name="AppointmentFrame"
+           xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+           Margin="0,5"
+           Padding="0">
+    <SwipeView.LeftItems>
+        <SwipeItem  BackgroundColor="CornflowerBlue"
+                    Command="{Binding NavigateToAddAppointmentCommand}"
+                    Text="Quick Add" />
+    </SwipeView.LeftItems>
+    <SwipeView.RightItems>
+        <SwipeItem  BackgroundColor="CornflowerBlue"
+                    Command="{Binding NavigateToCleanerDetailsCommand}"
+                    Text="Details" />
+    </SwipeView.RightItems>
+    <Grid Padding="0">
+        
+    <Frame Margin="5,0"
+           Padding="10,8"
+           BorderColor="Black"
+           CornerRadius="0"
+           HasShadow="True"
+           HeightRequest="50">
+
+        <HorizontalStackLayout Margin="5,0,0,0">
+            <HorizontalStackLayout Margin="5,0,5,0">
+                <Label Text="Address: "
+                       VerticalOptions="Center"
+                       FontAttributes="Bold"
+                       FontSize="Small" />
+                <Label Text="{Binding Address}"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout >
+            <HorizontalStackLayout Margin="5,0,0,0"
+                                   HorizontalOptions="End">
+                <Label Text="Date: "
+                       VerticalOptions="Center"
+                       FontAttributes="Bold"
+                       FontSize="Small" />
+                <Label Text="{Binding CleaningDate }"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </HorizontalStackLayout>
+    </Frame>
+    </Grid>
+</SwipeView>

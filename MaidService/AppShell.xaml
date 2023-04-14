@@ -63,6 +63,10 @@
                       Route="CustomerOrderDetails" />
     </TabBar>
     <TabBar>
+        <ShellContent ContentTemplate="{DataTemplate local:CleanerOrderDetails}"
+                      Route="CleanerOrderDetails" />
+    </TabBar>
+    <TabBar>
         <ShellContent Route="AvailableCleanerAppointments"
                       ContentTemplate="{DataTemplate local:AvailableCleanerAppointments}" />
     </TabBar>

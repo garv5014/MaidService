@@ -11,7 +11,7 @@ public class CleanerAvailabilityModel : BaseModel
     [Reference(typeof(ScheduleModel))]
     public ScheduleModel Schedule { get; set; }
 
-    [Reference(typeof(CleanerModel))]
+    [Reference(typeof(CleanerModel), shouldFilterTopLevel: false)]
     public CleanerModel Cleaner { get; set; }
 }
 
