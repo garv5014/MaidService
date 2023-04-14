@@ -45,7 +45,7 @@
             <ShellContent ContentTemplate="{DataTemplate local:CleanerProfile}" />
         </Tab>
         <Tab Title="Schedule"
-             Route="CustomerSchedule">
+             Route="CleanerSchedule">
             <ShellContent ContentTemplate="{DataTemplate local:CustomerSchedule}" />
         </Tab>
     </TabBar>

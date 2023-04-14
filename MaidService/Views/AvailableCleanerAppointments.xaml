@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.AvailableCleanerAppointments"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:customComp="clr-namespace:MaidService.CustomComponents"
-             Title="Available Appointments">
+             xmlns:customComp="clr-namespace:MaidService.CustomComponents">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
@@ -12,12 +11,20 @@
     </ContentPage.Behaviors>
 
     <VerticalStackLayout>
-        <Label Text="{Binding AppointmentsHeader}"
+        <HorizontalStackLayout>
+            <ImageButton Source="arrow_left.svg"
+                    HeightRequest="45"
+                         Command="{Binding BackToScheduleCommand}"/>
+
+
+            <Label Text="{Binding AppointmentsHeader}"
                FontSize="Title"
                FontAttributes="Bold"
                HorizontalOptions="Center"
-               Margin="0,10" />
+               Margin="0,10"
+                   />
 
+        </HorizontalStackLayout>
         <CollectionView HeightRequest="450"
                         ItemsSource="{Binding Appointments}"
                         >

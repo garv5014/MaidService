@@ -6,12 +6,12 @@
            x:Name="AppointmentFrame"
            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
            xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-           Margin="0,5"
-           Padding="0">
+           Margin="5,5"
+           Padding="0"           >
     <SwipeView.LeftItems>
         <SwipeItem  BackgroundColor="CornflowerBlue"
                     Command="{Binding NavigateToAddAppointmentCommand}"
-                    Text="Quick Add" />
+                    Text="Quick Add"                     />
     </SwipeView.LeftItems>
     <SwipeView.RightItems>
         <SwipeItem  BackgroundColor="CornflowerBlue"
@@ -20,10 +20,10 @@
     </SwipeView.RightItems>
     <Grid Padding="0">
         
-    <Frame Margin="5,0"
+    <Frame Margin="0,0"
            Padding="10,8"
-           BorderColor="Black"
-           CornerRadius="0"
+           BorderColor="Gray"
+           CornerRadius="5"
            HasShadow="True"
            HeightRequest="50">
 
