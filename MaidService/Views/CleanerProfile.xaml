@@ -4,10 +4,9 @@
              x:Class="MaidService.Views.CleanerProfile"
              xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:customComp="clr-namespace:MaidService.CustomComponents"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             Title="Cleaner Profile">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" >
 
-    <ContentPage.Behaviors>
+<ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>

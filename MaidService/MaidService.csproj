@@ -89,6 +89,12 @@
 	  <MauiXaml Update="Views\AvailableCleanerAppointments.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CleanerAcceptsShifts.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CleanerAddAppointment.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CleanerOrderDetails.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

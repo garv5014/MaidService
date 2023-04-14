@@ -2,11 +2,105 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.CleanerOrderDetails"
-             Title="CleanerOrderDetails">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="NavigatedTo"
+                                        Command="{Binding NavigatedToCommand}" />
+    </ContentPage.Behaviors>
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="*,*,*,*"
+              Margin="10"
+              ColumnSpacing="10"
+              RowSpacing="5">
+            <StackLayout Grid.Column="0"
+                         Grid.Row="0">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Cleaner"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding CleanerNames, TargetNullValue='No Cleaner Assigned'}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="1"
+                         Grid.Row="0">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Price"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding Price}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="0"
+                         Grid.Row="1">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Date"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding ScheduledTime}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="1"
+                         Grid.Row="1">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Type"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding TypeOfCleaning}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="0"
+                         Grid.Row="2">
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Time Duration"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding TimeDuration}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="0"
+                         Grid.Row="3"
+                         Grid.ColumnSpan='2'>
+                <Label FontAttributes="Bold"
+                       FontSize="Small"
+                       Text="Location"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding Location}" />
+            </StackLayout>
+        </Grid>
+
+        <Label FontAttributes="Bold"
+               FontSize="Small"
+               Margin="10,0,0,0"
+               Text="Notes"
+               TextColor="Grey" />
+        <Frame Margin="5"
+               Padding="10">
+            <Label Margin="0"
+                   MinimumHeightRequest="100"
+                   Text="{Binding Notes}" />
+        </Frame>
+        <HorizontalStackLayout Spacing="50"
+                               HorizontalOptions="Center">
+
+            <ImageButton Command="{Binding GoBackCommand}"
+                         Margin="10"
+                         Source="arrow_left.svg"
+                         HorizontalOptions="Start"/>
+            <Button Text="Add Appointment"
+                    HorizontalOptions="End"
+                    Command="{Binding NavigateToAddAppoinmentPageCommand}"/>
+
+
+        </HorizontalStackLayout>
+        <Label BackgroundColor="Grey"
+               HeightRequest="2" />
     </VerticalStackLayout>
+
 </ContentPage>
