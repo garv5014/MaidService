@@ -104,7 +104,7 @@ public class CleanerService : ICleanerService
         {
             foreach (var cleanerAvailabileSchedule in cleanerAvailabileSchedules)
             {
-                if (!cleanerAvailabileSchedule.Schedule.Id == schedule.Id)
+                if (cleanerAvailabileSchedule.Schedule.Id == schedule.Id)
                 {
                     availableSchedules.Add(schedule);
                 }
