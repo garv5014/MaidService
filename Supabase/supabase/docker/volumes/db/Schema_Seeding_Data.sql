@@ -53,10 +53,16 @@ VALUES (1, 1, 200.00, '2023-03-17'),
        
 -- Insert statements for table 'day_template'
 INSERT INTO day_template (start_time, duration)
-VALUES ('08:00:00', '2 hours'), 
-       ('10:00:00', '2 hours'), 
-       ('12:00:00', '2 hours'),
-       ('03:00:00', '2 hours');
+VALUES ('08:00:00 AM', '1 hours'), 
+       ('09:00:00 AM', '1 hours'), 
+       ('10:00:00 AM', '1 hours'),
+       ('11:00:00 AM', '1 hours'), 
+       ('12:00:00 AM', '1 hours'),
+       ('01:00:00 PM', '1 hours'),
+       ('02:00:00 PM', '1 hours'),
+       ('03:00:00 PM', '1 hours'),
+       ('04:00:00 PM', '1 hours'),
+       ('05:00:00 PM', '1 hours');
        
 -- Insert statements for table 'schedule'
 INSERT INTO schedule (date, start_time, duration)

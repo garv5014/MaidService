@@ -7,13 +7,21 @@
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="VerticalOptions"
+                    Value="Center" />
+            <Setter Property="FontSize"
+                    Value="Medium">
+                
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     <VerticalStackLayout>
-        <Label 
-            Text="Control Your Schedule"
-            FontSize="Large"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            />
+        <Label Text="Control Your Schedule"
+               FontSize="Large"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
         <HorizontalStackLayout HorizontalOptions="Center">
             <Label Text="Date:"
                    FontSize="Medium"
@@ -31,16 +39,26 @@
                         SelectionMode="Multiple">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame>
-                        <HorizontalStackLayout Spacing="10">
-                            <Label Text="Start Time: "/>
-                           
-                            <Label Text="{Binding StartTime, StringFormat='{0:T}'}"
-                                />
-                            <Label Text="Duration:"/>
-                            <Label Text="{Binding Duration}" />
-                        </HorizontalStackLayout>
-                    </Frame>
+
+                    <Grid BackgroundColor="Transparent"
+                          Margin="5,5"
+                          Padding="3"
+                          ColumnDefinitions="auto,auto,auto,*"
+                          VerticalOptions="Center"
+                          ColumnSpacing="10">
+
+                        <Label Text="Start:"
+                               FontSize="Medium"
+                               Grid.Column="0" />
+                        <Label Text="{Binding StartTime, StringFormat='{0:T}'}"
+                               Grid.Column="1" />
+                        <Label Text="Duration:"
+                               FontSize="Medium"
+                               Grid.Column="2" />
+                        <Label Text="{Binding Duration}"
+                               Grid.Column="4" />
+
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
