@@ -26,9 +26,6 @@ public class CleanerAvailability
 
 public class CleanerAvailabilitySchedule
 {
-
     public Schedule Schedule { get; set; }
-
-    public Cleaner Cleaner { get; set; }
 }
 

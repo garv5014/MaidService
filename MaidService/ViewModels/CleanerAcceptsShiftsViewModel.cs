@@ -12,7 +12,7 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
     private DateTime minDate = DateTime.Now;
 
     [ObservableProperty]
-    private DateTime scheduleDate = DateTime.Now;
+    private DateTime scheduleDate;
 
     [ObservableProperty]
     private IEnumerable<Schedule> schedules;
@@ -25,9 +25,11 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
     [RelayCommand]
     private async Task Appear()
     {
+        ScheduleDate = DateTime.Now;
         await GetSchedulesForADate();
     }
 
+    [RelayCommand]
     private async Task GetSchedulesForADate()
     { 
         Schedules = await _cleanerService.GetSchedulesForADate(ScheduleDate);

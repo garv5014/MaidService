@@ -94,22 +94,21 @@ public class CleanerService : ICleanerService
         var schedulesModels = await _client.From<ScheduleModel>()
             .Where(ca => ca.Date == scheduleDate)
             .Get();
-        var schedules = _mapper.Map<IEnumerable<Schedule>>(schedulesModels.Models);
+        var schedules = _mapper.Map<IEnumerable<Schedule>>(schedulesModels.Models).ToList();
+
         var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
             .Where(ca => ca.Cleaner.Id == cleaner.Id)
             .Get();
 
-        var cleanerAvailabileSchedules = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(cleanerAvailability.Models);
-        foreach (var schedule in schedules)
+        var cleanerAvailabileSchedules = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(cleanerAvailability.Models).ToList();
+
+        foreach (var schedule in cleanerAvailabileSchedules)
         {
-            foreach (var cleanerAvailabileSchedule in cleanerAvailabileSchedules)
-            {
-                if (cleanerAvailabileSchedule.Schedule.Id == schedule.Id)
-                {
-                    availableSchedules.Add(schedule);
-                }
-            }
+            availableSchedules.Add(schedule.Schedule);
         }
+
+        var comparer = new ScheduleEqualityComparer();
+        availableSchedules = schedules.Except(availableSchedules, comparer).ToList();
         return availableSchedules;
     }
 }

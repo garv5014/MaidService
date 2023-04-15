@@ -12,20 +12,33 @@ public class ScheduleModel : BaseModel
     public DateTime Date { get; set; }
 
     [Column("start_time")]
-    public TimeSpan StartTime { get; set; }
+    public DateTime StartTime { get; set; }
 
     [Column("duration")]
     public TimeSpan Duration { get; set; }
 }
 
 
-public class Schedule
+public class Schedule 
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }
-    public TimeSpan StartTime { get; set; }
+    public DateTime StartTime { get; set; }
     public TimeSpan Duration { get; set; }
 }
+
+public class ScheduleEqualityComparer : IEqualityComparer<Schedule>
+{
+    public bool Equals(Schedule x, Schedule y)
+    {
+        return x.Id == y.Id;
+    }
+    public int GetHashCode(Schedule obj)
+    {
+        return obj.Id.GetHashCode();
+    }
+}   
+
 //CREATE TABLE schedule(
 //    id serial4 Not Null,
 //    date DATE Not Null,
