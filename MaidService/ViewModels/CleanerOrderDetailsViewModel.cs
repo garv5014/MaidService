@@ -3,11 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using MaidService.Views;
-using System.Reactive.Linq;
 
 namespace MaidService.ViewModels;
-[QueryProperty(nameof(ContractId), nameof(ContractId))]
-public partial class CleanerOrderDetailsViewModel : ObservableObject 
+[QueryProperty(nameof(Contract), nameof(Contract))]
+public partial class CleanerOrderDetailsViewModel : ObservableObject
 {
     private ICustomerService _customer;
     private INavService _navService;
@@ -19,51 +18,22 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    private CleaningContract contract;
+
+    [ObservableProperty]
     private string cleanerNames = null;
-
-    [ObservableProperty]
-    private string price = null;
-
-    [ObservableProperty]
-    private string scheduledTime = null;
-
-    [ObservableProperty]
-    private string timeDuration = null;
-
-    [ObservableProperty]
-    private string typeOfCleaning = null;
-
-    [ObservableProperty]
-    private string location = null;
-
-    [ObservableProperty]
-    private string notes = null;
-
-    [ObservableProperty]
-    private int contractId;
 
     [RelayCommand]
     public async Task NavigatedTo()
     {
-        var result = await _customer.GetCleaningDetailsById(ContractId);
-
-        if (result?.Id > 0)
-        {
-            Price = $"{result.Cost}";
-            ScheduledTime = result.ScheduleDate.ToString("M/d/yyyy H:mm tt");
-            TimeDuration = $"{result.RequestedHours.Hours}:{result.RequestedHours.Minutes.ToString("D2")}";
-            TypeOfCleaning = result.CleaningType.Type;
-            Location = $"{result.Location.Address}, {result.Location.City}, {result.Location.State}";
-            Notes = result.Notes;
-            CleanerNames = allCleanersFirstNames(result);
-        }
+        CleanerNames = allCleanersFirstNames(Contract);
     }
 
     private string allCleanersFirstNames(CleaningContract result)
     {
-        var allCleaners = result.AvailableCleaners;
+        var allCleaners = result?.AvailableCleaners;
         List<string> allCleanersNames = new();
-        if (allCleaners.Count > 0)
+        if (allCleaners?.Count > 0)
         {
             foreach (var cleaner in allCleaners)
             {
@@ -84,6 +54,11 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
     [RelayCommand]
     public async Task NavigateToAddAppoinmentPage()
     {
-        await _navService.NavigateTo($"///{nameof(CustomerOrderDetails)}?ContractId={ContractId}");
+        await _navService.NavigateToWithParameters($"///{nameof(CleanerAddAppointment)}",
+            new Dictionary<string, object>
+            {
+                ["Contract"] = Contract
+            }
+            );
     }
 }

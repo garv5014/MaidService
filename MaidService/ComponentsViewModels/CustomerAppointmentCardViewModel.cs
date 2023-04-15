@@ -16,10 +16,13 @@ public partial class CustomerAppointmentCardViewModel : ObservableObject
 
     private readonly INavService _nav;
 
+    private CleaningContract contract { get; set; }
+
     public int ContractId { get; init; }
 
     public CustomerAppointmentCardViewModel(CleaningContract cleaningContract, INavService nav)
     {
+        contract = cleaningContract;
         Address = cleaningContract.Location.Address;
         CleaningDate = cleaningContract.ScheduleDate;
         ContractId = cleaningContract.Id;
@@ -29,6 +32,11 @@ public partial class CustomerAppointmentCardViewModel : ObservableObject
     [RelayCommand]
     public async Task TapCard()
     {
-        await _nav.NavigateTo($"///./{nameof(CustomerOrderDetails)}?ContractId={ContractId}");
+        await _nav.NavigateToWithParameters($"///{nameof(CustomerOrderDetails)}",
+            new Dictionary<string, object>
+            {
+                ["Contract"] = contract
+            }
+            );  
     }
 }

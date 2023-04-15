@@ -5,63 +5,33 @@ using MaidService.Library.DbModels;
 using MaidService.Views;
 
 namespace MaidService.ViewModels;
-[QueryProperty(nameof(ContractId), nameof(ContractId))]
+[QueryProperty(nameof(Contract), nameof(Contract))]
 public partial class CustomerOrderDetailsViewModel : ObservableObject
 {
-	private ICustomerService _customer;
-	private INavService _navService;
+    private ICustomerService _customer;
+    private INavService _navService;
 
-	public CustomerOrderDetailsViewModel(ICustomerService customer, INavService navService)
-	{
-		_customer = customer;
-		_navService = navService;
-	}
-
-	[ObservableProperty]
-	private string cleanerName = null;
-
-	[ObservableProperty]
-	private string price = null;
-
-	[ObservableProperty]
-	private string scheduledTime = null;
-
-	[ObservableProperty]
-	private string timeDuration = null;
-
-	[ObservableProperty]
-	private string typeOfCleaning = null;
-
-	[ObservableProperty]
-	private string location = null;
-
-	[ObservableProperty]
-	private string notes = null;
+    public CustomerOrderDetailsViewModel(ICustomerService customer, INavService navService)
+    {
+        _customer = customer;
+        _navService = navService;
+    }
+    [ObservableProperty]
+    private CleaningContract contract;
 
     [ObservableProperty]
-	private int contractId ;
+    private string cleanerName = null;
 
     [RelayCommand]
-	public async Task NavigatedTo()
-	{
-		var result = await _customer.GetCleaningDetailsById(ContractId);
-
-		if (result?.Id > 0)
-		{
-			Price = $"{result.Cost}";
-			ScheduledTime = result.ScheduleDate.ToString("M/d/yyyy H:mm tt");
-			TimeDuration = $"{result.RequestedHours.Hours}:{result.RequestedHours.Minutes.ToString("D2")}";
-			TypeOfCleaning = result.CleaningType.Type;
-			Location = $"{result.Location.Address}, {result.Location.City}, {result.Location.State}";
-			Notes = result.Notes;
-			CleanerName = allCleanersFirstNames(result);
-		}
-	}
-    private string allCleanersFirstNames(CleaningContract contract)
+    public async Task NavigatedTo()
     {
-        var allCleaners = contract.AvailableCleaners;
+        CleanerName = await allCleanersFirstNames(Contract);
+    }
+    private async Task<string> allCleanersFirstNames(CleaningContract contract)
+    {
+        var allCleaners = contract?.AvailableCleaners;
         List<string> allCleanersNames = new();
-        if (allCleaners.Count > 0)
+        if (allCleaners?.Count > 0)
         {
             foreach (var cleaner in allCleaners)
             {
@@ -75,8 +45,8 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject
 
 
     [RelayCommand]
-	public async Task GoBack()
-	{
-		await _navService.NavigateTo($"///{nameof(CustomerProfile)}");
-	}
+    public async Task GoBack()
+    {
+        await _navService.NavigateTo($"///{nameof(CustomerProfile)}");
+    }
 }

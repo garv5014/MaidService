@@ -19,33 +19,39 @@
                     Text="Details" />
     </SwipeView.RightItems>
     <Grid Padding="0">
-        
-    <Frame Margin="0,0"
-           Padding="10,8"
-           BorderColor="Gray"
-           CornerRadius="5"
-           HasShadow="True"
-           HeightRequest="50">
 
-        <HorizontalStackLayout Margin="5,0,0,0">
-            <HorizontalStackLayout Margin="5,0,5,0">
-                <Label Text="Address: "
+        <Frame Margin="0,0"
+               Padding="10,8"
+               BorderColor="Gray"
+               CornerRadius="5"
+               HasShadow="True"
+               >
+
+            <Grid ColumnDefinitions="auto,auto,auto,auto"
+                  ColumnSpacing="0"
+                  >
+
+                <Label Grid.Column="0"
+                       Text="Address:"
                        VerticalOptions="Center"
                        FontAttributes="Bold"
                        FontSize="Small" />
-                <Label Text="{Binding Address}"
-                       VerticalOptions="Center" />
-            </HorizontalStackLayout >
-            <HorizontalStackLayout Margin="5,0,0,0"
-                                   HorizontalOptions="End">
-                <Label Text="Date: "
+                <Label Grid.Column="1"
+                       Text="{Binding Contract.FullLocation}"
+                       VerticalOptions="Center"
+                       Margin="5,0" />
+
+
+                <Label Grid.Column="2"
+                       Text="Date: "
                        VerticalOptions="Center"
                        FontAttributes="Bold"
-                       FontSize="Small" />
-                <Label Text="{Binding CleaningDate }"
+                       FontSize="Small"
+                       Margin="5,0"/>
+                <Label Grid.Column="3"
+                       Text="{Binding Contract.ScheduleDate, StringFormat='{0:M/d/y}'  }"
                        VerticalOptions="Center" />
-            </HorizontalStackLayout>
-        </HorizontalStackLayout>
-    </Frame>
+            </Grid>
+        </Frame>
     </Grid>
 </SwipeView>

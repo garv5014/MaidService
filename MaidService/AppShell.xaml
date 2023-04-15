@@ -81,5 +81,9 @@
         <ShellContent Route="AvailableCleanerAppointments"
                       ContentTemplate="{DataTemplate local:AvailableCleanerAppointments}" />
     </TabBar>
-    
+    <TabBar>
+        <ShellContent Route="CleanerAddAppointment"
+                      ContentTemplate="{DataTemplate local:CleanerAddAppointment}" />
+    </TabBar>
+
 </Shell>

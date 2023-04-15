@@ -29,11 +29,15 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
         _cleanerService = cleanerService;
     }
 
+
+    public CleanerAcceptsShiftsViewModel()
+    {
+        ScheduleDate = DateTime.Now;
+    }
     [RelayCommand]
     private async Task Appear()
     {
         SelectedSlots = new List<object>();
-        ScheduleDate = DateTime.Now;
         await GetSchedulesForADate();
         ExistsAvailableAppoinments = Schedules.Count() != 0;
     }
@@ -41,7 +45,7 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
     [RelayCommand]
     private async Task GetSchedulesForADate()
     { 
-        Schedules = await _cleanerService.GetSchedulesForADate(ScheduleDate);
+        Schedules = await _cleanerService.GetAvailableSchedulesForADate(ScheduleDate);
     }
     [RelayCommand]
     private async Task AddSelectedToSchedule()

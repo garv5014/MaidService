@@ -87,7 +87,7 @@ public class CleanerService : ICleanerService
                        .Update();
     }
 
-    public async Task<IEnumerable<Schedule>> GetSchedulesForADate(DateTime scheduleDate)
+    public async Task<IEnumerable<Schedule>> GetAvailableSchedulesForADate(DateTime scheduleDate)
     {
         var availableSchedules = new List<Schedule>();
         var cleaner = await GetCurrentCleaner();
@@ -106,10 +106,10 @@ public class CleanerService : ICleanerService
         {
             availableSchedules.Add(schedule.Schedule);
         }
-
         var comparer = new ScheduleEqualityComparer();
         availableSchedules = schedules.Except(availableSchedules, comparer).ToList();
         return availableSchedules;
+
     }
 
     public async Task UpdateCleanerAvailablility(IEnumerable<object> newAvailability)

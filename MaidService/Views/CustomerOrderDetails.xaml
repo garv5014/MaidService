@@ -4,9 +4,12 @@
              x:Class="MaidService.Views.CustomerOrderDetails"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="NavigatedTo"
+        <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding NavigatedToCommand}" />
     </ContentPage.Behaviors>
+    
+    
+    
     
     <VerticalStackLayout>
         <Grid ColumnDefinitions="*,*"
@@ -23,15 +26,15 @@
                 <Label FontSize="Medium"
                        Text="{Binding CleanerName, TargetNullValue='No Cleaner Assigned'}" />
             </StackLayout>
-            
+
             <StackLayout Grid.Column="1"
                          Grid.Row="0">
                 <Label FontAttributes="Bold"
                        FontSize="Small"
                        Text="Price"
-                       TextColor="Grey"  />
+                       TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding Price}" />
+                       Text="{Binding Contract.Cost}" />
             </StackLayout>
 
             <StackLayout Grid.Column="0"
@@ -41,7 +44,7 @@
                        Text="Date"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding ScheduledTime}" />
+                       Text="{Binding Contract.ScheduleDate, StringFormat='{0:M/d/y}'}" />
             </StackLayout>
 
             <StackLayout Grid.Column="1"
@@ -51,7 +54,7 @@
                        Text="Type"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding TypeOfCleaning}" />
+                       Text="{Binding Contract.CleaningType.Type}" />
             </StackLayout>
 
             <StackLayout Grid.Column="0"
@@ -61,7 +64,17 @@
                        Text="Time Duration"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding TimeDuration}" />
+                       Text="{Binding Contract.RequestedHours}" />
+            </StackLayout>
+
+            <StackLayout Grid.Column="1"
+                         Grid.Row="2">
+                <Label FontAttributes="Bold"
+                       Text="Number Of Cleaners"
+                       FontSize="Small"
+                       TextColor="Grey" />
+                <Label FontSize="Medium"
+                       Text="{Binding Contract.NumOfCleaners}" />
             </StackLayout>
 
             <StackLayout Grid.Column="0"
@@ -72,7 +85,7 @@
                        Text="Location"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding Location}" />
+                       Text="{Binding Contract.FullLocation}" />
             </StackLayout>
         </Grid>
 
