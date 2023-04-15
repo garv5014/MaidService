@@ -49,7 +49,13 @@ public partial class CustomerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
-        ProfilePicturePath = await _storage.GetProfilePictureFromSupabase();
+        
+    }
+
+    [RelayCommand]
+    public async Task Loaded()
+    {
+        ProfilePicturePath = await _storage.GetProfilePictureFromSupabase(); ;
     }
 
     [RelayCommand]

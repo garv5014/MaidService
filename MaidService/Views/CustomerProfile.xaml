@@ -8,6 +8,8 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
+        <toolkit:EventToCommandBehavior EventName="Loaded"
+                                        Command="{Binding LoadedCommand}" />
     </ContentPage.Behaviors>
     <VerticalStackLayout>
         <Grid RowDefinitions="*,*,*"
@@ -17,7 +19,7 @@
                                    Grid.Column="0"
                                    Grid.Row="0"
                                    ContentType="Custom"
-                                   ImageSource="{Binding ProfilePicturePath, TargetNullValue=defaultprofile.jpg}"
+                                   ImageSource="{Binding ProfilePicturePath, TargetNullValue=default_profile.jpg}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
                                    HeightRequest="125"

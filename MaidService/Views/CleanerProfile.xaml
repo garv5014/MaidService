@@ -22,7 +22,7 @@
                                        Grid.Column="0"
                                        Grid.Row="0"
                                        ContentType="Custom"
-                                       ImageSource="defaultprofile.jpg"
+                                       ImageSource="default_profile.jpg"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"
                                        HeightRequest="125"
