@@ -13,6 +13,11 @@ public class CleanerAvailabilityModel : BaseModel
 
     [Reference(typeof(CleanerModel), shouldFilterTopLevel: false)]
     public CleanerModel Cleaner { get; set; }
+
+    [Column("cleaner_id")]
+    public int Cleaner_Id { get; set; }
+    [Column("schedule_id")]
+    public int Schedule_Id { get; set; }
 }
 
 public class CleanerAvailability

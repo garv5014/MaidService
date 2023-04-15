@@ -9,4 +9,5 @@ public interface ICleanerService
     Task UpdateCleanerBio(string bioText);
     Task<IEnumerable<CleaningContract>> GetAllAvailableAppointments();
     Task<IEnumerable<Schedule>> GetSchedulesForADate(DateTime scheduleDate);
+    Task UpdateCleanerAvailablility(IEnumerable<object> selectedSlots);
 }

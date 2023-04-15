@@ -47,6 +47,5 @@ public class Cleaner
     public bool Verified { get; set; }
     public DateTime HireDate { get; set; }
     public string AuthId { get; set; }
-
     public string FullName => $"{FirstName} {Surname}";
 }

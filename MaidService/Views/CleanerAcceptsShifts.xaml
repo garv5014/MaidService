@@ -35,11 +35,12 @@
             </DatePicker>
         </HorizontalStackLayout>
 
+
         <CollectionView ItemsSource="{Binding Schedules}"
-                        SelectionMode="Multiple">
+                        SelectionMode="Multiple"
+                        SelectedItems="{Binding SelectedSlots}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-
                     <Grid BackgroundColor="Transparent"
                           Margin="5,5"
                           Padding="3"
@@ -50,17 +51,22 @@
                         <Label Text="Start:"
                                FontSize="Medium"
                                Grid.Column="0" />
-                        <Label Text="{Binding StartTime, StringFormat='{0:T}'}"
+                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm:tt}'}"
                                Grid.Column="1" />
                         <Label Text="Duration:"
                                FontSize="Medium"
                                Grid.Column="2" />
-                        <Label Text="{Binding Duration}"
+                        <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour(s)'}"
                                Grid.Column="4" />
 
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Button Text="Add"
+                Command="{Binding AddSelectedToScheduleCommand}"
+                WidthRequest="80"
+                IsEnabled="{Binding ExistsAvailableAppoinments}"
+            />
     </VerticalStackLayout>
 </ContentPage>

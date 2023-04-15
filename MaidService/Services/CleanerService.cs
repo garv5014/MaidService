@@ -97,7 +97,7 @@ public class CleanerService : ICleanerService
         var schedules = _mapper.Map<IEnumerable<Schedule>>(schedulesModels.Models).ToList();
 
         var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
-            .Where(ca => ca.Cleaner.Id == cleaner.Id)
+            .Where(ca => ca.Cleaner_Id == cleaner.Id)
             .Get();
 
         var cleanerAvailabileSchedules = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(cleanerAvailability.Models).ToList();
@@ -110,5 +110,22 @@ public class CleanerService : ICleanerService
         var comparer = new ScheduleEqualityComparer();
         availableSchedules = schedules.Except(availableSchedules, comparer).ToList();
         return availableSchedules;
+    }
+
+    public async Task UpdateCleanerAvailablility(IEnumerable<object> newAvailability)
+    {
+
+        var cleaner = await GetCurrentCleaner();
+        var selectedSlots = newAvailability.ToList();
+        foreach (var item in selectedSlots)
+        {
+            await _client.From<CleanerAvailabilityModel>()
+                .Insert( new CleanerAvailabilityModel
+                {
+                    Schedule_Id = _mapper.Map<ScheduleModel>(item).Id,
+                    Cleaner_Id = cleaner.Id,
+
+                });
+        }
     }
 }
