@@ -42,7 +42,7 @@ public partial class CustomerProfileViewModel : ObservableObject
         var res = await _customerService.GetUpcomingAppointments(CurrentCustomer.Id);
         if (res != null)
         {
-            Appointments = res.Select(a => new CustomerAppointmentCardViewModel(a, _nav));
+            Appointments = res.Select(a => new CustomerAppointmentCardViewModel(a, _nav, _storage));
         }
 
         if (Appointments.Count() > 0 )
@@ -55,7 +55,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     [RelayCommand]
     public async Task Loaded()
     {
-        ProfilePicturePath = await _storage.GetProfilePictureFromSupabase(); ;
+        ProfilePicturePath = _storage.GetProfilePictureFromSupabase(); ;
     }
 
     [RelayCommand]

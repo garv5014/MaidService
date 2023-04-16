@@ -42,7 +42,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
         }
         else if (role == "Cleaner")
         {
-            await CleanerSetup();
+            CleanerSetup();
         }
     }
 
@@ -52,7 +52,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
         await _nav.NavigateTo($"////{nameof(AvailableCleanerAppointments)}");
     }
 
-    private async Task CleanerSetup()
+    private void CleanerSetup()
     {
         // get all cleaner appointments
         IsCleaner = true;

@@ -23,11 +23,11 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject
     private string cleanerName = null;
 
     [RelayCommand]
-    public async Task NavigatedTo()
+    public void NavigatedTo()
     {
-        CleanerName = await allCleanersFirstNames(Contract);
+        CleanerName = allCleanersFirstNames(Contract);
     }
-    private async Task<string> allCleanersFirstNames(CleaningContract contract)
+    private string allCleanersFirstNames(CleaningContract contract)
     {
         var allCleaners = contract?.AvailableCleaners;
         List<string> allCleanersNames = new();

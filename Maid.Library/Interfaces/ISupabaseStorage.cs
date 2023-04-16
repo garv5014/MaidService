@@ -1,10 +1,12 @@
 ﻿
 
+using MaidService.Library.DbModels;
+
 namespace Maid.Library.Interfaces;
 
 public interface ISupabaseStorage
 {
     Task UploadProfilePicture();
-    Task<string> GetProfilePictureFromSupabase();
-
+    string GetProfilePictureFromSupabase();
+    IEnumerable<Cleaner> GetCleanersProfilePicturesFromAContract(CleaningContract cardContract);
 }

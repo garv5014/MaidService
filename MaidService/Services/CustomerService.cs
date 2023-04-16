@@ -165,7 +165,7 @@ public class CustomerService : ICustomerService
         }
         catch (Exception e)
         {
-            throw e;
+            
         }
     }
 

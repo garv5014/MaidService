@@ -8,25 +8,20 @@ namespace MaidService.ComponentsViewModels;
 
 public partial class CustomerAppointmentCardViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private string address;
-
-    [ObservableProperty]
-    private DateTime? cleaningDate;
-
     private readonly INavService _nav;
+    private readonly ISupabaseStorage _supabaseStorage;
+    [ObservableProperty]
+    private CleaningContract cardContract;
 
-    private CleaningContract contract { get; set; }
+    [ObservableProperty]
+    private IEnumerable<Cleaner> profilePictures;
 
-    public int ContractId { get; init; }
-
-    public CustomerAppointmentCardViewModel(CleaningContract cleaningContract, INavService nav)
+    public CustomerAppointmentCardViewModel(CleaningContract cleaningContract, INavService nav, ISupabaseStorage supabaseStorage)
     {
-        contract = cleaningContract;
-        Address = cleaningContract.Location.Address;
-        CleaningDate = cleaningContract.ScheduleDate;
-        ContractId = cleaningContract.Id;
+        CardContract = cleaningContract;
         _nav = nav;
+        _supabaseStorage = supabaseStorage;
+        ProfilePictures = _supabaseStorage.GetCleanersProfilePicturesFromAContract(CardContract);
     }
 
     [RelayCommand]
@@ -35,7 +30,7 @@ public partial class CustomerAppointmentCardViewModel : ObservableObject
         await _nav.NavigateToWithParameters($"///{nameof(CustomerOrderDetails)}",
             new Dictionary<string, object>
             {
-                ["Contract"] = contract
+                ["Contract"] = CardContract
             }
             );  
     }

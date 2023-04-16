@@ -9,7 +9,7 @@ public class MyModelResponse<T> where T : BaseModel, new()
 
     public Postgrest.ClientOptions ClientOptons { get;  set; }
     
-    public string? Content { get;  set; }
+    public string Content { get;  set; }
 
     public HttpResponseMessage ResponseMessage { get;  set; }
 

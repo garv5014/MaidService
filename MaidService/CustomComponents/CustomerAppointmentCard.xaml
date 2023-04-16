@@ -10,15 +10,14 @@
         CornerRadius="25"
         HasShadow="True">
     <Frame.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding TapCardCommand}"
-             />
+        <TapGestureRecognizer Command="{Binding TapCardCommand}" />
     </Frame.GestureRecognizers>
     <HorizontalStackLayout>
         <sfavatar:SfAvatarView Grid.RowSpan="3"
                                Grid.Column="0"
                                Grid.Row="0"
                                ContentType="Custom"
-                               ImageSource="default_pfp.jpg"
+                               GroupSource="{Binding ProfilePictures, TargetNullValue='default_pfp.jpg'}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center"
                                HeightRequest="100"
@@ -31,14 +30,14 @@
                    HorizontalOptions="Start"
                    FontSize="Medium" 
                    />
-            <Label Text="{Binding Address, FallbackValue='fallback value', TargetNullValue='targetnull value'}"
+            <Label Text="{Binding CardContract.FullLocation, FallbackValue='fallback value', TargetNullValue='targetnull value'}"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
-            <Label Text="Date/Time"
+            <Label Text="Date"
                    VerticalOptions="Center"
                    HorizontalOptions="Start"
                    FontSize="Medium" />
-            <Label Text="{Binding CleaningDate }"
+            <Label Text="{Binding CardContract.ScheduleDate, StringFormat='{0:M/d/y}'}"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
         </VerticalStackLayout>

@@ -11,7 +11,7 @@ public partial class CleanerProfileViewModel : ObservableObject
     private readonly ICustomerService _customerService;
     private readonly INavService _nav;
     private readonly ICleanerService _cleanerService;
-
+    private readonly ISupabaseStorage _storage;
     [ObservableProperty]
     private Cleaner currentCleaner = new();
 
@@ -33,11 +33,12 @@ public partial class CleanerProfileViewModel : ObservableObject
     [ObservableProperty]
     private string bioText;
 
-    public CleanerProfileViewModel(ICustomerService customerService, INavService nav, ICleanerService cleanerService)
+    public CleanerProfileViewModel(ICustomerService customerService, INavService nav, ICleanerService cleanerService, ISupabaseStorage storage)
     {
         _customerService = customerService;
         _nav = nav;
         _cleanerService = cleanerService;
+        _storage = storage;
         AppointmentsHeader = "No Upcoming Appointments";
     }
 
@@ -49,7 +50,7 @@ public partial class CleanerProfileViewModel : ObservableObject
         var res = await _customerService.GetUpcomingAppointments(CurrentCleaner.Id);
         if (res != null)
         {
-            Appointments = res.Select(a => new CustomerAppointmentCardViewModel(a, _nav));
+            Appointments = res.Select(a => new CustomerAppointmentCardViewModel(a, _nav, _storage));
         }
 
         if (Appointments.Count() > 0)
@@ -59,7 +60,7 @@ public partial class CleanerProfileViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public async Task EditBio()
+    public void EditBio()
     {
         ToggleEditing();
     }

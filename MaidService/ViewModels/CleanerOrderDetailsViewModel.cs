@@ -24,7 +24,7 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
     private string cleanerNames = null;
 
     [RelayCommand]
-    public async Task NavigatedTo()
+    public void NavigatedTo()
     {
         CleanerNames = allCleanersFirstNames(Contract);
     }
