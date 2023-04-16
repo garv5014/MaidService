@@ -11,6 +11,11 @@ public class CleanerAssignmentModel : BaseModel
     [Reference(typeof(CleanerAvailabilityModel), shouldFilterTopLevel: false)]
     public CleanerAvailabilityModel Cleaner_Availability { get; set; }
 
+    [Column("contract_id")]
+    public int Contract_Id { get; set; }
+
+    [Column("cleaner_availability_id")]
+    public int Cleaner_Availability_Id { get; set; }
 }
 
 public class CleanerAssignments

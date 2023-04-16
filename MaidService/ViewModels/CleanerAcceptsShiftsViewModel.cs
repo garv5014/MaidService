@@ -9,6 +9,7 @@ namespace MaidService.ViewModels;
 public partial class CleanerAcceptsShiftsViewModel : ObservableObject
 {
     private readonly ICleanerService _cleanerService;
+
     [ObservableProperty]
     private DateTime minDate = DateTime.Now;
 
@@ -47,6 +48,7 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
     { 
         Schedules = await _cleanerService.GetAvailableSchedulesForADate(ScheduleDate);
     }
+
     [RelayCommand]
     private async Task AddSelectedToSchedule()
     {

@@ -124,8 +124,34 @@ public class CleanerService : ICleanerService
                 {
                     Schedule_Id = _mapper.Map<ScheduleModel>(item).Id,
                     Cleaner_Id = cleaner.Id,
-
                 });
         }
+    }
+
+    public async Task<IEnumerable<Schedule>> GetCleanerAvailability()
+    {
+        var availableTimes = new List<Schedule>();
+        var cleaner = await GetCurrentCleaner();
+        var result = await _client.From<CleanerAvailabilityModel>()
+            .Where(ca => ca.Cleaner_Id == cleaner.Id)
+            .Get();
+        var cleanerAvailability = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(result.Models).ToList();
+
+        foreach (var schedule in cleanerAvailability)
+        {
+            availableTimes.Add(schedule.Schedule);
+        }
+
+        return availableTimes;
+    }
+
+    public async Task UpdateCleanerAssignments(int contractId, object newAssignment)
+    {
+        await _client.From<CleanerAssignmentModel>()
+            .Insert(new CleanerAssignmentModel
+            {
+                Contract_Id = contractId,
+                Cleaner_Availability_Id = _mapper.Map<CleanerAssignmentModel>(newAssignment).Id,
+            });
     }
 }

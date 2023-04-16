@@ -16,6 +16,7 @@ public class CleanerAvailabilityModel : BaseModel
 
     [Column("cleaner_id")]
     public int Cleaner_Id { get; set; }
+
     [Column("schedule_id")]
     public int Schedule_Id { get; set; }
 }
