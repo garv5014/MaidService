@@ -20,6 +20,8 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
         }
     }
     private ICleanerService _cleanerService;
+    [ObservableProperty]
+    private Schedule selectedSlot;
 
     public CleanerAddAppointmentViewModel(ICleanerService cleanerService)
     {
@@ -41,7 +43,12 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
     [RelayCommand]
     private async Task AddAssignedSchedule()
     {
-        //await _cleanerService.UpdateCleanerAssignments(Contract.Id, SelectedSlot);
+        if (SelectedSlot == null)
+        {
+            await Shell.Current.DisplayAlert("No Schedule Selected", "Please select a start time", "OK");
+            return;
+        }
+        await _cleanerService.UpdateCleanerAssignments(Contract.Id, SelectedSlot);
     }
 
 }

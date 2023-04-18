@@ -4,6 +4,7 @@ using MaidService.Library.DbModels;
 using MaidService.ViewModels;
 using Newtonsoft.Json;
 using Postgrest.Interfaces;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reactive.Concurrency;
 using static Postgrest.Constants;
@@ -25,10 +26,10 @@ public class CleanerService : ICleanerService
 
     public async Task AddNewCleaner(
         string firstName
-        ,string lastName
-        ,string phoneNumber
-        ,string userEmail
-        ,string authId)
+        , string lastName
+        , string phoneNumber
+        , string userEmail
+        , string authId)
     {
         userEmail = userEmail.Trim();
         firstName = firstName.Trim();
@@ -123,7 +124,7 @@ public class CleanerService : ICleanerService
         foreach (var item in selectedSlots)
         {
             await _client.From<CleanerAvailabilityModel>()
-                .Insert( new CleanerAvailabilityModel
+                .Insert(new CleanerAvailabilityModel
                 {
                     Schedule_Id = _mapper.Map<ScheduleModel>(item).Id,
                     Cleaner_Id = cleaner.Id,
@@ -133,25 +134,34 @@ public class CleanerService : ICleanerService
 
     public async Task<IEnumerable<Schedule>> GetCleanerAvailabilityForASpecificContract(CleaningContract contract)
     {
-        var availableTimes = new List<Schedule>();
+        var availableFilteredTimes = new List<Schedule>();
         var cleaner = await GetCurrentCleaner();
         var result = await _client.Rpc("getavailableslotsforacontract", new Dictionary<string, object>
         {
             { "contract_id" , contract.Id }
-            , { "target_cleaner_id", cleaner.Id } 
+            , { "target_cleaner_id", cleaner.Id }
         });
         // deserialize result.Content to get the list of available times
-        availableTimes = JsonConvert.DeserializeObject<List<Schedule>>(result.Content);
-        return availableTimes;
+        var allAvailableTimes = JsonConvert.DeserializeObject<List<Schedule>>(result.Content);
+        foreach (var item in allAvailableTimes)
+        {
+            var hasEnoughSlots = allAvailableTimes.Where(c => c.StartTime.TimeOfDay <= (item.StartTime.TimeOfDay + contract.RequestedHours) && c.StartTime.TimeOfDay >= item.StartTime.TimeOfDay).ToList();
+            var sum = hasEnoughSlots.Sum(x => x.Duration.Hours);
+            if (sum >= contract.RequestedHours.Hours)
+            {
+                availableFilteredTimes.Add(item);
+            }
+        }
+        availableFilteredTimes.OrderBy(c => c.StartTime);
+        return availableFilteredTimes;
     }
 
-    public async Task UpdateCleanerAssignments(int contractId, object newAssignment)
+    public async Task UpdateCleanerAssignments(int contractId, Schedule schedule)
     {
-        await _client.From<CleanerAssignmentModel>()
-            .Insert(new CleanerAssignmentModel
-            {
-                Contract_Id = contractId,
-                Cleaner_Availability_Id = _mapper.Map<CleanerAvailabilityModel>(newAssignment).Id,
-            });
+        var cleaner = await GetCurrentCleaner();
+
+        var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
+            .Where(ca => ca.Cleaner.Id == cleaner.Id && ca.Schedule_Id == schedule.Id)
+            .Get();
     }
 }
