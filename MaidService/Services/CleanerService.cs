@@ -2,6 +2,7 @@
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using MaidService.ViewModels;
+using Newtonsoft.Json;
 using Postgrest.Interfaces;
 using System.Linq;
 using static Postgrest.Constants;
@@ -128,20 +129,17 @@ public class CleanerService : ICleanerService
         }
     }
 
-    public async Task<IEnumerable<Schedule>> GetCleanerAvailability()
+    public async Task<IEnumerable<Schedule>> GetCleanerAvailabilityForASpecificContract(CleaningContract contract)
     {
         var availableTimes = new List<Schedule>();
         var cleaner = await GetCurrentCleaner();
-        var result = await _client.From<CleanerAvailabilityModel>()
-            .Where(ca => ca.Cleaner_Id == cleaner.Id)
-            .Get();
-        var cleanerAvailability = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(result.Models).ToList();
-
-        foreach (var schedule in cleanerAvailability)
+        var result = await _client.Rpc("getavailableslotsforacontract", new Dictionary<string, object>
         {
-            availableTimes.Add(schedule.Schedule);
-        }
-
+            { "contract_id" , contract.Id }
+            , { "target_cleaner_id", cleaner.Id } 
+        });
+        // deserialize result.Content to get the list of available times
+        availableTimes = JsonConvert.DeserializeObject<List<Schedule>>(result.Content);
         return availableTimes;
     }
 

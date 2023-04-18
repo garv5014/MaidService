@@ -27,10 +27,9 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject
     private object selectedSlot;
 
     [RelayCommand]
-    private async Task Appear()
+    public async Task Appear()
     {
-        selectedSlot = new object();
-        AvailableTimes = await _cleanerService.GetCleanerAvailability();
+        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForASpecificContract(Contract);
     }
 
     [RelayCommand]

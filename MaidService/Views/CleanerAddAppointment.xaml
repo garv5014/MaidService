@@ -6,7 +6,7 @@
              Title="CleanerAddAppointment">
 
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing"
+        <toolkit:EventToCommandBehavior EventName="Loaded"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
 
