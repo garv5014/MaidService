@@ -54,11 +54,6 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
     [RelayCommand]
     public async Task NavigateToAddAppoinmentPage()
     {
-        await _navService.NavigateToWithParameters($"///{nameof(CleanerAddAppointment)}",
-            new Dictionary<string, object>
-            {
-                ["Contract"] = Contract
-            }
-            );
+        await _navService.NavigateTo($"///{nameof(CleanerAddAppointment)}?ContractId={Contract.Id}");
     }
 }
