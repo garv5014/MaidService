@@ -8,7 +8,7 @@ public class ScheduleModel : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Column("date")]
+    [Column("schedule_date")]
     public DateTime Date { get; set; }
 
     [Column("start_time")]

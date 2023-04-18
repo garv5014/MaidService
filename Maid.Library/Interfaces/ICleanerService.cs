@@ -1,4 +1,5 @@
 ﻿using MaidService.Library.DbModels;
+using System.Diagnostics.Contracts;
 
 namespace Maid.Library.Interfaces;
 
@@ -10,6 +11,6 @@ public interface ICleanerService
     Task<IEnumerable<CleaningContract>> GetAllAvailableAppointments();
     Task<IEnumerable<Schedule>> GetAvailableSchedulesForADate(DateTime scheduleDate);
     Task UpdateCleanerAvailablility(IEnumerable<object> selectedSlots);
-    Task<IEnumerable<Schedule>> GetCleanerAvailability();
+    Task<IEnumerable<Schedule>> GetCleanerAvailabilityForAContract(CleaningContract contract);
     Task UpdateCleanerAssignments(int contractId, object selectedSlot);
 }

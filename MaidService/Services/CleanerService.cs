@@ -4,6 +4,7 @@ using MaidService.Library.DbModels;
 using MaidService.ViewModels;
 using Postgrest.Interfaces;
 using System.Linq;
+using System.Reactive.Concurrency;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -97,6 +98,7 @@ public class CleanerService : ICleanerService
         var schedules = _mapper.Map<IEnumerable<Schedule>>(schedulesModels.Models).ToList();
 
         var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
+            .Select("schedule_id")
             .Where(ca => ca.Cleaner_Id == cleaner.Id)
             .Get();
 
@@ -128,19 +130,18 @@ public class CleanerService : ICleanerService
         }
     }
 
-    public async Task<IEnumerable<Schedule>> GetCleanerAvailability()
+    public async Task<IEnumerable<Schedule>> GetCleanerAvailabilityForAContract(CleaningContract contract)
     {
         var availableTimes = new List<Schedule>();
         var cleaner = await GetCurrentCleaner();
-        var result = await _client.From<CleanerAvailabilityModel>()
+        var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
             .Where(ca => ca.Cleaner_Id == cleaner.Id)
             .Get();
-        var cleanerAvailability = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(result.Models).ToList();
 
-        foreach (var schedule in cleanerAvailability)
-        {
-            availableTimes.Add(schedule.Schedule);
-        }
+        var availableSchedules = new List<Schedule>();
+        var schedulesModels = await _client.From<ScheduleModel>()
+            .Where(ca => ca.Date == contract.ScheduleDate)
+            .Get();
 
         return availableTimes;
     }
@@ -151,7 +152,7 @@ public class CleanerService : ICleanerService
             .Insert(new CleanerAssignmentModel
             {
                 Contract_Id = contractId,
-                Cleaner_Availability_Id = _mapper.Map<CleanerAssignmentModel>(newAssignment).Id,
+                Cleaner_Availability_Id = _mapper.Map<CleanerAvailabilityModel>(newAssignment).Id,
             });
     }
 }

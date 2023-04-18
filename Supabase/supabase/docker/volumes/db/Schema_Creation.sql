@@ -159,19 +159,20 @@ CREATE TABLE day_template(
 
 CREATE TABLE schedule (
 	id serial4 Not Null,
-	date DATE Not Null,
+	schedule_date DATE Not Null,
 	start_time TIME Not Null,
 	duration INTERVAL Not NULL,
 	CONSTRAINT schedule_pk PRIMARY KEY (id),
-	constraint schedule_uniq unique (date, start_time)
+	constraint schedule_uniq unique (schedule_date, start_time)
 );
 
 CREATE TABLE cleaner_availability (
 	id serial4 Not Null,
 	cleaner_id int4 Not Null REFERENCES cleaner (id) , 
 	schedule_id int4 Not Null REFERENCES schedule (id) , 
-	CONSTRAINT contract_schedule_pk PRIMARY KEY (id)
-);
+	CONSTRAINT contract_schedule_pk PRIMARY KEY (cleaner_id, schedule_id, id ),
+	unique (id)
+);												 
 
 CREATE TABLE cleaner_assignments( 
 	id serial4 Not Null,
@@ -189,7 +190,7 @@ template_curs cursor for select * from public.day_template ;
 begin
 	for r in template_curs 
 	loop
-		INSERT INTO public.schedule ("date", start_time, duration)
+		INSERT INTO public.schedule (schedule_date, start_time, duration)
 			VALUES(target_day, r.start_time, r.duration);
 	end loop;
 end;
@@ -206,7 +207,7 @@ begin
 	for counter in 0..28 loop
 		for r in template_curs 
 		loop
-			INSERT INTO public.schedule ("date", start_time, duration)
+			INSERT INTO public.schedule (schedule_date, start_time, duration)
 				VALUES(start_date + interval_offset, r.start_time, r.duration);
 			
 		end loop;

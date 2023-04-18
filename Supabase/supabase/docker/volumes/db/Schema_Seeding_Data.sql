@@ -65,7 +65,7 @@ VALUES ('08:00:00 AM', '1 hours'),
        ('05:00:00 PM', '1 hours');
        
 -- Insert statements for table 'schedule'
-INSERT INTO schedule (date, start_time, duration)
+INSERT INTO schedule (schedule_date, start_time, duration)
 VALUES ('2023-03-17', '08:00:00', '2 hours'), 
        ('2023-03-18', '10:00:00', '2 hours'), 
        ('2023-03-19','12:00:00', '2 hours');
