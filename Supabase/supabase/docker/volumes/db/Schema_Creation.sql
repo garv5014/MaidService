@@ -159,11 +159,11 @@ CREATE TABLE day_template(
 
 CREATE TABLE schedule (
 	id serial4 Not Null,
-	schedule_date DATE Not Null,
+	date DATE Not Null,
 	start_time TIME Not Null,
 	duration INTERVAL Not NULL,
 	CONSTRAINT schedule_pk PRIMARY KEY (id),
-	constraint schedule_uniq unique (schedule_date, start_time)
+	constraint schedule_uniq unique (date, start_time)
 );
 
 CREATE TABLE cleaner_availability (
@@ -207,7 +207,7 @@ begin
 	for counter in 0..28 loop
 		for r in template_curs 
 		loop
-			INSERT INTO public.schedule (schedule_date, start_time, duration)
+			INSERT INTO public.schedule (date, start_time, duration)
 				VALUES(start_date + interval_offset, r.start_time, r.duration);
 			
 		end loop;
@@ -217,52 +217,49 @@ end;
 $function$
 ;
 
-create or replace
-function public.getAvailableSlotsForAContract(target_cleaner_id Integer,contract_id Integer) 
-returns table (id integer,
-schedule_date date,
-start_time time,
-duration interval)
-language plpgsql as $func$
-declare
-		schedule_id integer;
-        target_date date;
-        begin
-	-- Execute the query and loop over the result   
-select
-into target_date
-	cc2.schedule_date
-from
-	cleaning_contract cc2
-where
-	(cc2.id = contract_id);
-return query (select
-	s.id as id,
-	s.schedule_date as schedule_date,
-	s.start_time as start_time,
-	s.duration as duration
-from
-	schedule s
-inner join cleaner_availability ca on
-	(s.id = ca.schedule_id
-		and s.schedule_date = target_date
-		and ca.cleaner_id = target_cleaner_id)
-left join cleaner_assignments ca2 on
-	(ca2.cleaner_availability_id = ca.id)
-except
-select
-	s2.id as id,
-	s2.schedule_date as schedule_date,
-	s2.start_time as start_time,
-	s2.duration as duration
-from
-	cleaning_contract cc
-inner join cleaner_assignments cass on
-	( cc.id = cass.contract_id)
-inner join cleaner_availability ca3 on
-	(cass.cleaner_availability_id = ca3.id)
-inner join schedule s2 on
-	(s2.id = ca3.schedule_id));
-end;
 
-$func$;
+CREATE OR replace FUNCTION PUBLIC.getavailableslotsforacontract(target_cleaner_id integer,contract_id integer)
+returns TABLE (id integer,"date" date,start_time time,duration interval) 
+language plpgsql 
+AS $function$
+DECLARE 
+schedule_id INTEGER;
+target_date date;
+BEGIN
+  SELECT cc2.schedule_date
+  INTO   target_date
+  FROM   cleaning_contract cc2
+  WHERE  (
+                cc2.id = contract_id);
+  
+  RETURN query
+  (
+             select     s.id         AS id,
+                        s.date       AS "date",
+                        s.start_time AS start_time,
+                        s.duration   AS duration
+             FROM       schedule s
+             INNER JOIN cleaner_availability ca
+             ON         (
+                                   s.id = ca.schedule_id
+                        AND        s.date = target_date
+                        AND        ca.cleaner_id = target_cleaner_id)
+             LEFT JOIN  cleaner_assignments ca2
+             ON         (
+                                   ca2.cleaner_availability_id = ca.id)
+             EXCEPT
+             SELECT     s2.id         AS id,
+                        s2.date       AS "date",
+                        s2.start_time AS start_time,
+                        s2.duration   AS duration
+             FROM       cleaning_contract cc
+             INNER JOIN cleaner_assignments cass
+             ON         (
+                                   cc.id = cass.contract_id)
+             INNER JOIN cleaner_availability ca3
+             ON         (
+                                   cass.cleaner_availability_id = ca3.id)
+             INNER JOIN schedule s2
+             ON         (
+                                   s2.id = ca3.schedule_id));
+END;$function$;

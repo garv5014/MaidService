@@ -9,7 +9,7 @@ public class ScheduleModel : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Column("schedule_date")]
+    [Column("date")]
     public DateTime Date { get; set; }
 
     [Column("start_time")]
@@ -20,7 +20,7 @@ public class ScheduleModel : BaseModel
 }
 
 
-public class Schedule 
+public class Schedule
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }

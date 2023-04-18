@@ -22,11 +22,18 @@ public partial class CleanerAppointmentCardViewModel : ObservableObject
     [RelayCommand]
     public async Task NavigateToCleanerDetails()
     {
-        await _nav.NavigateToWithParameters($"///{nameof(CleanerOrderDetails)}",
-        new Dictionary<string, object>
-        {
-            ["Contract"] = Contract
-        }
-    );
+        await _nav.NavigateToWithParameters(
+            $"///{nameof(CleanerOrderDetails)}",
+            new Dictionary<string, object> { {"Contract", Contract } }
+        );
+    }
+
+    [RelayCommand]
+    public async Task NavigateToAddAppointment()
+    {
+        await _nav.NavigateToWithParameters(
+            $"///{nameof(CleanerAddAppointment)}",
+            new Dictionary<string, object> { { "Contract", Contract } }
+        );
     }
 }

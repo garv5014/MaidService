@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.ComponentsViewModels;
-using MaidService.Views;
-using System.Collections.ObjectModel;
 
 namespace MaidService.ViewModels;
 

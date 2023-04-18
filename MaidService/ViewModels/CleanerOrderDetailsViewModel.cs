@@ -57,7 +57,7 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
         await _navService.NavigateToWithParameters($"///{nameof(CleanerAddAppointment)}",
             new Dictionary<string, object>
             {
-                ["Contract"] = Contract
+                { "Contract", Contract }
             }
             );
     }
