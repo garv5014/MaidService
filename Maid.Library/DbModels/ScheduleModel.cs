@@ -1,4 +1,5 @@
-﻿using Postgrest.Attributes;
+﻿using Newtonsoft.Json;
+using Postgrest.Attributes;
 using Postgrest.Models;
 
 namespace MaidService.Library.DbModels;
@@ -8,7 +9,7 @@ public class ScheduleModel : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Column("schedule_date")]
+    [Column("date")]
     public DateTime Date { get; set; }
 
     [Column("start_time")]
@@ -19,10 +20,11 @@ public class ScheduleModel : BaseModel
 }
 
 
-public class Schedule 
+public class Schedule
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }
+    [JsonProperty("start_time")]
     public DateTime StartTime { get; set; }
     public TimeSpan Duration { get; set; }
 }

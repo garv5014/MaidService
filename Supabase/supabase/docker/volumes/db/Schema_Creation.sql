@@ -216,3 +216,50 @@ begin
 end;
 $function$
 ;
+
+
+CREATE OR replace FUNCTION PUBLIC.getavailableslotsforacontract(target_cleaner_id integer,contract_id integer)
+returns TABLE (id integer,schedule_date date,start_time time,duration interval) 
+language plpgsql 
+AS $function$
+DECLARE 
+schedule_id INTEGER;
+target_date date;
+BEGIN
+  SELECT cc2.schedule_date
+  INTO   target_date
+  FROM   cleaning_contract cc2
+  WHERE  (
+                cc2.id = contract_id);
+  
+  RETURN query
+  (
+             select     s.id         AS id,
+                        s.date       AS "date",
+                        s.start_time AS start_time,
+                        s.duration   AS duration
+             FROM       schedule s
+             INNER JOIN cleaner_availability ca
+             ON         (
+                                   s.id = ca.schedule_id
+                        AND        s.date = target_date
+                        AND        ca.cleaner_id = target_cleaner_id)
+             LEFT JOIN  cleaner_assignments ca2
+             ON         (
+                                   ca2.cleaner_availability_id = ca.id)
+             EXCEPT
+             SELECT     s2.id         AS id,
+                        s2.date       AS "date",
+                        s2.start_time AS start_time,
+                        s2.duration   AS duration
+             FROM       cleaning_contract cc
+             INNER JOIN cleaner_assignments cass
+             ON         (
+                                   cc.id = cass.contract_id)
+             INNER JOIN cleaner_availability ca3
+             ON         (
+                                   cass.cleaner_availability_id = ca3.id)
+             INNER JOIN schedule s2
+             ON         (
+                                   s2.id = ca3.schedule_id));
+END;$function$;

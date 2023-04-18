@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
-using System.Diagnostics.Contracts;
+using MaidService.Views;
 
 namespace MaidService.ViewModels;
 
@@ -27,10 +27,14 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject
     private object selectedSlot;
 
     [RelayCommand]
-    private async Task Appear()
+    public async Task Appear()
     {
-        selectedSlot = new object();
-        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForAContract(Contract);
+        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForASpecificContract(Contract);
+        if (AvailableTimes.Count() == 0)
+        {
+            await Shell.Current.DisplayAlert("No Available Times", "There are no available times for this contract", "OK");
+            await Shell.Current.GoToAsync($"///{nameof(AvailableCleanerAppointments)}");
+        }
     }
 
     [RelayCommand]
