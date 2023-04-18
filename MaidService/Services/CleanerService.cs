@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
+using MaidService.ViewModels;
+using Postgrest.Interfaces;
+using System.Linq;
+using System.Reactive.Concurrency;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -126,13 +130,20 @@ public class CleanerService : ICleanerService
         }
     }
 
-    public async Task<IEnumerable<Schedule>> GetCleanerAvailabilityForAContract(int contract)
+    public async Task<IEnumerable<Schedule>> GetCleanerAvailabilityForAContract(CleaningContract contract)
     {
+        var availableTimes = new List<Schedule>();
         var cleaner = await GetCurrentCleaner();
+        var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
+            .Where(ca => ca.Cleaner_Id == cleaner.Id)
+            .Get();
 
-        var availableTimes = _client.Rpc("getAvailableSlotsForAContract", new Dictionary<string, object> { { "target_cleaner_id", cleaner.Id }, { "contract_id" , contract }  });
+        var availableSchedules = new List<Schedule>();
+        var schedulesModels = await _client.From<ScheduleModel>()
+            .Where(ca => ca.Date == contract.ScheduleDate)
+            .Get();
 
-        return new List<Schedule>();
+        return availableTimes;
     }
 
     public async Task UpdateCleanerAssignments(int contractId, object newAssignment)

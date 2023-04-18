@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using MaidService.Views;
+using System.Diagnostics.Contracts;
+
 namespace MaidService.ComponentsViewModels;
 
 public partial class CleanerAppointmentCardViewModel : ObservableObject

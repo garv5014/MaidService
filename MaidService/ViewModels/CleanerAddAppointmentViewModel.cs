@@ -2,9 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
+using System.Diagnostics.Contracts;
 
 namespace MaidService.ViewModels;
-[QueryProperty(nameof(ContractId), nameof(ContractId))]
+
+[QueryProperty(nameof(Contract), nameof(Contract))]
+
 public partial class CleanerAddAppointmentViewModel : ObservableObject
 {
     private ICleanerService _cleanerService;
@@ -14,20 +17,25 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject
         _cleanerService = cleanerService;
     }
 
-    public int ContractId;
+    [ObservableProperty]
+    private CleaningContract contract;
 
     [ObservableProperty]
     private IEnumerable<Schedule> availableTimes;
 
+    [ObservableProperty]
+    private object selectedSlot;
+
     [RelayCommand]
     private async Task Appear()
     {
-        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForAContract(ContractId);
+        selectedSlot = new object();
+        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForAContract(Contract);
     }
 
-    //[RelayCommand]
-    //private async Task AddAssignedSchedule()
-    //{
-    //    //await _cleanerService.UpdateCleanerAssignments(Contract.Id, SelectedSlot);
-    //}
+    [RelayCommand]
+    private async Task AddAssignedSchedule()
+    {
+        await _cleanerService.UpdateCleanerAssignments(Contract.Id, SelectedSlot);
+    }
 }
