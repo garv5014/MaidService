@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
-using MaidService.ViewModels;
-using Postgrest.Interfaces;
-using System.Linq;
-using System.Reactive.Concurrency;
+using Newtonsoft.Json;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -134,15 +131,12 @@ public class CleanerService : ICleanerService
     {
         var availableTimes = new List<Schedule>();
         var cleaner = await GetCurrentCleaner();
-        var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
-            .Where(ca => ca.Cleaner_Id == cleaner.Id)
-            .Get();
-
-        var availableSchedules = new List<Schedule>();
-        var schedulesModels = await _client.From<ScheduleModel>()
-            .Where(ca => ca.Date == contract.ScheduleDate)
-            .Get();
-
+        var res = await _client.Rpc("getavailableslotsforacontract", new Dictionary<string, object>()
+        {
+            { "target_cleaner_id" , cleaner.Id} ,
+            { "contract_id" , contract.Id}
+        });
+        availableTimes = JsonConvert.DeserializeObject<IEnumerable<Schedule>>(res.Content.ToString()).ToList();
         return availableTimes;
     }
 

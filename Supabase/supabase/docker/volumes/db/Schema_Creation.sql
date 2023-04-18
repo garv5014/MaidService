@@ -216,3 +216,53 @@ begin
 end;
 $function$
 ;
+
+create or replace
+function public.getAvailableSlotsForAContract(target_cleaner_id Integer,contract_id Integer) 
+returns table (id integer,
+schedule_date date,
+start_time time,
+duration interval)
+language plpgsql as $func$
+declare
+		schedule_id integer;
+        target_date date;
+        begin
+	-- Execute the query and loop over the result   
+select
+into target_date
+	cc2.schedule_date
+from
+	cleaning_contract cc2
+where
+	(cc2.id = contract_id);
+return query (select
+	s.id as id,
+	s.schedule_date as schedule_date,
+	s.start_time as start_time,
+	s.duration as duration
+from
+	schedule s
+inner join cleaner_availability ca on
+	(s.id = ca.schedule_id
+		and s.schedule_date = target_date
+		and ca.cleaner_id = target_cleaner_id)
+left join cleaner_assignments ca2 on
+	(ca2.cleaner_availability_id = ca.id)
+except
+select
+	s2.id as id,
+	s2.schedule_date as schedule_date,
+	s2.start_time as start_time,
+	s2.duration as duration
+from
+	cleaning_contract cc
+inner join cleaner_assignments cass on
+	( cc.id = cass.contract_id)
+inner join cleaner_availability ca3 on
+	(cass.cleaner_availability_id = ca3.id)
+inner join schedule s2 on
+	(s2.id = ca3.schedule_id));
+end;
+
+$func$;
