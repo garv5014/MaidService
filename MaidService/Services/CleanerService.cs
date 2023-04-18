@@ -156,12 +156,16 @@ public class CleanerService : ICleanerService
         return availableFilteredTimes;
     }
 
-    public async Task UpdateCleanerAssignments(int contractId, Schedule schedule)
+    public async Task UpdateCleanerAssignments(CleaningContract contract, Schedule schedule)
     {
         var cleaner = await GetCurrentCleaner();
+        var upperbound = schedule.StartTime.TimeOfDay + contract.RequestedHours;
+        var schedulesToBeAdded = await _client.From<ScheduleModel>()
+            .Where(s => (s.Date == contract.ScheduleDate) && (s.StartTime.TimeOfDay >= schedule.StartTime.TimeOfDay) && (s.StartTime.TimeOfDay <= upperbound))
+            .Get();
 
         var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
-            .Where(ca => ca.Cleaner.Id == cleaner.Id && ca.Schedule_Id == schedule.Id)
+            .Where(ca => ca.Cleaner_Id == cleaner.Id && ca.Schedule_Id == schedule.Id)
             .Get();
     }
 }

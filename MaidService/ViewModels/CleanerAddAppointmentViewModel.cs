@@ -48,7 +48,7 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
             await Shell.Current.DisplayAlert("No Schedule Selected", "Please select a start time", "OK");
             return;
         }
-        await _cleanerService.UpdateCleanerAssignments(Contract.Id, SelectedSlot);
+        await _cleanerService.UpdateCleanerAssignments(Contract, SelectedSlot);
     }
 
 }

@@ -12,5 +12,5 @@ public interface ICleanerService
     Task<IEnumerable<Schedule>> GetAvailableSchedulesForADate(DateTime scheduleDate);
     Task UpdateCleanerAvailablility(IEnumerable<object> selectedSlots);
     Task<IEnumerable<Schedule>> GetCleanerAvailabilityForASpecificContract(CleaningContract contract);
-    Task UpdateCleanerAssignments(int contractId, Schedule scheduleId);
+    Task UpdateCleanerAssignments(CleaningContract contractId, Schedule scheduleId);
 }
