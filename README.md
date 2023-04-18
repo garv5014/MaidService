@@ -4,8 +4,8 @@
 - [X] Add back buttons for the available appointments 
 - [X] Build the cleaner orderdetails page. 
 - [X] Make the sign up for shifts page. 
-- [X] Make the claim appointment page for cleaners 
 - [ ] Change the cleaner profile page to match the drawing 5pts
+- [X] Make the claim appointment page for cleaners 
 	- [ ] insert the appointment. 
     - [ ] makes sure that it can add the appoinment
       - There is enough time in the open slots for the appointment If a shift isn't available don't let it be added. 
