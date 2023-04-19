@@ -20,12 +20,14 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
         }
     }
     private ICleanerService _cleanerService;
+    private readonly INavService _navService;
     [ObservableProperty]
     private Schedule selectedSlot;
 
-    public CleanerAddAppointmentViewModel(ICleanerService cleanerService)
+    public CleanerAddAppointmentViewModel(ICleanerService cleanerService, INavService navService)
     {
         _cleanerService = cleanerService;
+        _navService = navService;
     }
 
     public CleaningContract Contract { get => contract ; 
@@ -49,6 +51,20 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
             return;
         }
         await _cleanerService.UpdateCleanerAssignments(Contract, SelectedSlot);
+        NavigateBackToSchedule();
     }
 
+    private async Task NavigateBackToSchedule()
+    {
+        await _navService.NavigateTo($"///CleanerSchedule");
+    }
+
+    [RelayCommand]
+    public async Task NavigateToCleanerDetails()
+    {
+        await _navService.NavigateToWithParameters(
+            $"///{nameof(CleanerOrderDetails)}",
+            new Dictionary<string, object> { { "Contract", Contract } }
+        );
+    }
 }

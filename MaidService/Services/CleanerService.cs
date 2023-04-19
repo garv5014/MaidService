@@ -152,20 +152,53 @@ public class CleanerService : ICleanerService
                 availableFilteredTimes.Add(item);
             }
         }
-        availableFilteredTimes.OrderBy(c => c.StartTime);
+
+        availableFilteredTimes = availableFilteredTimes.OrderBy(c => c.StartTime).ToList();
+
         return availableFilteredTimes;
     }
 
     public async Task UpdateCleanerAssignments(CleaningContract contract, Schedule schedule)
     {
+        // get all the schedules that are within the requested hours
         var cleaner = await GetCurrentCleaner();
-        var upperbound = schedule.StartTime.TimeOfDay + contract.RequestedHours;
+        var upperbound = schedule.StartTime + contract.RequestedHours;
         var schedulesToBeAdded = await _client.From<ScheduleModel>()
-            .Where(s => (s.Date == contract.ScheduleDate) && (s.StartTime.TimeOfDay >= schedule.StartTime.TimeOfDay) && (s.StartTime.TimeOfDay <= upperbound))
+            .Where(s => s.Date == contract.ScheduleDate)
+            .Where(s => s.StartTime >= schedule.StartTime)
+            .Where(s => s.StartTime < upperbound)
             .Get();
+        var cleanerAvailabilityListIds = new List<CleanerAvailabilityModel>(); 
 
-        var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
-            .Where(ca => ca.Cleaner_Id == cleaner.Id && ca.Schedule_Id == schedule.Id)
-            .Get();
+        foreach (var item in schedulesToBeAdded.Models)
+        {
+            var clearAvailibilityItem = await _client.From<CleanerAvailabilityModel>()
+                .Where(ca => ca.Cleaner_Id == cleaner.Id)
+                .Where(ca => ca.Schedule_Id == item.Id)
+                .Single();
+            cleanerAvailabilityListIds.Add(clearAvailibilityItem);
+        }
+        foreach (var item in cleanerAvailabilityListIds)
+        {
+            var cass = new CleanerAssignmentModel
+            {
+                Cleaner_Availability_Id = item.Id,
+                Contract_Id = contract.Id
+            };
+            await _client.From<CleanerAssignmentModel>()
+                .Insert(cass);
+        }
+
+        var newScheduledDate = new DateTime(year: contract.ScheduleDate.Year,
+            month: contract.ScheduleDate.Month,
+            day: contract.ScheduleDate.Day,
+            hour: schedule.StartTime.Hour,
+            minute: schedule.StartTime.Minute,
+            second: 0);
+
+        await _client.From<CleaningContractModel>()
+                       .Where(x => x.Id == contract.Id)
+                       .Set(x => x.ScheduleDate, newScheduledDate)
+                       .Update();
     }
 }
