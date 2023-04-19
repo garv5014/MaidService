@@ -276,7 +276,7 @@ AS $function$
 BEGIN
 	RETURN query
 	(
-	select cc.id as id,
+select cc.id as id,
 		   cc.cust_id as cust_id,
 		   cc.date_completed as date_completed,
 		   cc.schedule_date as schedule_date,
@@ -285,7 +285,7 @@ BEGIN
 		   cc.est_sqft as est_sqft,
 		   cc.num_of_cleaners as num_of_cleaners,
 		   cc.notes as notes,
-		   cc.location_id as location_id,
+		   cc.location_id as location_id ,
 		   cc.cleaning_type_id as cleaning_type_id,
 		   min(s.start_time) as start_time
 	from cleaning_contract cc
@@ -294,7 +294,8 @@ BEGIN
 	left join schedule s on (ca2.schedule_id = s.id)
 	where (ca2.cleaner_id = target_cleaner_id)
 	group by 1,2,3,4,5,6,7,8,9,10,11
-	having( cc.schedule_date > now()));
+	having( cc.schedule_date > now())
+	order by cc.schedule_date, start_time);
 END;
 $function$
 ;

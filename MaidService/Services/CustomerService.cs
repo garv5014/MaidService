@@ -102,12 +102,12 @@ public class CustomerService : ICustomerService
     public async Task<bool> IsScheduled(int contractId)
     {
         var res = await _client
-        .From<CleaningContractModel>()
-         .Where(c => c.Id == contractId)
+        .From<CleanerAssignmentModel>()
+         .Where(c => c.Contract_Id == contractId)
          .Limit(1)
          .Get();
 
-        return res.Models?.Count == 0;
+        return res.Models?.Count != 0;
     }
 
     public async Task<Customer> GetCurrentCustomer()

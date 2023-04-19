@@ -21,7 +21,9 @@
                 <Label Text="Address" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="325"
-                                          Value="{Binding Contract.Location.Address, Mode=TwoWay}"/>
+                                          Value="{Binding Contract.Location.Address, Mode=TwoWay}"
+                                          MaskType="RegEx"
+                                          Mask=".+"/>
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1">
