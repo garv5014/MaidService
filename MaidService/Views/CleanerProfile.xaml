@@ -6,7 +6,7 @@
              xmlns:customComp="clr-namespace:MaidService.CustomComponents"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" >
 
-<ContentPage.Behaviors>
+    <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
@@ -106,7 +106,28 @@
                             ItemsSource="{Binding Appointments}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <customComp:CustomerAppointmentCard />
+                        <Frame Margin="10,5"
+                               Padding="10,8"
+                               BorderColor="Gray"
+                               CornerRadius="5"
+                               HasShadow="True">
+
+                            <Grid ColumnDefinitions="*,*"
+                                  ColumnSpacing="0" >
+
+                                <Label Grid.Column="0"
+                                       FontSize="Medium"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Text="{Binding ScheduleDate, StringFormat='Date: {0:MM/dd/yyyy}'}" />
+
+                                <Label Grid.Column="1"
+                                       FontSize="Medium"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Text="{Binding StartTime, StringFormat='Time: {0}'}" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

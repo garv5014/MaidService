@@ -197,6 +197,8 @@ end;
 $function$
 ;
 
+
+
 CREATE OR REPLACE procedure  MakeScheduleForTheNextMonth(start_date date default current_date)
  LANGUAGE plpgsql
 AS $function$
@@ -216,6 +218,7 @@ begin
 end;
 $function$
 ;
+
 
 
 CREATE OR replace FUNCTION PUBLIC.getavailableslotsforacontract(target_cleaner_id integer,contract_id integer)
@@ -263,3 +266,33 @@ BEGIN
              ON         (
                                    s2.id = ca3.schedule_id));
 END;$function$;
+
+
+
+CREATE OR REPLACE FUNCTION public.getallassignedslotsforacleaner(target_cleaner_id integer)
+RETURNS TABLE(id integer, cust_id integer, date_completed date, schedule_date timestamp, "cost" money, requested_hours interval, est_sqft integer, num_of_cleaners integer, notes text, location_id integer, cleaning_type_id integer, start_time time)
+LANGUAGE plpgsql
+AS $function$
+BEGIN
+	RETURN query
+	(
+	select cc.id as id,
+		   cc.cust_id as cust_id,
+		   cc.date_completed as date_completed,
+		   cc.schedule_date as schedule_date,
+		   cc."cost" as "cost",
+		   cc.requested_hours as requested_hours,
+		   cc.est_sqft as est_sqft,
+		   cc.num_of_cleaners as num_of_cleaners,
+		   cc.notes as notes,
+		   cc.location_id as location_id,
+		   cc.cleaning_type_id as cleaning_type_id,
+		   s.start_time as start_time
+	from cleaning_contract cc
+	left join cleaner_assignments ca on (cc.id = ca.contract_id)
+	left join cleaner_availability ca2 on (ca.cleaner_availability_id = ca2.id)
+	left join schedule s on (ca2.schedule_id = s.id)
+	where cc.schedule_date > now() 
+	and ca2.cleaner_id = cleaner_id);
+END;
+$function$;

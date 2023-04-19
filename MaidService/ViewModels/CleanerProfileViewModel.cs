@@ -12,6 +12,20 @@ public partial class CleanerProfileViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly ICleanerService _cleanerService;
     private readonly ISupabaseStorage _storage;
+
+    public CleanerProfileViewModel(
+        ICustomerService customerService, 
+        INavService nav, 
+        ICleanerService cleanerService, 
+        ISupabaseStorage storage)
+    {
+        _customerService = customerService;
+        _nav = nav;
+        _cleanerService = cleanerService;
+        _storage = storage;
+        AppointmentsHeader = "No Upcoming Appointments";
+    }
+
     [ObservableProperty]
     private Cleaner currentCleaner = new();
 
@@ -19,7 +33,7 @@ public partial class CleanerProfileViewModel : ObservableObject
     private CleaningContract cleanerContract;
 
     [ObservableProperty]
-    private IEnumerable<CustomerAppointmentCardViewModel> appointments;
+    private IEnumerable<CleaningContractWithStartTime> appointments;
 
     [ObservableProperty]
     private string appointmentsHeader;
@@ -33,24 +47,17 @@ public partial class CleanerProfileViewModel : ObservableObject
     [ObservableProperty]
     private string bioText;
 
-    public CleanerProfileViewModel(ICustomerService customerService, INavService nav, ICleanerService cleanerService, ISupabaseStorage storage)
-    {
-        _customerService = customerService;
-        _nav = nav;
-        _cleanerService = cleanerService;
-        _storage = storage;
-        AppointmentsHeader = "No Upcoming Appointments";
-    }
-
     [RelayCommand]
     public async Task Appear()
     {
         CurrentCleaner = await _cleanerService.GetCurrentCleaner();
         BioText = CurrentCleaner.Bio;
-        var res = await _customerService.GetUpcomingAppointments(CurrentCleaner.Id);
+
+        var res = await _cleanerService.GetUpcomingAppointments();
+
         if (res != null)
         {
-            Appointments = res.Select(a => new CustomerAppointmentCardViewModel(a, _nav, _storage));
+            Appointments = res;
         }
 
         if (Appointments.Count() > 0)

@@ -10,6 +10,7 @@ public partial class CustomerAppointmentCardViewModel : ObservableObject
 {
     private readonly INavService _nav;
     private readonly ISupabaseStorage _supabaseStorage;
+
     [ObservableProperty]
     private CleaningContract cardContract;
 
