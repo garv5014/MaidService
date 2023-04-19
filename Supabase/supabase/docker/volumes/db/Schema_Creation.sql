@@ -270,8 +270,8 @@ END;$function$;
 
 
 CREATE OR REPLACE FUNCTION public.getallassignedslotsforacleaner(target_cleaner_id integer)
-RETURNS TABLE(id integer, cust_id integer, date_completed date, schedule_date timestamp, "cost" money, requested_hours interval, est_sqft integer, num_of_cleaners integer, notes text, location_id integer, cleaning_type_id integer, start_time time)
-LANGUAGE plpgsql
+ RETURNS TABLE(id integer, cust_id integer, date_completed date, schedule_date timestamp without time zone, cost money, requested_hours interval, est_sqft integer, num_of_cleaners integer, notes text, location_id integer, cleaning_type_id integer, start_time time without time zone)
+ LANGUAGE plpgsql
 AS $function$
 BEGIN
 	RETURN query
@@ -293,6 +293,7 @@ BEGIN
 	left join cleaner_availability ca2 on (ca.cleaner_availability_id = ca2.id)
 	left join schedule s on (ca2.schedule_id = s.id)
 	where cc.schedule_date > now() 
-	and ca2.cleaner_id = cleaner_id);
+	and ca2.cleaner_id = target_cleaner_id);
 END;
-$function$;
+$function$
+;
