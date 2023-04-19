@@ -6,7 +6,7 @@
              xmlns:customComp="clr-namespace:MaidService.CustomComponents"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" >
 
-<ContentPage.Behaviors>
+    <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
@@ -106,7 +106,36 @@
                             ItemsSource="{Binding Appointments}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <customComp:CustomerAppointmentCard />
+                        <Frame Margin="0,0"
+                               Padding="10,8"
+                               BorderColor="Gray"
+                               CornerRadius="5"
+                               HasShadow="True">
+
+                            <Grid ColumnDefinitions="auto,auto,auto,auto"
+                                  ColumnSpacing="0" >
+
+                                <Label Grid.Column="0"
+                                       Text="Address:"
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold"
+                                       FontSize="Small" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding ScheduleDate}"
+                                       VerticalOptions="Center"
+                                       Margin="5,0" />
+
+                                <Label Grid.Column="2"
+                                       Text="Date: "
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold"
+                                       FontSize="Small"
+                                       Margin="5,0"/>
+                                <Label Grid.Column="3"
+                                       Text="{Binding StartTime}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
