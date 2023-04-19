@@ -20,7 +20,8 @@
                                View="Week"
                                AppointmentsSource="{Binding Appointments}"
                                CellBorderBrush="DarkGray"
-                               ViewChanged="OnSchedulerViewChanged">
+                               ViewChanged="OnSchedulerViewChanged"
+                               >
         </scheduler:SfScheduler>
 
         <Button Grid.Column="0"

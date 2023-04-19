@@ -54,7 +54,6 @@ public partial class CustomerScheduleViewModel : ObservableObject
 
     private void CleanerSetup()
     {
-        var 
         IsCleaner = true;
     }
 

@@ -13,59 +13,62 @@
                     Value="Center" />
             <Setter Property="FontSize"
                     Value="Medium">
-                
+
             </Setter>
         </Style>
     </ContentPage.Resources>
-    <VerticalStackLayout>
-        <Label Text="Control Your Schedule"
-               FontSize="Large"
-               VerticalOptions="Center"
-               HorizontalOptions="Center" />
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Label Text="Date:"
-                   FontSize="Medium"
-                   VerticalOptions="Center" />
-            <DatePicker Date="{Binding ScheduleDate}"
-                        MinimumDate="{Binding MinDate}">
-                <DatePicker.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="DateSelected"
-                                                    Command="{Binding GetSchedulesForADateCommand}" />
-                </DatePicker.Behaviors>
-            </DatePicker>
-        </HorizontalStackLayout>
+    <ScrollView>
 
 
-        <CollectionView ItemsSource="{Binding Schedules}"
-                        SelectionMode="Multiple"
-                        SelectedItems="{Binding SelectedSlots}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid BackgroundColor="Transparent"
-                          Margin="5,5"
-                          Padding="3"
-                          ColumnDefinitions="auto,auto,auto,*"
-                          VerticalOptions="Center"
-                          ColumnSpacing="10">
+        <VerticalStackLayout>
+            <Label Text="Control Your Schedule"
+                   FontSize="Large"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="Date:"
+                       FontSize="Medium"
+                       VerticalOptions="Center" />
+                <DatePicker Date="{Binding ScheduleDate}"
+                            MinimumDate="{Binding MinDate}">
+                    <DatePicker.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="DateSelected"
+                                                        Command="{Binding GetSchedulesForADateCommand}" />
+                    </DatePicker.Behaviors>
+                </DatePicker>
+            </HorizontalStackLayout>
 
-                        <Label Text="Start:"
-                               FontSize="Medium"
-                               Grid.Column="0" />
-                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm:tt}'}"
-                               Grid.Column="1" />
-                        <Label Text="Duration:"
-                               FontSize="Medium"
-                               Grid.Column="2" />
-                        <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour(s)'}"
-                               Grid.Column="4" />
 
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <Button Text="Add"
-                Command="{Binding AddSelectedToScheduleCommand}"
-                WidthRequest="80"
-            />
-    </VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding Schedules}"
+                            SelectionMode="Multiple"
+                            SelectedItems="{Binding SelectedSlots}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="Transparent"
+                              Margin="5,5"
+                              Padding="3"
+                              ColumnDefinitions="auto,auto,auto,*"
+                              VerticalOptions="Center"
+                              ColumnSpacing="10">
+
+                            <Label Text="Start:"
+                                   FontSize="Medium"
+                                   Grid.Column="0" />
+                            <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm:tt}'}"
+                                   Grid.Column="1" />
+                            <Label Text="Duration:"
+                                   FontSize="Medium"
+                                   Grid.Column="2" />
+                            <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour(s)'}"
+                                   Grid.Column="4" />
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Add"
+                    Command="{Binding AddSelectedToScheduleCommand}"
+                    WidthRequest="80" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

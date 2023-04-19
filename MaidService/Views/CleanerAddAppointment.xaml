@@ -3,65 +3,69 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.CleanerAddAppointment"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
-    <VerticalStackLayout>
-        <Label Text="{Binding Contract.ScheduleDate, StringFormat='Select Start Time For {0:mm/dd/yy}.'}"
-               FontSize="Large"
-               FontAttributes="Bold"
-               VerticalOptions="Center"
-               HorizontalOptions="Center"/>
-        <Label Text="{Binding Contract.RequestedHours, StringFormat='Required Hours {0:T}'}"
-               FontSize="Large"
-               FontAttributes="Bold"
-               HorizontalOptions="Center" />
-        <Label Text=""
-               HeightRequest="2"
-               BackgroundColor="Gray"/>
-        <CollectionView ItemsSource="{Binding AvailableTimes}"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedSlot}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid BackgroundColor="Transparent"
-                          Margin="5,5"
-                          Padding="3"
-                          ColumnDefinitions="auto,auto,auto,*"
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center"
-                          ColumnSpacing="10">
+    <ScrollView>
 
-                        <Label Text="Start:"
-                               FontSize="Medium"
-                               Grid.Column="0"
-                               VerticalOptions="Center" />
-                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm:tt}'}"
-                               Grid.Column="1"
-                               VerticalOptions="Center"
-                               FontSize="Medium"/>
-                        <Label Text="Duration:"
-                               FontSize="Medium"
-                               Grid.Column="2"
-                               VerticalOptions="Center" />
-                        <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour'}"
-                               Grid.Column="4"
-                               VerticalOptions="Center"
-                               FontSize="Medium"/>
+        <VerticalStackLayout>
+            <Label Text="{Binding Contract.ScheduleDate, StringFormat='Select Start Time For {0:mm/dd/yy}.'}"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+            <Label Text="{Binding Contract.RequestedHours, StringFormat='Required Hours {0:T}'}"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Label Text=""
+                   HeightRequest="2"
+                   BackgroundColor="Gray" />
+            <CollectionView ItemsSource="{Binding AvailableTimes}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedSlot}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="Transparent"
+                              Margin="5,5"
+                              Padding="3"
+                              ColumnDefinitions="auto,auto,auto,*"
+                              VerticalOptions="Center"
+                              HorizontalOptions="Center"
+                              ColumnSpacing="10">
 
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
-            
-            <ImageButton Source="arrow_left.svg"
-                         Command="{Binding NavigateToCleanerDetailsCommand}" 
-                         HorizontalOptions="Start"
-                         Margin="0,0,10,0"/>
-        <Button Text="Add"
-                Command="{Binding AddAssignedScheduleCommand}"
-                WidthRequest="80" 
-                HorizontalOptions="End"
-                    Margin="10,0,0,0" />
-        </HorizontalStackLayout>
+                            <Label Text="Start:"
+                                   FontSize="Medium"
+                                   Grid.Column="0"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm:tt}'}"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center"
+                                   FontSize="Medium" />
+                            <Label Text="Duration:"
+                                   FontSize="Medium"
+                                   Grid.Column="2"
+                                   VerticalOptions="Center" />
+                            <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour'}"
+                                   Grid.Column="4"
+                                   VerticalOptions="Center"
+                                   FontSize="Medium" />
 
-    </VerticalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand"
+                                   Spacing="10">
+
+                <ImageButton Source="arrow_left.svg"
+                             Command="{Binding NavigateToCleanerDetailsCommand}"
+                             HorizontalOptions="Start"
+                             Margin="0,0,10,0" />
+                <Button Text="Add"
+                        Command="{Binding AddAssignedScheduleCommand}"
+                        WidthRequest="80"
+                        HorizontalOptions="End"
+                        Margin="10,0,0,0" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

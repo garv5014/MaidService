@@ -8,13 +8,12 @@ public partial class CustomerSchedule : ContentPage
     private readonly CustomerScheduleViewModel vm;
 
     public CustomerSchedule(CustomerScheduleViewModel vm)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         this.vm = vm;
-		BindingContext = vm;
-	    this.Scheduler.ViewChanged += this.OnSchedulerViewChanged;
-    }
-
+        BindingContext = vm;
+        this.Scheduler.ViewChanged += this.OnSchedulerViewChanged;
+    }  
 
     private async void OnSchedulerViewChanged(object sender, SchedulerViewChangedEventArgs e)
     {

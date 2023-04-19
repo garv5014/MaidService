@@ -26,7 +26,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        var url = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:8000" : "http://localhost:8000";
+        var url = DeviceInfo.Current.Platform == DevicePlatform.Android ? "https://maidsupabase.westus2.cloudapp.azure.com" : "http://localhost:8000";
         var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjc4OTQ2NDAwLAogICAgImV4cCI6IDE4MzY3OTkyMDAKfQ.o8K_A6Yb58TmcKIcZWk-f36JdFM2z5mWhfDG5pnLLDw";
         var options = new SupabaseOptions
         {
