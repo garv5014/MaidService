@@ -106,34 +106,26 @@
                             ItemsSource="{Binding Appointments}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Margin="0,0"
+                        <Frame Margin="10,5"
                                Padding="10,8"
                                BorderColor="Gray"
                                CornerRadius="5"
                                HasShadow="True">
 
-                            <Grid ColumnDefinitions="auto,auto,auto,auto"
+                            <Grid ColumnDefinitions="*,*"
                                   ColumnSpacing="0" >
 
                                 <Label Grid.Column="0"
-                                       Text="Address:"
+                                       FontSize="Medium"
+                                       HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       FontAttributes="Bold"
-                                       FontSize="Small" />
-                                <Label Grid.Column="1"
-                                       Text="{Binding ScheduleDate}"
-                                       VerticalOptions="Center"
-                                       Margin="5,0" />
+                                       Text="{Binding ScheduleDate, StringFormat='Date: {0:MM/dd/yyyy}'}" />
 
-                                <Label Grid.Column="2"
-                                       Text="Date: "
+                                <Label Grid.Column="1"
+                                       FontSize="Medium"
+                                       HorizontalOptions="Center"
                                        VerticalOptions="Center"
-                                       FontAttributes="Bold"
-                                       FontSize="Small"
-                                       Margin="5,0"/>
-                                <Label Grid.Column="3"
-                                       Text="{Binding StartTime}"
-                                       VerticalOptions="Center" />
+                                       Text="{Binding StartTime, StringFormat='Time: {0}'}" />
                             </Grid>
                         </Frame>
                     </DataTemplate>
