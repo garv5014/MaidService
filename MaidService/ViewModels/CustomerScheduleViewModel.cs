@@ -54,7 +54,7 @@ public partial class CustomerScheduleViewModel : ObservableObject
 
     private void CleanerSetup()
     {
-        // get all cleaner appointments
+        var 
         IsCleaner = true;
     }
 
@@ -76,5 +76,11 @@ public partial class CustomerScheduleViewModel : ObservableObject
                                                 : Brush.Green,
             });
         }
+    }
+
+    [RelayCommand]
+    public async Task ViewChanged(SchedulerViewChangedEventArgs e)
+    {
+        var test = "test";
     }
 }
