@@ -59,7 +59,7 @@
                             <Label Text="Duration:"
                                    FontSize="Medium"
                                    Grid.Column="2" />
-                            <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour(s)'}"
+                            <Label Text="{Binding Duration, StringFormat='{0:hh\\:mm} hour'}"
                                    Grid.Column="4" />
 
                         </Grid>
