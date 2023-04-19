@@ -6,10 +6,11 @@
 - [X] Make the sign up for shifts page. 
 - [ ] Change the cleaner profile page to match the drawing 5pts
 - [X] Make the claim appointment page for cleaners 
-	- [ ] insert the appointment. 
-    - [ ] makes sure that it can add the appoinment
-      - There is enough time in the open slots for the appointment If a shift isn't available don't let it be added. 
-  - [ ] add a back button to this page
+	- [X] insert the appointment. 
+    - [X] makes sure that it can add the appoinment
+      	- There is enough time in the open slots for the appointment If a shift isn't available don't let it be added. 
+  - [X] add a back button to this page
+- [ ] Make a page for the cleaner to view their current job details. 5pts
 - [ ] Allow users to add pictures of their house when adding a new contract. 10pts
 - [ ] Look At CleanerDetailsPage and see what can be added. 2pts 
 - [ ] Add activity indicators for loading new screens. 2pts
