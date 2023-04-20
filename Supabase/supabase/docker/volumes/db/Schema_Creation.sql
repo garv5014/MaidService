@@ -270,7 +270,7 @@ END;$function$;
 
 
 CREATE OR REPLACE FUNCTION public.getallassignedslotsforacleaner(target_cleaner_id integer)
- RETURNS TABLE(id integer, cust_id integer, date_completed date, schedule_date timestamp without time zone, cost money, requested_hours interval, est_sqft integer, num_of_cleaners integer, notes text, location_id integer, cleaning_type_id integer, start_time time without time zone)
+ RETURNS TABLE(id integer, cust_id integer, date_completed date, schedule_date timestamp , cost money, requested_hours interval, est_sqft integer, num_of_cleaners integer, notes text, location_id integer, cleaning_type_id integer, start_time time)
  LANGUAGE plpgsql
 AS $function$
 BEGIN
@@ -296,6 +296,66 @@ select cc.id as id,
 	group by 1,2,3,4,5,6,7,8,9,10,11
 	having( cc.schedule_date > now())
 	order by cc.schedule_date, start_time);
+END;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.getallassignedslotsforacleanerforaweekfromdate(target_cleaner_id integer, target_date date)
+ RETURNS TABLE(id integer, cust_id integer, date_completed date, schedule_date timestamp without time zone, requested_hours interval, notes text, cleaning_type text, start_time time without time zone)
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+	RETURN query
+	(
+with scheduledappointments as (
+select cc.id as id,
+		   cc.cust_id as cust_id,
+		   cc.date_completed as date_completed,
+		   cc.schedule_date as schedule_date,
+		   cc.requested_hours as requested_hours,
+		   cc.notes as notes,
+		   ct."type" as cleaning_type,
+		   min(s.start_time) as start_time
+	from cleaning_contract cc
+	left join cleaning_type ct on (cc.cleaning_type_id = ct.id)
+	left join cleaner_assignments ca on (cc.id = ca.contract_id)
+	left join cleaner_availability ca2 on (ca.cleaner_availability_id = ca2.id)
+	left join schedule s on (ca2.schedule_id = s.id)
+	where (ca2.cleaner_id = target_cleaner_id)
+	group by 1,2,3,4,5,6,7
+	having (cc.schedule_date > target_date and cc.schedule_date < target_date + interval '7 days')
+	order by cc.schedule_date, start_time
+	), openslots as
+	(
+	select ca2.id as cleaneravailablility_id, s2.id as schedule_id, s2.start_time as start_time, s2.duration as duration, s2."date" as "date" 
+	from cleaner_availability ca2 
+	inner join schedule s2 on (s2.id = ca2.schedule_id  )
+	where ( ca2.cleaner_id = target_cleaner_id and s2.date > target_date and s2.date < target_date + interval '7 days')
+	except 
+	select ca.id as cleaneravailablility_id, s.id as schedule_id, s.start_time as start_time, s.duration as duration, s."date" as "date" 
+	from cleaner_availability ca 
+	inner join cleaner_assignments cass on (ca.id = cass.cleaner_availability_id)
+	inner join schedule s on (s.id = ca.schedule_id)
+	where ( ca.cleaner_id = target_cleaner_id and s.date > target_date and s.date < target_date + interval '7 days')
+	)select sa.id as id,
+	sa.cust_id as cust_id,
+	sa.date_completed as date_completed,
+	sa.schedule_date as schedule_date,
+	sa.requested_hours as requested_hours,
+	sa.notes as notes,
+	sa.cleaning_type as cleaning_type,
+	sa.start_time as start_time
+	from scheduledappointments sa
+	union 
+	select null as id,
+	null as cust_id,
+	null as date_completed,
+	os."date" as schedule_date,
+	os.duration as requested_hours,
+	null as notes,
+	null as cleaning_type,
+	os.start_time as start_time from openslots os
+	order by schedule_date, requested_hours );
 END;
 $function$
 ;
