@@ -6,7 +6,6 @@ using MaidService.Views;
 
 namespace MaidService.ViewModels;
 
-//[QueryProperty(nameof(Contract), nameof(Contract))]
 public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttributable
 {
     private ICleanerService _cleanerService;
@@ -25,6 +24,12 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
 
     [ObservableProperty]
     private string cleanerNames = null;
+
+    [ObservableProperty]
+    private bool isCleanerAssignedToContract = false;
+
+    [ObservableProperty]
+    private bool isAddButtonVisible = true;
 
     private string allCleanersFirstNames(CleaningContract result)
     {
@@ -45,7 +50,10 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
     [RelayCommand]
     public async Task GoBack()
     {
-        await _navService.NavigateTo($"///{nameof(AvailableCleanerAppointments)}");
+        if (IsCleanerAssignedToContract)
+            await _navService.NavigateTo($"///{nameof(CleanerProfile)}");
+        else
+            await _navService.NavigateTo($"///{nameof(AvailableCleanerAppointments)}");
     }
 
     [RelayCommand]
@@ -63,5 +71,16 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
     {
         Contract = (CleaningContract)query[nameof(Contract)];
         CleanerNames = allCleanersFirstNames(Contract);
+
+        if (CleanerNames != null)
+        {
+            IsCleanerAssignedToContract = true;
+            IsAddButtonVisible = false;
+        }
+        else
+        {
+            IsCleanerAssignedToContract = false;
+            IsAddButtonVisible = true;
+        }
     }
 }

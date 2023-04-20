@@ -100,14 +100,22 @@
                          Margin="10"
                          Source="arrow_left.svg"
                          HorizontalOptions="Start"/>
+            
             <Button Text="Add Appointment"
                     HorizontalOptions="End"
+                    IsVisible="{Binding IsAddButtonVisible}"
                     Command="{Binding NavigateToAddAppoinmentPageCommand}"/>
+
+            <Button BackgroundColor="Red"
+                    Text="Cancel Appointment"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding IsCleanerAssignedToContract}" />
 
 
         </HorizontalStackLayout>
         <Label BackgroundColor="Grey"
-               HeightRequest="2" />
+               HeightRequest="2"
+               Margin="0,5,0,0"/>
     </VerticalStackLayout>
 
 </ContentPage>
