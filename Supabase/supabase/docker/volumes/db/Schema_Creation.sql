@@ -323,20 +323,20 @@ select cc.id as id,
 	left join schedule s on (ca2.schedule_id = s.id)
 	where (ca2.cleaner_id = target_cleaner_id)
 	group by 1,2,3,4,5,6,7
-	having (cc.schedule_date > target_date and cc.schedule_date < target_date + interval '7 days')
+	having (cc.schedule_date > target_date and cc.schedule_date <= target_date + interval '7 days')
 	order by cc.schedule_date, start_time
 	), openslots as
 	(
 	select ca2.id as cleaneravailablility_id, s2.id as schedule_id, s2.start_time as start_time, s2.duration as duration, s2."date" as "date" 
 	from cleaner_availability ca2 
 	inner join schedule s2 on (s2.id = ca2.schedule_id  )
-	where ( ca2.cleaner_id = target_cleaner_id and s2.date > target_date and s2.date < target_date + interval '7 days')
+	where ( ca2.cleaner_id = target_cleaner_id and s2.date >= target_date and s2.date <= target_date + interval '7 days')
 	except 
 	select ca.id as cleaneravailablility_id, s.id as schedule_id, s.start_time as start_time, s.duration as duration, s."date" as "date" 
 	from cleaner_availability ca 
 	inner join cleaner_assignments cass on (ca.id = cass.cleaner_availability_id)
 	inner join schedule s on (s.id = ca.schedule_id)
-	where ( ca.cleaner_id = target_cleaner_id and s.date > target_date and s.date < target_date + interval '7 days')
+	where ( ca.cleaner_id = target_cleaner_id and s.date >= target_date and s.date <= target_date + interval '7 days')
 	)select sa.id as id,
 	sa.cust_id as cust_id,
 	sa.date_completed as date_completed,

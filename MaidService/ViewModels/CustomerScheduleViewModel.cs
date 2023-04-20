@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
-using MaidService.Library.DbModels;
 using MaidService.Views;
 using Syncfusion.Maui.Scheduler;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 
 namespace MaidService.ViewModels;
 
