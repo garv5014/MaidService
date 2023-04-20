@@ -54,7 +54,6 @@ public partial class CustomerScheduleViewModel : ObservableObject
 
     private void CleanerSetup()
     {
-        // get all cleaner appointments
         IsCleaner = true;
     }
 
@@ -62,19 +61,28 @@ public partial class CustomerScheduleViewModel : ObservableObject
     {
         IsCleaner = false;
         var contracts = await _customerService.GetAllAppointments();
-        foreach (var schedule in contracts)
+        foreach (var contract in contracts)
         {
-            Appointments.Add(new SchedulerAppointment
+            var isScheduled = await _customerService.IsScheduled(contract.Id);
+            var appointment = new SchedulerAppointment
             {
-                Id = schedule.Id,
-                StartTime = schedule.ScheduleDate,
-                EndTime = schedule.ScheduleDate + schedule.RequestedHours,
+                Id = contract.Id,
+                StartTime = contract.ScheduleDate,
+                EndTime = contract.ScheduleDate + contract.RequestedHours,
                 IsAllDay = false,
-                Subject = schedule?.CleaningType.Type,
-                Background = await _customerService.IsScheduled(schedule.Id) ?
-                                                Brush.Red
-                                                : Brush.Green,
-            });
+                Subject = contract?.CleaningType.Type,
+                Background = isScheduled ? Brush.Green
+                                           : Brush.Red,
+                Notes = contract.Notes,                
+            };
+            appointment.IsAllDay = !isScheduled;
+            Appointments.Add(appointment);
         }
+    }
+
+    [RelayCommand]
+    public async Task ViewChanged(SchedulerViewChangedEventArgs e)
+    {
+        var test = "test";
     }
 }

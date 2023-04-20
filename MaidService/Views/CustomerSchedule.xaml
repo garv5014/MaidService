@@ -19,7 +19,9 @@
                                HeightRequest="700"
                                View="Week"
                                AppointmentsSource="{Binding Appointments}"
-                               CellBorderBrush="DarkGray">
+                               CellBorderBrush="DarkGray"
+                               ViewChanged="OnSchedulerViewChanged"
+                               >
         </scheduler:SfScheduler>
 
         <Button Grid.Column="0"
