@@ -6,7 +6,7 @@
     <ScrollView>
 
         <VerticalStackLayout>
-            <Label Text="{Binding Contract.ScheduleDate, StringFormat='Select Start Time For {0:mm/dd/yy}.'}"
+            <Label Text="{Binding Contract.ScheduleDate, StringFormat='Select Start Time For {0:MM/dd/yy}.'}"
                    FontSize="Large"
                    FontAttributes="Bold"
                    VerticalOptions="Center"

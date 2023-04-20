@@ -13,5 +13,6 @@ public interface ICleanerService
     Task<IEnumerable<Schedule>> GetCleanerAvailabilityForASpecificContract(CleaningContract contract);
     Task UpdateCleanerAssignments(CleaningContract contractId, Schedule scheduleId);
     Task<IEnumerable<CleaningContractWithStartTime>> GetUpcomingAppointments();
+    Task<IEnumerable<CleaningContractWithStartTime>> GetAllScheduledAppointmentsForAWeek(DateTime startDate);
     Task<CleaningContract> GetCleaningContractDetails(int contractId);
 }

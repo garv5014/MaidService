@@ -2,6 +2,7 @@
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using Newtonsoft.Json;
+using System.Reactive.Concurrency;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -58,7 +59,7 @@ public class CleanerService : ICleanerService
     public async Task<Cleaner> GetCurrentCleaner()
     {
         CleanerModel cleaner = await queryForCurrentCleaner();
-        return cleaner.AuthId != null
+        return cleaner?.AuthId != null
             ? _mapper.Map<Cleaner>(cleaner)
             : null;
     }
@@ -87,29 +88,48 @@ public class CleanerService : ICleanerService
 
     public async Task<IEnumerable<Schedule>> GetAvailableSchedulesForADate(DateTime scheduleDate)
     {
-        var availableSchedules = new List<Schedule>();
-        var cleaner = await GetCurrentCleaner();
         var schedulesModels = await _client.From<ScheduleModel>()
             .Where(ca => ca.Date == scheduleDate)
             .Get();
         var schedules = _mapper.Map<IEnumerable<Schedule>>(schedulesModels.Models).ToList();
 
+        List<CleanerAvailabilitySchedule> cleanerAvailabileSchedules = await getAllCleanerAvalbilityForCurrentCleaner();
+
+        var availableSchedules = new List<Schedule>();
+        foreach (var schedule in cleanerAvailabileSchedules)
+        {
+            availableSchedules.Add(schedule.Schedule);
+        }
+
+        var comparer = new ScheduleEqualityComparer();
+        availableSchedules = schedules.Except(availableSchedules, comparer).ToList();
+        return availableSchedules;
+    }
+
+    public async Task<IEnumerable<CleaningContractWithStartTime>> GetAllScheduledAppointmentsForAWeek(DateTime startDate)
+    {
+        var cleaner = await GetCurrentCleaner();
+        var response = await _client.Rpc("getallassignedslotsforacleanerforaweekfromdate", new Dictionary<string, object> { { "target_cleaner_id", cleaner.Id }, { "target_date", startDate } });
+        
+        var deserializedResponse = JsonConvert.DeserializeObject<List<CleaningContractWithStartTime>>(response.Content);
+        
+
+        
+        return deserializedResponse;
+    }
+
+    private async Task<List<CleanerAvailabilitySchedule>> getAllCleanerAvalbilityForCurrentCleaner()
+    {
+        var cleaner = await GetCurrentCleaner();
         var cleanerAvailability = await _client.From<CleanerAvailabilityModel>()
             .Select("schedule_id")
             .Where(ca => ca.Cleaner_Id == cleaner.Id)
             .Get();
 
         var cleanerAvailabileSchedules = _mapper.Map<IEnumerable<CleanerAvailabilitySchedule>>(cleanerAvailability.Models).ToList();
-
-        foreach (var schedule in cleanerAvailabileSchedules)
-        {
-            availableSchedules.Add(schedule.Schedule);
-        }
-        var comparer = new ScheduleEqualityComparer();
-        availableSchedules = schedules.Except(availableSchedules, comparer).ToList();
-        return availableSchedules;
-
+        return cleanerAvailabileSchedules;
     }
+
 
     public async Task UpdateCleanerAvailablility(IEnumerable<object> newAvailability)
     {
@@ -215,4 +235,5 @@ public class CleanerService : ICleanerService
 
         return _mapper.Map<CleaningContract>(result);
     }
+
 }

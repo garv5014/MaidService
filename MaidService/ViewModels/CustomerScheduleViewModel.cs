@@ -5,6 +5,7 @@ using MaidService.Library.DbModels;
 using MaidService.Views;
 using Syncfusion.Maui.Scheduler;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 
 namespace MaidService.ViewModels;
 
@@ -42,7 +43,10 @@ public partial class CustomerScheduleViewModel : ObservableObject
         }
         else if (role == "Cleaner")
         {
-            CleanerSetup();
+            DayOfWeek currentDay = DateTime.Now.DayOfWeek;
+            int daysTillCurrentDay = currentDay - DayOfWeek.Monday;
+            DateTime currentWeekStartDate = DateTime.Now.AddDays(-daysTillCurrentDay);
+            await CleanerSetup(currentWeekStartDate);
         }
     }
 
@@ -52,9 +56,44 @@ public partial class CustomerScheduleViewModel : ObservableObject
         await _nav.NavigateTo($"////{nameof(AvailableCleanerAppointments)}");
     }
 
-    private void CleanerSetup()
+    private async Task CleanerSetup(DateTime startDate)
     {
         IsCleaner = true;
+        var appointments = await _cleanerService.GetAllScheduledAppointmentsForAWeek(startDate); 
+
+        var convertedAppointments = new List<SchedulerAppointment>();
+        foreach (var appointment in appointments)
+        {
+            var isScheduled = appointment.Id != 0;
+            var schedAppointment = new SchedulerAppointment
+            {
+                Id = appointment.Id,
+                StartTime = new DateTime(
+                        year: appointment.ScheduleDate.Year,
+                        month: appointment.ScheduleDate.Month,
+                        day: appointment.ScheduleDate.Day,
+                        hour: appointment.StartTime.Hours,
+                        minute: appointment.StartTime.Minutes,
+                        second: 0
+                    ),
+                EndTime = new DateTime(
+                        year: appointment.ScheduleDate.Year,
+                        month: appointment.ScheduleDate.Month,
+                        day: appointment.ScheduleDate.Day,
+                        hour: appointment.StartTime.Hours + appointment.RequestedHours.Hours,
+                        minute: appointment.StartTime.Minutes,
+                        second: 0
+                    ),
+                IsAllDay = false,
+                Background = isScheduled ? Brush.Green
+                                           : Brush.Gray,
+                Notes = string.IsNullOrEmpty(appointment.Notes) ? "no notes" : appointment.Notes,
+                Subject = isScheduled ? appointment.CleaningType
+                                           : "Not Scheduled",
+            };
+            convertedAppointments.Add(schedAppointment);
+        }
+        Appointments = new ObservableCollection<SchedulerAppointment>(convertedAppointments);
     }
 
     private async Task CustomerSetup()
@@ -69,13 +108,12 @@ public partial class CustomerScheduleViewModel : ObservableObject
                 Id = contract.Id,
                 StartTime = contract.ScheduleDate,
                 EndTime = contract.ScheduleDate + contract.RequestedHours,
-                IsAllDay = false,
+                IsAllDay = !isScheduled,
                 Subject = contract?.CleaningType.Type,
                 Background = isScheduled ? Brush.Green
                                            : Brush.Red,
                 Notes = contract.Notes,                
             };
-            appointment.IsAllDay = !isScheduled;
             Appointments.Add(appointment);
         }
     }
@@ -83,6 +121,9 @@ public partial class CustomerScheduleViewModel : ObservableObject
     [RelayCommand]
     public async Task ViewChanged(SchedulerViewChangedEventArgs e)
     {
-        var test = "test";
+        if (IsCleaner)
+        { 
+            await CleanerSetup(e.NewVisibleDates.Min(s => s.Date));
+        }
     }
 }

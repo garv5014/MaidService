@@ -72,15 +72,15 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
         Contract = (CleaningContract)query[nameof(Contract)];
         CleanerNames = allCleanersFirstNames(Contract);
 
-        if (CleanerNames != null)
-        {
-            IsCleanerAssignedToContract = true;
-            IsAddButtonVisible = false;
-        }
-        else
+        if (CleanerNames == "No Cleaners Yet")
         {
             IsCleanerAssignedToContract = false;
             IsAddButtonVisible = true;
+        }
+        else
+        {
+            IsCleanerAssignedToContract = true;
+            IsAddButtonVisible = false;
         }
     }
 }
