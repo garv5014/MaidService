@@ -206,4 +206,13 @@ public class CleanerService : ICleanerService
 
         return result;
     }
+
+    public async Task<CleaningContract> GetCleaningContractDetails(int contractId)
+    {
+        var result = await _client.From<CleaningContractModel>()
+                                  .Where(cc => cc.Id == contractId)
+                                  .Single();
+
+        return _mapper.Map<CleaningContract>(result);
+    }
 }

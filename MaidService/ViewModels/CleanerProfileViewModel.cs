@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
-using MaidService.ComponentsViewModels;
 using MaidService.Library.DbModels;
+using MaidService.Views;
 
 namespace MaidService.ViewModels;
 
@@ -46,6 +46,12 @@ public partial class CleanerProfileViewModel : ObservableObject
 
     [ObservableProperty]
     private string bioText;
+    
+    private void ToggleEditing()
+    {
+        IsEditing = !IsEditing;
+        IsNotEditing = !IsNotEditing;
+    }
 
     [RelayCommand]
     public async Task Appear()
@@ -72,7 +78,6 @@ public partial class CleanerProfileViewModel : ObservableObject
         ToggleEditing();
     }
 
-
     [RelayCommand]
     public async Task UpdateBio()
     {
@@ -83,9 +88,17 @@ public partial class CleanerProfileViewModel : ObservableObject
             await Appear();
         }
     }
-    private void ToggleEditing()
+
+    [RelayCommand]
+    public async Task TapCard(CleaningContractWithStartTime contract)
     {
-        IsEditing = !IsEditing;
-        IsNotEditing = !IsNotEditing;
+        var result = await _cleanerService.GetCleaningContractDetails(contract.Id);
+
+        await _nav.NavigateToWithParameters($"///{nameof(CleanerOrderDetails)}",
+            new Dictionary<string, object>
+            {
+                { "Contract", result }
+            }
+            );
     }
 }

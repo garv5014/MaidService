@@ -9,10 +9,14 @@
         BorderColor="Black"
         CornerRadius="25"
         HasShadow="True">
+    
     <Frame.GestureRecognizers>
+        
         <TapGestureRecognizer Command="{Binding TapCardCommand}" />
     </Frame.GestureRecognizers>
+    
     <HorizontalStackLayout>
+        
         <sfavatar:SfAvatarView Grid.RowSpan="3"
                                Grid.Column="0"
                                Grid.Row="0"
@@ -24,22 +28,27 @@
                                Margin="5"
                                CornerRadius="44"
                                WidthRequest="100" />
+        
         <VerticalStackLayout WidthRequest="200">
+            
             <Label Text="Address"
                    VerticalOptions="Center"
                    HorizontalOptions="Start"
-                   FontSize="Medium" 
-                   />
+                   FontSize="Medium" />
+            
             <Label Text="{Binding CardContract.FullLocation, FallbackValue='fallback value', TargetNullValue='targetnull value'}"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
+            
             <Label Text="Date"
                    VerticalOptions="Center"
                    HorizontalOptions="Start"
                    FontSize="Medium" />
+            
             <Label Text="{Binding CardContract.ScheduleDate, StringFormat='{0:M/d/y}'}"
                    VerticalOptions="Center"
                    HorizontalOptions="Start" />
+            
         </VerticalStackLayout>
     </HorizontalStackLayout>
 </Frame>

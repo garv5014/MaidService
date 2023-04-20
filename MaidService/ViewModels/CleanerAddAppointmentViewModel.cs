@@ -19,6 +19,7 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
             await Shell.Current.GoToAsync($"///{nameof(AvailableCleanerAppointments)}");
         }
     }
+
     private ICleanerService _cleanerService;
     private readonly INavService _navService;
     [ObservableProperty]

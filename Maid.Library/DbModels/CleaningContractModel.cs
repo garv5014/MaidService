@@ -1,4 +1,5 @@
-﻿using Postgrest.Attributes;
+﻿using Microsoft.Maui.Platform;
+using Postgrest.Attributes;
 using Postgrest.Models;
 using System;
 
@@ -62,7 +63,7 @@ public class CleaningContract
 
     public int Customer_Id { get; set; }
 
-    public DateTime DateCompleted { get; set; }
+    public DateTime? DateCompleted { get; set; }
 
     public DateTime ScheduleDate { get; set; }
 

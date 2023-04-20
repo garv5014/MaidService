@@ -5,14 +5,17 @@ using MaidService.Library.DbModels;
 using MaidService.Views;
 
 namespace MaidService.ViewModels;
-[QueryProperty(nameof(Contract), nameof(Contract))]
-public partial class CleanerOrderDetailsViewModel : ObservableObject
+
+//[QueryProperty(nameof(Contract), nameof(Contract))]
+public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttributable
 {
+    private ICleanerService _cleanerService;
     private ICustomerService _customer;
     private INavService _navService;
 
-    public CleanerOrderDetailsViewModel(ICustomerService customer, INavService navService)
+    public CleanerOrderDetailsViewModel(ICleanerService cleaner, ICustomerService customer, INavService navService)
     {
+        _cleanerService = cleaner;
         _customer = customer;
         _navService = navService;
     }
@@ -22,12 +25,6 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
 
     [ObservableProperty]
     private string cleanerNames = null;
-
-    [RelayCommand]
-    public void NavigatedTo()
-    {
-        CleanerNames = allCleanersFirstNames(Contract);
-    }
 
     private string allCleanersFirstNames(CleaningContract result)
     {
@@ -60,5 +57,11 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject
                 { "Contract", Contract }
             }
             );
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        Contract = (CleaningContract)query[nameof(Contract)];
+        CleanerNames = allCleanersFirstNames(Contract);
     }
 }
