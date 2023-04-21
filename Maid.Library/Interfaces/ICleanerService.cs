@@ -5,7 +5,7 @@ namespace Maid.Library.Interfaces;
 public interface ICleanerService
 {
     Task<Cleaner> GetCurrentCleaner();
-    Task AddNewCleaner(string firstName, string lastName, string phoneNumber, string userEmail,string authId);
+    Task AddNewCleaner(string firstName, string lastName, string phoneNumber, string userEmail, string authId);
     Task UpdateCleanerBio(string bioText);
     Task<IEnumerable<CleaningContract>> GetAllAvailableAppointments();
     Task<IEnumerable<Schedule>> GetAvailableSchedulesForADate(DateTime scheduleDate);
@@ -15,4 +15,5 @@ public interface ICleanerService
     Task<IEnumerable<CleaningContractWithStartTime>> GetUpcomingAppointments();
     Task<IEnumerable<CleaningContractWithStartTime>> GetAllScheduledAppointmentsForAWeek(DateTime startDate);
     Task<CleaningContract> GetCleaningContractDetails(int contractId);
+    Task RemoveCleanerFromAppointment(int contractId);
 }

@@ -236,4 +236,14 @@ public class CleanerService : ICleanerService
         return _mapper.Map<CleaningContract>(result);
     }
 
+    public async Task RemoveCleanerFromAppointment(int contractId)
+    {
+        var cleaner = await GetCurrentCleaner();
+        var result = await _client.Rpc("delete_cleaner_assignment_rows",
+            new Dictionary<string, object> 
+            {
+                { "target_contract_id", contractId },
+                { "target_cleaner_id", cleaner.Id }
+            });
+    }
 }

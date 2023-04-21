@@ -359,3 +359,31 @@ select cc.id as id,
 END;
 $function$
 ;
+
+CREATE OR REPLACE FUNCTION delete_cleaner_assignment_rows(target_contract_id integer, target_cleaner_id integer)
+RETURNS boolean
+LANGUAGE plpgsql
+AS $function$
+DECLARE
+    cleaner_assignment RECORD;
+	has_succeeded bool = false;
+BEGIN
+    FOR cleaner_assignment IN
+    	select ca.id,
+		   	   ca.contract_id,
+		   	   ca.cleaner_availability_id
+		from cleaning_contract cc
+		left join cleaner_assignments ca on (cc.id = ca.contract_id)
+		left join cleaner_availability ca2 on (ca.cleaner_availability_id = ca2.id)
+		where (cc.id = target_contract_id)
+		and (ca2.cleaner_id = target_cleaner_id)
+    LOOP
+	    delete
+	    from cleaner_assignments ca3
+	    where (ca3.id = cleaner_assignment.id);
+    END LOOP;
+   
+   	has_succeeded = true;
+	return has_succeeded;
+END;
+$function$;

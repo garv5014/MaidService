@@ -109,7 +109,8 @@
             <Button BackgroundColor="Red"
                     Text="Cancel Appointment"
                     HorizontalOptions="End"
-                    IsVisible="{Binding IsCleanerAssignedToContract}" />
+                    IsVisible="{Binding IsCleanerAssignedToContract}"
+                    Command="{Binding CancelAppointmentCommand}"/>
 
 
         </HorizontalStackLayout>

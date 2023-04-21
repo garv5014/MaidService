@@ -67,6 +67,13 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
             );
     }
 
+    [RelayCommand]
+    public async Task CancelAppointment()
+    {
+        await _cleanerService.RemoveCleanerFromAppointment(Contract.Id);
+        await _navService.NavigateTo($"///{nameof(CleanerProfile)}");
+    }
+
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         Contract = (CleaningContract)query[nameof(Contract)];
