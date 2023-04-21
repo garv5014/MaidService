@@ -22,8 +22,8 @@ public class MauiPlatformService : IPlatformService
                     using var stream = await result.OpenReadAsync();
                     var image = ImageSource.FromStream(() => stream);
                 }
+                return result;
             }
-            return result;
         }
         catch (Exception ex)
         {

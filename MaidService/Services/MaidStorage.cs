@@ -33,18 +33,34 @@ public class MaidStorage : ISupabaseStorage
         }
         return publicUrl;
     }
-
     public async Task UploadProfilePicture()
     {
         string photoDevicePath = await pickAPhotoFromFileSystem();
         string fileNameForSupabase = getProfileHash();
-        try
-        { await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase); }
-        catch (BadRequestException e)
-        {
-            if (e.ErrorResponse.Error == "Duplicate")
-                await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
+        if (!string.IsNullOrEmpty(photoDevicePath))
+        { 
+            try
+            { await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase); }
+            catch (BadRequestException e)
+            {
+                if (e.ErrorResponse.Error == "Duplicate")
+                    await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
+            }
         }
+    }
+    public IEnumerable<Cleaner> GetCleanersProfilePicturesFromAContract(CleaningContract contract)
+    {
+        var cleaners = new List<Cleaner>();
+        foreach (var cleaner in contract.AvailableCleaners)
+        {
+            var pfpHash = getProfileHash(cleaner.Cleaner);
+            var cleanerProfilePicture = _client.Storage
+                .From("profile-pictures")
+                .GetPublicUrl(pfpHash);
+            cleaner.Cleaner.ProfilePictureUrl = cleanerProfilePicture;
+            cleaners.Add(cleaner.Cleaner);
+        }
+        return cleaners;
     }
     private async Task storeProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
     {
@@ -53,9 +69,9 @@ public class MaidStorage : ISupabaseStorage
                       .Upload(photoToBeUploadedPath, fileNameForSupabase);
     }
     private async Task<string> pickAPhotoFromFileSystem()
-    {
-        var res = await _platformService.PickFile();
-        var photoUrl = res.FullPath;
+    {           
+        var res = await _platformService.PickFile(PickOptions.Images);
+        var photoUrl = res?.FullPath;
         return photoUrl;
     }
     private async Task replaceProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
@@ -78,20 +94,5 @@ public class MaidStorage : ISupabaseStorage
             return "profile_picture_" + targetUser.AuthId[..5];
         }
         throw new Exception("profile hash not found");
-    }
-
-    public IEnumerable<Cleaner> GetCleanersProfilePicturesFromAContract(CleaningContract contract)
-    {
-        var cleaners = new List<Cleaner>();
-        foreach (var cleaner in contract.AvailableCleaners)
-        {
-            var pfpHash = getProfileHash(cleaner.Cleaner);
-            var cleanerProfilePicture = _client.Storage
-                .From("profile-pictures")
-                .GetPublicUrl(pfpHash);
-            cleaner.Cleaner.ProfilePictureUrl = cleanerProfilePicture;
-            cleaners.Add(cleaner.Cleaner);
-        }
-        return cleaners;
     }
 }

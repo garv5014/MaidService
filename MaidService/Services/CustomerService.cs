@@ -13,14 +13,12 @@ public class CustomerService : ICustomerService
     private readonly Supabase.Client _client;
     private readonly IMapper _mapper;
     private readonly IAuthService _auth;
-    private readonly IPlatformService _platformService;
 
-    public CustomerService(Supabase.Client client, IMapper mapper, IAuthService auth, IPlatformService platformService)
+    public CustomerService(Supabase.Client client, IMapper mapper, IAuthService auth)
     {
         _client = client;
         _mapper = mapper;
         _auth = auth;
-        _platformService = platformService;
     }
 
     public async Task<IEnumerable<CleaningType>> GetCleaningTypes()
@@ -168,60 +166,4 @@ public class CustomerService : ICustomerService
             
         }
     }
-
-    public async Task UploadProfilePicture(int retryAttempts = 0)
-    {
-        string photoUrl = await PickAPhoto();
-        string supabaseUrl = await GetCustomerProfileHash();
-        try
-        {
-            await _client.Storage
-              .From("profile-pictures")
-              .Upload(photoUrl, supabaseUrl);
-        }
-        catch (BadRequestException e)
-        {
-            if (e.ErrorResponse.Error == "Duplicate")
-            {
-                var res = await _client.Storage
-                    .From("profile-pictures")
-                    .Remove(new List<string> { supabaseUrl });
-                await _client.Storage
-                    .From("profile-pictures")
-                    .Upload(photoUrl, supabaseUrl);
-            }
-        }
-    }
-
-    private async Task<string> PickAPhoto()
-    {
-        var res = await _platformService.PickFile();
-        var photoUrl = res.FullPath;
-        return photoUrl;
-    }
-
-    public async Task<string> GetProfilePicturePath()
-    {
-        var profilePicture = await GetCustomerProfileHash();
-        string publicUrl = "";
-        try
-        {
-            publicUrl = _client
-                            .Storage
-                            .From("profile-pictures")
-                            .GetPublicUrl(profilePicture);
-        }
-        catch (Exception e)
-        {
-            //
-        }
-        return publicUrl;
-    }
-    private async Task<string> GetCustomerProfileHash()
-    {
-        var cust = await GetCurrentCustomer();
-        string supabaseUrl = "profile_picture_" + cust.AuthId[..5];
-        return supabaseUrl;
-    }
-
 }
