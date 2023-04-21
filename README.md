@@ -5,7 +5,7 @@
 - [ ] Look at profile picture issues. (Working but still only loads once) 
 	- let cleaners change their profile pictures as well as customers
 - [ ] Add activity indicators for loading new screens. 2pts 
-- [ ] Cancel Appointment button for customers 2pts
+- [X] Cancel Appointment button for customers 2pts
 	- when the appointment is cancled it is removed from the cleaner and put back so other can see it.
 - [ ] Add Away for cleaners to mark a job as completed.
 	- should only be able to mark complete after the time for the job has passed.
