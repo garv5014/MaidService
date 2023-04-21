@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v2.3.1
         with:
           name: windows-ci-build
-          path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/."
+          path: ./MaidService/MaidService/bin/x64/release/net7.0-windows10.0.19041.0/."
   # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
   build-android:
     runs-on: windows-2022
