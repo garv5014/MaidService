@@ -70,7 +70,7 @@ public class MaidStorage : ISupabaseStorage
     }
     private async Task<string> pickAPhotoFromFileSystem()
     {           
-        var res = await _platformService.PickFile(PickOptions.Images);
+        var res = await _platformService.PickImageFile(PickOptions.Images);
         var photoUrl = res?.FullPath;
         return photoUrl;
     }

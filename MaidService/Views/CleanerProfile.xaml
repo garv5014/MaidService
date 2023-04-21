@@ -24,7 +24,7 @@
                                        Grid.Column="0"
                                        Grid.Row="0"
                                        ContentType="Custom"
-                                       ImageSource="default_profile.jpg"
+                                       ImageSource="default_pfp.jpg"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"
                                        HeightRequest="125"

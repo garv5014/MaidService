@@ -19,7 +19,7 @@
                                    Grid.Column="0"
                                    Grid.Row="0"
                                    ContentType="Custom"
-                                   ImageSource="{Binding ProfilePicturePath, TargetNullValue=default_profile.jpg}"
+                                   ImageSource="{Binding ProfilePicturePath, TargetNullValue=default_pfp.jpg, FallbackValue=default_pfp.jpg}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"
                                    HeightRequest="125"

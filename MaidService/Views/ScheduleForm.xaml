@@ -4,6 +4,7 @@
              x:Class="MaidService.Views.ScheduleForm"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:MaidService.ViewModels"
              xmlns:calendar="clr-namespace:Syncfusion.Maui.Calendar;assembly=Syncfusion.Maui.Calendar">
 
     <ContentPage.Behaviors>
@@ -13,7 +14,7 @@
 
     <ScrollView>
         <Grid ColumnDefinitions="*,*"
-              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               RowSpacing="10"
               Margin="10"
               Padding="10">
@@ -23,7 +24,7 @@
                                           WidthRequest="325"
                                           Value="{Binding Contract.Location.Address, Mode=TwoWay}"
                                           MaskType="RegEx"
-                                          Mask=".+"/>
+                                          Mask=".+" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1">
@@ -105,15 +106,49 @@
                 </Frame>
             </VerticalStackLayout>
 
+            <VerticalStackLayout Grid.Row="6"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2">
+                <Button Text="Add a Photo"
+                        Background="cornflowerblue"
+                        WidthRequest="150"
+                        Command="{Binding SelectPhotosCommand}" 
+                        Margin="0,5 "/>
+                <CollectionView ItemsSource="{Binding ContractPhotos}"
+                                Margin="0,5">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+
+                                <Image Source="{Binding FullPath}"
+                                       HeightRequest="300"
+                                       Margin="0,5"/>
+                                <Button Text="-"
+                                        Grid.Row="1"
+                                        HorizontalOptions="End"
+                                        HeightRequest="40"
+                                        WidthRequest="40"
+                                        CornerRadius="25"
+                                        Background="red"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ScheduleFormViewModel}}, Path=RemoveImageCommand}"
+                                        CommandParameter="{Binding FullPath}" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+
             <Label Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Grid.Row="6"
+                   Grid.Row="7"
                    HorizontalOptions="Start"
                    FontSize="Large"
                    Text="{Binding DisplayPrice
                             ,StringFormat='Price: ${0}'}" />
 
-            <Button Grid.Row="7"
+            <Button Grid.Row="8"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Command="{Binding AddJobCommand}"

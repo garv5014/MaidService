@@ -25,19 +25,22 @@ public partial class ScheduleFormViewModel : ObservableObject
 
     [ObservableProperty]
     private CleaningContract contract = new() { ScheduleDate = DateTime.Now };
-    
+
     [ObservableProperty]
     private ObservableCollection<CleaningType> cleaningTypes;
 
+    [ObservableProperty]
+    private ObservableCollection<FileResult> contractPhotos = new();
+
     private int requestedHours;
 
-    public int RequestedHours 
+    public int RequestedHours
     {
-        get 
+        get
         {
             return requestedHours;
         }
-        set 
+        set
         {
             SetProperty(ref requestedHours, value);
             Contract.Cost = (value * 65).ToString();
@@ -51,7 +54,7 @@ public partial class ScheduleFormViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
-        CleaningTypes = new() { new CleaningType {Type = "Loading..." } } ;
+        CleaningTypes = new() { new CleaningType { Type = "Loading..." } };
         var tempTypes = new ObservableCollection<CleaningType>();
         var allTypes = await _customerService.GetCleaningTypes();
         if (allTypes != null)
@@ -66,7 +69,8 @@ public partial class ScheduleFormViewModel : ObservableObject
                 });
             }
         }
-        else {
+        else
+        {
             tempTypes.Add(new CleaningType
             {
                 Id = 0,
@@ -78,6 +82,22 @@ public partial class ScheduleFormViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async Task SelectPhotos()
+    {
+        var photo = await _platform.PickImageFile();
+        if (photo != null)
+        {
+            ContractPhotos.Add(photo);
+        }
+    }
+
+    [RelayCommand]
+    public void RemoveImage(string test)
+    {
+        ContractPhotos.Remove(ContractPhotos.FirstOrDefault(x => x.FullPath == test));
+    }
+
+    [RelayCommand]
     public async Task AddJob()
     {
         // make sure the required fields are filled out
@@ -85,7 +105,7 @@ public partial class ScheduleFormViewModel : ObservableObject
         {
             _platform.DisplayAlert("Missing Value In Fields", "Please make sure all the fields are filled in.", "Ok");
         }
-        else 
+        else
         {
             // if all fields are good make add the contract to the database
             // and show a success message to the user
@@ -121,7 +141,7 @@ public partial class ScheduleFormViewModel : ObservableObject
     void ClearForm()
     {
         Contract.Location.Address = "";
-        Contract.Location.City = "";  
+        Contract.Location.City = "";
         Contract.Location.State = "";
         Contract.Location.ZipCode = "";
         Contract.EstSqft = 0;
