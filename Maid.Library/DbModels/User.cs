@@ -2,8 +2,6 @@
 
 public class PublicUser
 {
-
-    public string Pfp;
     public string AuthId { get; set; }
     public string Email { get; set; }
     public string FirstName { get; set; }
@@ -11,6 +9,5 @@ public class PublicUser
     public int Id { get; set; }
     public string PhoneNumber { get; set; }
     public string Surname { get; set; }
-
-    public string ProfilePictureUrl { get; set; }
+    public string ProfilePicture { get; set; }
 }

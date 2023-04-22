@@ -8,8 +8,6 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
-        <toolkit:EventToCommandBehavior EventName="Loaded"
-                                        Command="{Binding LoadedCommand}" />
     </ContentPage.Behaviors>
     <VerticalStackLayout>
 
@@ -21,23 +19,35 @@
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="*,*"
               Padding="0,10,0,10">
-            <sfavatar:SfAvatarView Grid.RowSpan="3"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   ContentType="Custom"
-                                   ImageSource="{Binding ProfilePicturePath, TargetNullValue=default_pfp.jpg, FallbackValue=default_pfp.jpg}"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"
-                                   HeightRequest="125"
-                                   Margin="5"
-                                   CornerRadius="63"
-                                   WidthRequest="125" />
-            <Button
-                BackgroundColor="Transparent"
-                Text="Edit"
-                Grid.Column="0"
-                Grid.Row="0" 
-                Command="{Binding UploadPictureCommand} "/>
+
+            <Grid Padding="0"
+                  Margin="0"
+                  Grid.RowSpan="3"
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  RowDefinitions="auto"
+                  VerticalOptions="Center"
+                  >
+
+                <Image Source="{Binding CurrentCustomer.ProfilePicture, TargetNullValue=default_pfp.jpg, FallbackValue=default_pfp.jpg}"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       WidthRequest="120">
+                    <Image.Clip>
+                        <EllipseGeometry RadiusX="60"
+                                         RadiusY="60"
+                                         Center="60,70" />
+                    </Image.Clip>
+                </Image>
+                <Button BackgroundColor="Transparent"
+                        Text="Change"
+                        Command="{Binding UploadPictureCommand} "
+                        ZIndex="1"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start" />
+            </Grid>
+
+
             <VerticalStackLayout Grid.Row="0"
                                  Grid.Column="1"
                                  Grid.RowSpan="3">

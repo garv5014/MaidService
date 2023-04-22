@@ -40,9 +40,6 @@ public class CleaningContractModel : BaseModel
     [Column("location_id")]
     public int LocationId { get; set; }
 
-    [Column("pfp_url")]
-    public int ProfilePictureUrl { get; set; }
-
     [Reference(typeof(CleanerAssignmentModel), shouldFilterTopLevel: false)]
     public List<CleanerAssignmentModel> AssingedCleaners { get; set; }
 

@@ -11,12 +11,9 @@ public partial class CustomerProfileViewModel : ObservableObject
     private readonly ICustomerService _customerService;
     private readonly ISupabaseStorage _storage;
     private readonly INavService _nav;
-
+    private readonly IPlatformService _platform;
     [ObservableProperty]
     private Customer currentCustomer = new();
-
-    [ObservableProperty]
-    private string profilePicturePath;
 
     [ObservableProperty]
     private CleaningContract _customerContract;
@@ -30,11 +27,12 @@ public partial class CustomerProfileViewModel : ObservableObject
     [ObservableProperty]
     private bool isLoading = true;
 
-    public CustomerProfileViewModel( ICustomerService customerService,ISupabaseStorage storage, INavService nav)
+    public CustomerProfileViewModel(ICustomerService customerService, ISupabaseStorage storage, INavService nav, IPlatformService platform)
     {
         _customerService = customerService;
         _storage = storage;
         _nav = nav;
+        _platform = platform;
         AppointmentsHeader = "No Upcoming Appointments";
     }
 
@@ -54,19 +52,13 @@ public partial class CustomerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
-        
         IsLoading = false;
-    }
-
-    [RelayCommand]
-    public async Task Loaded()
-    {
-        ProfilePicturePath = _storage.GetProfilePictureFromSupabase(); ;
     }
 
     [RelayCommand]
     public async Task UploadPicture()
     {
         await _storage.UploadProfilePicture();
+        _platform.DisplayAlert("Success", "Profile picture updated, Please Refresh your cache if it doesn't appear to update", "OK");
     }
 }

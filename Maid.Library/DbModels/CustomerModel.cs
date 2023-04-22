@@ -24,7 +24,7 @@ public class CustomerModel : BaseModel
     public string AuthId { get; set; }
 
     [Column("pfp_url")]
-    public int ProfilePictureUrl { get; set; }
+    public string ProfilePicture { get; set; }
 }
 
 public class Customer : PublicUser

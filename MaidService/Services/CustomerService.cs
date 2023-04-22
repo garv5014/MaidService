@@ -142,7 +142,7 @@ public class CustomerService : ICustomerService
             .From<LocationModel>()
             .Insert(location);
 
-        var customer = await GetCurrentCustomer();        
+        var customer = await GetCurrentCustomer();
         var contractModel = new CleaningContractModelNoReferences
         {
             RequestedHours = contract.RequestedHours,
@@ -167,35 +167,34 @@ public class CustomerService : ICustomerService
         }
         catch (Exception e)
         {
-            
+
         }
     }
 
     private async Task uploadHousePhotos(List<string> photosToUpload, int contractId)
     {
         try
-        { 
+        {
             foreach (var photo in photosToUpload)
             {
                 var fileName = $"{contractId}_{Guid.NewGuid()}.jpg";
                 var res = await _client.Storage
-                          .From("contract-photos")  
+                          .From("contract-photos")
                           .Upload(photo, fileName);
 
                 var publicUrl = _client.Storage
                     .From("contract-photos")
                     .GetPublicUrl(fileName);
 
-
-                var resContractPhots = _client
+                var resContractPhotos = _client
                     .From<ContractPhotoModel>()
                     .Insert(new ContractPhotoModel { ContractId = contractId, PhotoUrl = publicUrl });
 
-
             }
-        }catch (Exception e)
-        { 
-        
+        }
+        catch (Exception e)
+        {
+
         }
     }
 }
