@@ -68,6 +68,7 @@ Create table customer (
 	firstname text Not Null,
 	surname text Not Null, 
 	phone_number text Not Null, 
+	pfp_url text, 
 	CONSTRAINT customer_pk PRIMARY KEY (id),
 	unique(auth_id)
 );
