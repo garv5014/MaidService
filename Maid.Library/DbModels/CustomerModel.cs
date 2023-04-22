@@ -22,6 +22,9 @@ public class CustomerModel : BaseModel
     public string PhoneNumber { get; set; }
     [Column("auth_id")]
     public string AuthId { get; set; }
+
+    [Column("pfp_url")]
+    public int ProfilePictureUrl { get; set; }
 }
 
 public class Customer : PublicUser
