@@ -25,16 +25,32 @@
                   ColumnDefinitions="3*,4*"
                   Padding="0,10,0,10">
 
-                <sfavatar:SfAvatarView Grid.RowSpan="2"
-                                       Grid.Column="0"
-                                       Grid.Row="0"
-                                       ContentType="Custom"
-                                       ImageSource="default_pfp.jpg"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center"
-                                       HeightRequest="125"
-                                       CornerRadius="63"
-                                       WidthRequest="125" />
+
+                <Grid Padding="0"
+                      Margin="0"
+                      Grid.RowSpan="2"
+                      Grid.Column="0"
+                      Grid.Row="0"
+                      RowDefinitions="auto"
+                      VerticalOptions="Center">
+
+                    <Image Source="{Binding CurrentCleaner.ProfilePicture, TargetNullValue=default_pfp.jpg, FallbackValue=default_pfp.jpg}"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0"
+                           WidthRequest="120">
+                        <Image.Clip>
+                            <EllipseGeometry RadiusX="60"
+                                             RadiusY="60"
+                                             Center="60,65" />
+                        </Image.Clip>
+                    </Image>
+                    <Button BackgroundColor="Transparent"
+                            Text="Change"
+                            Command="{Binding UploadPictureCommand} "
+                            ZIndex="1"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start" />
+                </Grid>
 
                 <VerticalStackLayout Grid.Row="0"
                                      Grid.Column="1"
@@ -118,7 +134,8 @@
                                Padding="10,8"
                                BorderColor="Gray"
                                CornerRadius="5"
-                               HasShadow="True">
+                               HasShadow="True"
+                               HeightRequest="50">
 
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.TapCardCommand,

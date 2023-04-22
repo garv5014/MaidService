@@ -12,25 +12,25 @@ public partial class CleanerProfileViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly ICleanerService _cleanerService;
     private readonly ISupabaseStorage _storage;
+    private readonly IPlatformService _platform;
 
     public CleanerProfileViewModel(
         ICustomerService customerService, 
         INavService nav, 
         ICleanerService cleanerService, 
-        ISupabaseStorage storage)
+        ISupabaseStorage storage, 
+        IPlatformService platform)
     {
         _customerService = customerService;
         _nav = nav;
         _cleanerService = cleanerService;
         _storage = storage;
+        _platform = platform;
         AppointmentsHeader = "No Upcoming Appointments";
     }
 
     [ObservableProperty]
     private Cleaner currentCleaner = new();
-
-    [ObservableProperty]
-    private CleaningContract cleanerContract;
 
     [ObservableProperty]
     private IEnumerable<CleaningContractWithStartTime> appointments;
@@ -106,5 +106,12 @@ public partial class CleanerProfileViewModel : ObservableObject
                 { "Contract", result }
             }
             );
+    }
+
+    [RelayCommand]
+    public async Task UploadPicture()
+    {
+        await _storage.UploadProfilePicture();
+        _platform.DisplayAlert("Success", "Profile picture updated, Please Refresh your cache if it doesn't appear to update", "OK");
     }
 }
