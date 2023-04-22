@@ -6,7 +6,7 @@ using MaidService.Views;
 
 namespace MaidService.ViewModels;
 [QueryProperty(nameof(Contract), nameof(Contract))]
-public partial class CustomerOrderDetailsViewModel : ObservableObject
+public partial class CustomerOrderDetailsViewModel : ObservableObject, IQueryAttributable
 {
     private ICustomerService _customer;
     private INavService _navService;
@@ -16,37 +16,39 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject
         _customer = customer;
         _navService = navService;
     }
+
     [ObservableProperty]
     private CleaningContract contract;
 
     [ObservableProperty]
     private string cleanerName = null;
 
-    [RelayCommand]
-    public void NavigatedTo()
-    {
-        CleanerName = allCleanersFirstNames(Contract);
-    }
-    private string allCleanersFirstNames(CleaningContract contract)
-    {
-        var allCleaners = contract?.AvailableCleaners;
-        List<string> allCleanersNames = new();
-        if (allCleaners?.Count > 0)
-        {
-            foreach (var cleaner in allCleaners)
-            {
-                allCleanersNames.Add(cleaner.Cleaner.FirstName);
-            }
-            var res = string.Join(", ", allCleanersNames);
-            return res;
-        }
-        return "No Cleaners Yet";
-    }
-
+    [ObservableProperty]
+    private bool isLoading = true;
 
     [RelayCommand]
     public async Task GoBack()
     {
         await _navService.NavigateTo($"///{nameof(CustomerProfile)}");
+    }
+
+    private string allCleanersFirstNames(CleaningContract contract)
+    {
+        var allCleaners = contract?.AvailableCleaners;
+        if (allCleaners?.Count > 0)
+        {
+            return allCleaners.First().Cleaner.FirstName;
+        }
+        return "No Cleaners Yet";
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        IsLoading = true;
+
+        Contract = (CleaningContract)query[nameof(Contract)];
+        CleanerName = allCleanersFirstNames(Contract);
+
+        IsLoading = false;
     }
 }

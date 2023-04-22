@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Java.Nio.FileNio;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
 using MaidService.Views;
@@ -46,6 +47,9 @@ public partial class CleanerProfileViewModel : ObservableObject
 
     [ObservableProperty]
     private string bioText;
+
+    [ObservableProperty]
+    private bool isLoading = true;
     
     private void ToggleEditing()
     {
@@ -56,6 +60,7 @@ public partial class CleanerProfileViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
+        IsLoading = true;
         CurrentCleaner = await _cleanerService.GetCurrentCleaner();
         BioText = CurrentCleaner.Bio;
 
@@ -70,6 +75,8 @@ public partial class CleanerProfileViewModel : ObservableObject
         {
             AppointmentsHeader = "Upcoming Appointments";
         }
+
+        IsLoading = false;
     }
 
     [RelayCommand]

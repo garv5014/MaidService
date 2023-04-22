@@ -12,6 +12,12 @@
                                         Command="{Binding LoadedCommand}" />
     </ContentPage.Behaviors>
     <VerticalStackLayout>
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand" />
+
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="*,*"
               Padding="0,10,0,10">

@@ -11,6 +11,12 @@
     </ContentPage.Behaviors>
 
     <VerticalStackLayout>
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand" />
+
         <HorizontalStackLayout>
             <ImageButton Source="arrow_left.svg"
                     HeightRequest="45"

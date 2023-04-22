@@ -14,6 +14,17 @@ public partial class SignUpPageViewModel : ObservableObject
     private readonly ICleanerService _cleanerService;
     private readonly IServiceProvider serviceProvider;
 
+    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService, IServiceProvider serviceProvider, ICleanerService cleanerService
+        )
+    {
+        _nav = nav;
+        _auth = auth;
+        _customerService = customerService;
+        this.serviceProvider = serviceProvider;
+        _cleanerService = cleanerService;
+        AccountTypes.Add("Cleaner");
+        AccountTypes.Add("Customer");
+    }
 
     [ObservableProperty]
     private string userEmail;
@@ -36,18 +47,7 @@ public partial class SignUpPageViewModel : ObservableObject
     [ObservableProperty]
     private string selectedAccountType;
 
-    public List<string> AccountTypes { get; set; } = new(); 
-    public SignUpPageViewModel(INavService nav, IAuthService auth, ICustomerService customerService, IServiceProvider serviceProvider, ICleanerService cleanerService
-        )
-    {
-        _nav = nav;
-        _auth = auth;
-        _customerService = customerService;
-        this.serviceProvider = serviceProvider;
-        _cleanerService = cleanerService;
-        AccountTypes.Add("Cleaner");
-        AccountTypes.Add("Customer");
-    }
+    public List<string> AccountTypes { get; set; } = new();
 
     [RelayCommand]
     public async Task  SignUpUser()

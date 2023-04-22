@@ -5,6 +5,12 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
     <VerticalStackLayout>
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand" />
+
         <Grid ColumnDefinitions="*,*"
               RowDefinitions="*,*,*,*"
               Margin="10"
@@ -63,11 +69,13 @@
             <StackLayout Grid.Column="1"
                          Grid.Row="2">
                 <Label FontAttributes="Bold"
-                       Text="Number Of Cleaners"
+                       IsVisible="{Binding IsCleanerAssignedToContract}"
+                       Text="Customer Phone #"
                        FontSize="Small"
                        TextColor="Grey" />
                 <Label FontSize="Medium"
-                       Text="{Binding Contract.NumOfCleaners}" />
+                       IsVisible="{Binding IsCleanerAssignedToContract}"
+                       Text="{Binding Contract.Customer.PhoneNumber}" />
             </StackLayout>
 
             <StackLayout Grid.Column="0"

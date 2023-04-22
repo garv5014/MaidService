@@ -27,6 +27,9 @@ public partial class CustomerProfileViewModel : ObservableObject
     [ObservableProperty]
     private string appointmentsHeader;
 
+    [ObservableProperty]
+    private bool isLoading = true;
+
     public CustomerProfileViewModel( ICustomerService customerService,ISupabaseStorage storage, INavService nav)
     {
         _customerService = customerService;
@@ -38,6 +41,8 @@ public partial class CustomerProfileViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
+        IsLoading = true;
+
         CurrentCustomer = await _customerService.GetCurrentCustomer();
         var res = await _customerService.GetUpcomingAppointments(CurrentCustomer.Id);
         if (res != null)
@@ -50,6 +55,7 @@ public partial class CustomerProfileViewModel : ObservableObject
             AppointmentsHeader = "Upcoming Appointments";
         }
         
+        IsLoading = false;
     }
 
     [RelayCommand]

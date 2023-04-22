@@ -33,13 +33,13 @@ jobs:
         run: dotnet restore ./MaidService/MaidService.csproj
 
       - name: Build MAUI Windows
-        run: msbuild ./MaidService/MaidService.csproj -r -p:Configuration=Release -p:RestorePackages=false -p:TargetFramework=net7.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:WindowsPackageType=MSIX
+        run: msbuild .\MaidService\MaidService.csproj /restore /t:build /p:TargetFramework=net7.0-windows10.0.19041.0 /p:configuration=release /p:WindowsAppSDKSelfContained=true /p:Platform=x64 /p:WindowsPackageType=None /p:RuntimeIdentifier=win10-x64
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           name: windows-ci-build
-          path: ./MaidService/bin/Release/net7.0-windows*/**/MaidService*.msix
+          path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
   # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
   build-android:
     runs-on: windows-2022

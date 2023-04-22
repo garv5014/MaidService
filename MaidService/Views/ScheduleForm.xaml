@@ -19,6 +19,12 @@
               Margin="10"
               Padding="10">
             <VerticalStackLayout Grid.ColumnSpan="2">
+
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand" />
+
                 <Label Text="Address" />
                 <syncfusion:SfMaskedEntry HorizontalOptions="Start"
                                           WidthRequest="325"

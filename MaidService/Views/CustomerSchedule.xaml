@@ -5,6 +5,7 @@
              xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MaidService.Views.CustomerSchedule">
+    
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
@@ -13,6 +14,13 @@
     <Grid ColumnDefinitions="*"
           RowDefinitions="*">
 
+        <ActivityIndicator Grid.Column="0"
+                           Grid.Row="0"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand" />
+
         <scheduler:SfScheduler x:Name="Scheduler"
                                Grid.Column="0"
                                Grid.Row="0"
@@ -20,8 +28,7 @@
                                View="Week"
                                AppointmentsSource="{Binding Appointments}"
                                CellBorderBrush="DarkGray"
-                               ViewChanged="OnSchedulerViewChanged"
-                               >
+                               ViewChanged="OnSchedulerViewChanged">
         </scheduler:SfScheduler>
 
         <Button Grid.Column="0"
@@ -38,6 +45,6 @@
                 FontAttributes="Bold"
                 Margin="25"
                 Text="+"
-                Command="{Binding NavigateToAllAvailableAppointmentsCommand }"/>
+                Command="{Binding NavigateToAllAvailableAppointmentsCommand}" />
     </Grid>
 </ContentPage>

@@ -79,6 +79,7 @@ public class CleaningContract
     public string Notes { get; set; }
 
     public string FullLocation => $"{Location.Address}, {Location.City}, {Location.State}";
+    public Customer Customer { get; set; }
 
     public CleaningLocation Location { get; set; } = new();
 

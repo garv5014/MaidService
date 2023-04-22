@@ -10,8 +10,15 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
 {
     private readonly ICleanerService _cleanerService;
 
-    [ObservableProperty]
-    private DateTime minDate = DateTime.Now;
+    public CleanerAcceptsShiftsViewModel()
+    {
+        ScheduleDate = DateTime.Now;
+    }
+
+    public CleanerAcceptsShiftsViewModel(ICleanerService cleanerService)
+    {
+        _cleanerService = cleanerService;
+    }
 
     [ObservableProperty]
     private DateTime scheduleDate;
@@ -25,22 +32,22 @@ public partial class CleanerAcceptsShiftsViewModel : ObservableObject
     [ObservableProperty]
     private bool existsAvailableAppoinments;
 
-    public CleanerAcceptsShiftsViewModel(ICleanerService cleanerService)
-    {
-        _cleanerService = cleanerService;
-    }
+    [ObservableProperty]
+    private DateTime minDate = DateTime.Now;
 
+    [ObservableProperty]
+    private bool isLoading = true;
 
-    public CleanerAcceptsShiftsViewModel()
-    {
-        ScheduleDate = DateTime.Now;
-    }
     [RelayCommand]
     private async Task Appear()
     {
+        IsLoading = true;
+
         SelectedSlots = new List<object>();
         await GetSchedulesForADate();
         ExistsAvailableAppoinments = Schedules.Count() != 0;
+
+        IsLoading = false;
     }
 
     [RelayCommand]
