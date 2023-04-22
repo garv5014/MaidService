@@ -19,6 +19,6 @@ public class ContractPhotoModel : BaseModel
 public class ContractPhoto
 {
     public int Id { get; set; }
-    public string Filename { get; set; }
+    public string PhotoUrl { get; set; }
     public int ContractId { get; set; }
 }

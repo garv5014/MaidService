@@ -3,128 +3,144 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaidService.Views.CleanerOrderDetails"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <ScrollView>
 
-    <VerticalStackLayout>
+        <VerticalStackLayout>
 
-        <ActivityIndicator IsRunning="{Binding IsLoading}"
-                           IsVisible="{Binding IsLoading}"
-                           HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="CenterAndExpand" />
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand" />
 
-        <Grid ColumnDefinitions="*,*"
-              RowDefinitions="*,*,*,*"
-              Margin="10"
-              ColumnSpacing="10"
-              RowSpacing="5">
-            <StackLayout Grid.Column="0"
-                         Grid.Row="0">
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Cleaner"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       Text="{Binding CleanerNames, TargetNullValue='No Cleaner Assigned'}" />
-            </StackLayout>
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="*,*,*,*"
+                  Margin="10"
+                  ColumnSpacing="10"
+                  RowSpacing="5">
+                <StackLayout Grid.Column="0"
+                             Grid.Row="0">
+                    <Label FontAttributes="Bold"
+                           FontSize="Small"
+                           Text="Cleaner"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           Text="{Binding CleanerNames, TargetNullValue='No Cleaner Assigned'}" />
+                </StackLayout>
 
-            <StackLayout Grid.Column="1"
-                         Grid.Row="0">
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Price"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       Text="{Binding Contract.Cost}" />
-            </StackLayout>
+                <StackLayout Grid.Column="1"
+                             Grid.Row="0">
+                    <Label FontAttributes="Bold"
+                           FontSize="Small"
+                           Text="Price"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           Text="{Binding Contract.Cost}" />
+                </StackLayout>
 
-            <StackLayout Grid.Column="0"
-                         Grid.Row="1">
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Date"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       Text="{Binding Contract.ScheduleDate,StringFormat='{0:M/d/y}'}" />
-            </StackLayout>
+                <StackLayout Grid.Column="0"
+                             Grid.Row="1">
+                    <Label FontAttributes="Bold"
+                           FontSize="Small"
+                           Text="Date"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           Text="{Binding Contract.ScheduleDate,StringFormat='{0:M/d/y}'}" />
+                </StackLayout>
 
-            <StackLayout Grid.Column="1"
-                         Grid.Row="1">
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Type"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       Text="{Binding Contract.CleaningType.Type}" />
-            </StackLayout>
+                <StackLayout Grid.Column="1"
+                             Grid.Row="1">
+                    <Label FontAttributes="Bold"
+                           FontSize="Small"
+                           Text="Type"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           Text="{Binding Contract.CleaningType.Type}" />
+                </StackLayout>
 
-            <StackLayout Grid.Column="0"
-                         Grid.Row="2">
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Time Duration"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       Text="{Binding Contract.RequestedHours}" />
-            </StackLayout>
+                <StackLayout Grid.Column="0"
+                             Grid.Row="2">
+                    <Label FontAttributes="Bold"
+                           FontSize="Small"
+                           Text="Time Duration"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           Text="{Binding Contract.RequestedHours}" />
+                </StackLayout>
 
-            <StackLayout Grid.Column="1"
-                         Grid.Row="2">
-                <Label FontAttributes="Bold"
-                       IsVisible="{Binding IsCleanerAssignedToContract}"
-                       Text="Customer Phone #"
-                       FontSize="Small"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       IsVisible="{Binding IsCleanerAssignedToContract}"
-                       Text="{Binding Contract.Customer.PhoneNumber}" />
-            </StackLayout>
+                <StackLayout Grid.Column="1"
+                             Grid.Row="2">
+                    <Label FontAttributes="Bold"
+                           IsVisible="{Binding IsCleanerAssignedToContract}"
+                           Text="Customer Phone #"
+                           FontSize="Small"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           IsVisible="{Binding IsCleanerAssignedToContract}"
+                           Text="{Binding Contract.Customer.PhoneNumber}" />
+                </StackLayout>
 
-            <StackLayout Grid.Column="0"
-                         Grid.Row="3"
-                         Grid.ColumnSpan='2'>
-                <Label FontAttributes="Bold"
-                       FontSize="Small"
-                       Text="Location"
-                       TextColor="Grey" />
-                <Label FontSize="Medium"
-                       Text="{Binding Contract.FullLocation}" />
-            </StackLayout>
-        </Grid>
+                <StackLayout Grid.Column="0"
+                             Grid.Row="3"
+                             Grid.ColumnSpan='2'>
+                    <Label FontAttributes="Bold"
+                           FontSize="Small"
+                           Text="Location"
+                           TextColor="Grey" />
+                    <Label FontSize="Medium"
+                           Text="{Binding Contract.FullLocation}" />
+                </StackLayout>
+            </Grid>
 
-        <Label FontAttributes="Bold"
-               Text="Notes"
-               FontSize="Small"
-               Margin="10,0,0,0"
-               TextColor="Grey" />
-        <Frame Margin="5"
-               Padding="10">
-            <Label Margin="0"
-                   MinimumHeightRequest="100"
-                   Text="{Binding Contract.Notes}" />
-        </Frame>
-        <HorizontalStackLayout Spacing="50"
-                               HorizontalOptions="Center">
+            <Label FontAttributes="Bold"
+                   Text="Notes"
+                   FontSize="Small"
+                   Margin="10,0,0,0"
+                   TextColor="Grey" />
+            <Frame Margin="5"
+                   Padding="10">
+                <Label Margin="0"
+                       MinimumHeightRequest="100"
+                       Text="{Binding Contract.Notes}" />
+            </Frame>
 
-            <ImageButton Command="{Binding GoBackCommand}"
-                         Margin="10"
-                         Source="arrow_left.svg"
-                         HorizontalOptions="Start"/>
-            
-            <Button Text="Add Appointment"
-                    HorizontalOptions="End"
-                    IsVisible="{Binding IsAddButtonVisible}"
-                    Command="{Binding NavigateToAddAppoinmentPageCommand}"/>
+            <CollectionView ItemsSource="{Binding Contract.ContractPhotos}"
+                            HeightRequest="400"
+                            IsVisible="{Binding IsCleanerAssignedToContract}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="*"
+                              Margin="0,5">
+                            <Image Source="{Binding PhotoUrl}"
+                                   WidthRequest="200" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label BackgroundColor="Grey"
+                   HeightRequest="2"
+                   Margin="0,5,0,5" />
+            <HorizontalStackLayout Spacing="50"
+                                   HorizontalOptions="Center">
 
-            <Button BackgroundColor="Red"
-                    Text="Cancel Appointment"
-                    HorizontalOptions="End"
-                    IsVisible="{Binding IsCleanerAssignedToContract}"
-                    Command="{Binding CancelAppointmentCommand}"/>
+                <ImageButton Command="{Binding GoBackCommand}"
+                             Margin="10"
+                             Source="arrow_left.svg"
+                             HorizontalOptions="Start" />
+
+                <Button Text="Add Appointment"
+                        HorizontalOptions="End"
+                        IsVisible="{Binding IsAddButtonVisible}"
+                        Command="{Binding NavigateToAddAppoinmentPageCommand}" />
+
+                <Button BackgroundColor="Red"
+                        Text="Cancel Appointment"
+                        HorizontalOptions="End"
+                        IsVisible="{Binding IsCleanerAssignedToContract}"
+                        Command="{Binding CancelAppointmentCommand}" />
 
 
-        </HorizontalStackLayout>
-        <Label BackgroundColor="Grey"
-               HeightRequest="2"
-               Margin="0,5,0,0"/>
-    </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
 
+    </ScrollView>
 </ContentPage>

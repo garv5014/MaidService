@@ -45,7 +45,7 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject, IQueryAtt
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         IsLoading = true;
-
+        Contract = new();
         Contract = (CleaningContract)query[nameof(Contract)];
         CleanerName = allCleanersFirstNames(Contract);
 
