@@ -91,6 +91,7 @@ Create table cleaner (
 	surname text Not Null, 
 	phone_number text Not Null, 
 	bio text null, 
+	pfp_url text,
 	verified bool null, 
 	/* service_radius int4 null,
 	*/
