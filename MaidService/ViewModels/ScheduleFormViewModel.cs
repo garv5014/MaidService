@@ -29,6 +29,9 @@ public partial class ScheduleFormViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<CleaningType> cleaningTypes;
 
+    [ObservableProperty]
+    private bool isLoading = true;
+
     private int requestedHours;
 
     public int RequestedHours 
@@ -51,6 +54,8 @@ public partial class ScheduleFormViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
+        IsLoading = true;
+
         CleaningTypes = new() { new CleaningType {Type = "Loading..." } } ;
         var tempTypes = new ObservableCollection<CleaningType>();
         var allTypes = await _customerService.GetCleaningTypes();
@@ -75,6 +80,8 @@ public partial class ScheduleFormViewModel : ObservableObject
             });
         }
         CleaningTypes = tempTypes;
+
+        IsLoading = false;
     }
 
     [RelayCommand]

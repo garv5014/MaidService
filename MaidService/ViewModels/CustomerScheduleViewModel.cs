@@ -13,11 +13,15 @@ public partial class CustomerScheduleViewModel : ObservableObject
     private readonly ICleanerService _cleanerService;
     private readonly IAuthService _auth;
     private readonly INavService _nav;
+
     [ObservableProperty]
     private bool isCleaner;
 
     [ObservableProperty]
     private string selectedCleaning;
+
+    [ObservableProperty]
+    private bool isLoading = true;
 
     public CustomerScheduleViewModel(ICustomerService customerService, ICleanerService cleanerService, IAuthService auth, INavService nav)
     {
@@ -33,6 +37,8 @@ public partial class CustomerScheduleViewModel : ObservableObject
     [RelayCommand]
     public async Task Appear()
     {
+        IsLoading = true;
+
         Appointments = new();
         var role = await _auth.GetUserRole();
         if (role == "Customer")
@@ -46,12 +52,23 @@ public partial class CustomerScheduleViewModel : ObservableObject
             DateTime currentWeekStartDate = DateTime.Now.AddDays(-daysTillCurrentDay);
             await CleanerSetup(currentWeekStartDate);
         }
+
+        IsLoading = false;
     }
 
     [RelayCommand]
     public async Task NavigateToAllAvailableAppointments()
     {
         await _nav.NavigateTo($"////{nameof(AvailableCleanerAppointments)}");
+    }
+
+    [RelayCommand]
+    public async Task ViewChanged(SchedulerViewChangedEventArgs e)
+    {
+        if (IsCleaner)
+        { 
+            await CleanerSetup(e.NewVisibleDates.Min(s => s.Date));
+        }
     }
 
     private async Task CleanerSetup(DateTime startDate)
@@ -113,15 +130,6 @@ public partial class CustomerScheduleViewModel : ObservableObject
                 Notes = contract.Notes,                
             };
             Appointments.Add(appointment);
-        }
-    }
-
-    [RelayCommand]
-    public async Task ViewChanged(SchedulerViewChangedEventArgs e)
-    {
-        if (IsCleaner)
-        { 
-            await CleanerSetup(e.NewVisibleDates.Min(s => s.Date));
         }
     }
 }

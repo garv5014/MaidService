@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
 using MaidService.Views;
-using System.Runtime.CompilerServices;
 
 namespace MaidService.ViewModels;
 
@@ -11,6 +10,13 @@ public partial class LoginPageViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly IAuthService _auth;
     private readonly IServiceProvider _services;
+
+    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services)
+    {
+        _nav = nav;
+        _auth = auth;
+        _services = services;
+    }
 
     [ObservableProperty]
     private string userEmail;
@@ -21,12 +27,8 @@ public partial class LoginPageViewModel : ObservableObject
     [ObservableProperty]
     private string loginResponse;
 
-    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services)
-    {
-        _nav = nav;
-        _auth = auth;
-        _services = services;
-    }
+    [ObservableProperty]
+    private bool isLoading = true;
 
     [RelayCommand]
     public async Task AttemptLogin()
@@ -49,11 +51,6 @@ public partial class LoginPageViewModel : ObservableObject
         {
             LoginResponse = "Failed To Login";
         }
-    }
-
-    private Task NavigateToCleanerTabs()
-    {
-        throw new NotImplementedException();
     }
 
     [RelayCommand]

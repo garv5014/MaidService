@@ -6,6 +6,12 @@
     <ScrollView>
 
         <VerticalStackLayout>
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand" />
+
             <Label Text="{Binding Contract.ScheduleDate, StringFormat='Select Start Time For {0:MM/dd/yy}.'}"
                    FontSize="Large"
                    FontAttributes="Bold"

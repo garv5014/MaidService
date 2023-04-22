@@ -10,22 +10,27 @@ public partial class AvailableCleanerAppointmentsViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly ICleanerService _cleanerService;
 
-    [ObservableProperty]
-    private string appointmentsHeader = "No Available Appointments";
-
-    [ObservableProperty]
-    private IEnumerable<CleanerAppointmentCardViewModel> appointments;
-
     public AvailableCleanerAppointmentsViewModel(INavService nav, ICleanerService cleanerService)
     {
         _nav = nav;
         _cleanerService = cleanerService;
     }
 
+    [ObservableProperty]
+    private string appointmentsHeader = "No Available Appointments";
+
+    [ObservableProperty]
+    private IEnumerable<CleanerAppointmentCardViewModel> appointments;
+
+    [ObservableProperty]
+    private bool isLoading = true;
+
     [RelayCommand]
     public async Task Appear()
     {
-       var appointments = await _cleanerService.GetAllAvailableAppointments();
+        IsLoading = true;
+
+        var appointments = await _cleanerService.GetAllAvailableAppointments();
 
         if (appointments != null)
         {
@@ -36,6 +41,8 @@ public partial class AvailableCleanerAppointmentsViewModel : ObservableObject
         {
             AppointmentsHeader = "Available Appointments";
         }
+
+        IsLoading = false;
     }
 
     [RelayCommand]

@@ -11,10 +11,15 @@
         <toolkit:EventToCommandBehavior EventName="Appearing"
                                         Command="{Binding AppearCommand}" />
     </ContentPage.Behaviors>
-
+    
     <ScrollView>
 
         <VerticalStackLayout>
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand" />
 
             <Grid RowDefinitions="*,*,auto"
                   ColumnDefinitions="3*,4*"

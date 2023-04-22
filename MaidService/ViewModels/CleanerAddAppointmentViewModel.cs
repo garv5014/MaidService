@@ -9,27 +9,24 @@ namespace MaidService.ViewModels;
 //[QueryProperty(nameof(Contract), nameof(Contract))]
 public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAttributable
 {
-    public async void ApplyQueryAttributes(IDictionary<string, object> query)
-    {
-        Contract = (CleaningContract)query[nameof(Contract)];
-        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForASpecificContract(Contract);
-        if (AvailableTimes.Count() == 0)
-        {
-            await Shell.Current.DisplayAlert("No Available Times", "There are no available times for this contract", "OK");
-            await Shell.Current.GoToAsync($"///{nameof(AvailableCleanerAppointments)}");
-        }
-    }
 
     private ICleanerService _cleanerService;
     private readonly INavService _navService;
-    [ObservableProperty]
-    private Schedule selectedSlot;
 
     public CleanerAddAppointmentViewModel(ICleanerService cleanerService, INavService navService)
     {
         _cleanerService = cleanerService;
         _navService = navService;
     }
+
+    [ObservableProperty]
+    private Schedule selectedSlot;
+
+    [ObservableProperty]
+    private IEnumerable<Schedule> availableTimes;
+
+    [ObservableProperty]
+    private bool isLoading = true;
 
     public CleaningContract Contract { get => contract ; 
         set 
@@ -39,9 +36,6 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
     }
 
     private CleaningContract contract;
-
-    [ObservableProperty]
-    private IEnumerable<Schedule> availableTimes;
 
     [RelayCommand]
     private async Task AddAssignedSchedule()
@@ -55,11 +49,6 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
         NavigateBackToSchedule();
     }
 
-    private async Task NavigateBackToSchedule()
-    {
-        await _navService.NavigateTo($"///CleanerSchedule");
-    }
-
     [RelayCommand]
     public async Task NavigateToCleanerDetails()
     {
@@ -67,5 +56,25 @@ public partial class CleanerAddAppointmentViewModel : ObservableObject, IQueryAt
             $"///{nameof(CleanerOrderDetails)}",
             new Dictionary<string, object> { { "Contract", Contract } }
         );
+    }
+
+    private async Task NavigateBackToSchedule()
+    {
+        await _navService.NavigateTo($"///CleanerSchedule");
+    }
+    
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        IsLoading = true;
+
+        Contract = (CleaningContract)query[nameof(Contract)];
+        AvailableTimes = await _cleanerService.GetCleanerAvailabilityForASpecificContract(Contract);
+        if (AvailableTimes.Count() == 0)
+        {
+            await Shell.Current.DisplayAlert("No Available Times", "There are no available times for this contract", "OK");
+            await Shell.Current.GoToAsync($"///{nameof(AvailableCleanerAppointments)}");
+        }
+
+        IsLoading = false;
     }
 }

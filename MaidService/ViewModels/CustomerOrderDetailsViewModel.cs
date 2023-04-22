@@ -16,11 +16,21 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject, IQueryAtt
         _customer = customer;
         _navService = navService;
     }
+
     [ObservableProperty]
     private CleaningContract contract;
 
     [ObservableProperty]
     private string cleanerName = null;
+
+    [ObservableProperty]
+    private bool isLoading = true;
+
+    [RelayCommand]
+    public async Task GoBack()
+    {
+        await _navService.NavigateTo($"///{nameof(CustomerProfile)}");
+    }
 
     private string allCleanersFirstNames(CleaningContract contract)
     {
@@ -32,15 +42,13 @@ public partial class CustomerOrderDetailsViewModel : ObservableObject, IQueryAtt
         return "No Cleaners Yet";
     }
 
-    [RelayCommand]
-    public async Task GoBack()
-    {
-        await _navService.NavigateTo($"///{nameof(CustomerProfile)}");
-    }
-
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
+        IsLoading = true;
+
         Contract = (CleaningContract)query[nameof(Contract)];
         CleanerName = allCleanersFirstNames(Contract);
+
+        IsLoading = false;
     }
 }

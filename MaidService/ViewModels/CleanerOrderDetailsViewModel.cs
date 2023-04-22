@@ -34,6 +34,9 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
     [ObservableProperty]
     private bool isAddButtonVisible = true;
 
+    [ObservableProperty]
+    private bool isLoading = true;
+
     private string allCleanersFirstNames(CleaningContract result)
     {
         var allCleaners = result?.AvailableCleaners;
@@ -73,6 +76,8 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
+        IsLoading = true;
+
         Contract = (CleaningContract)query[nameof(Contract)];
         CleanerNames = allCleanersFirstNames(Contract);
         CustomerPhoneNumber = Contract.Customer.PhoneNumber;
@@ -87,5 +92,7 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
             IsCleanerAssignedToContract = true;
             IsAddButtonVisible = false;
         }
+
+        IsLoading = false;
     }
 }
