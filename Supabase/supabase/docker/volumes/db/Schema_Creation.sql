@@ -123,8 +123,9 @@ CREATE TABLE cleaning_contract (
 create table public.contract_photos(
 	id serial4 not null, 
 	cleaning_contract_id int4 not null references public.cleaning_contract (id) on delete set null,
-	filename text not null
+	photo_url text not null
 );
+
 
 
 CREATE TABLE cust_review_cleaner  (
