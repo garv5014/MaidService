@@ -26,6 +26,9 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
     private string cleanerNames = null;
 
     [ObservableProperty]
+    private string customerPhoneNumber;
+
+    [ObservableProperty]
     private bool isCleanerAssignedToContract = false;
 
     [ObservableProperty]
@@ -34,15 +37,9 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
     private string allCleanersFirstNames(CleaningContract result)
     {
         var allCleaners = result?.AvailableCleaners;
-        List<string> allCleanersNames = new();
         if (allCleaners?.Count > 0)
         {
-            foreach (var cleaner in allCleaners)
-            {
-                allCleanersNames.Add(cleaner.Cleaner.FirstName);
-            }
-            var res = string.Join(", ", allCleanersNames);
-            return res;
+            return allCleaners.First().Cleaner.FirstName;
         }
         return "No Cleaners Yet";
     }
@@ -78,6 +75,7 @@ public partial class CleanerOrderDetailsViewModel : ObservableObject, IQueryAttr
     {
         Contract = (CleaningContract)query[nameof(Contract)];
         CleanerNames = allCleanersFirstNames(Contract);
+        CustomerPhoneNumber = Contract.Customer.PhoneNumber;
 
         if (CleanerNames == "No Cleaners Yet")
         {
