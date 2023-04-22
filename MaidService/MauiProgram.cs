@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Supabase;
+using Microsoft.Extensions.Configuration;
 using MaidService.Views;
 using MaidService.ViewModels;
 using Syncfusion.Maui.Core.Hosting;
@@ -9,6 +10,8 @@ using MaidService.Services;
 using MaidService.CustomComponents;
 using MaidService.ComponentsViewModels;
 using MaidService.Mappers;
+using System.Reflection;
+using static System.Net.WebRequestMethods;
 
 namespace MaidService;
 
@@ -26,7 +29,13 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        var url = DeviceInfo.Current.Platform == DevicePlatform.Android ? "http://10.0.2.2:8000" : "http://localhost:8000";
+
+        LoadAppsettingsIntoConfig(builder);
+        string url;
+#if DEBUG
+        url = DeviceInfo.Current.Platform == DevicePlatform.Android ? builder.Configuration["AndroidDevelopment"] : builder.Configuration["WindowDevelopment"];
+#endif
+
         var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjc4OTQ2NDAwLAogICAgImV4cCI6IDE4MzY3OTkyMDAKfQ.o8K_A6Yb58TmcKIcZWk-f36JdFM2z5mWhfDG5pnLLDw";
         var options = new SupabaseOptions
         {
@@ -82,6 +91,18 @@ public static class MauiProgram
         builder.Services.AddSingleton<AvailableCleanerAppointments>();
         builder.Services.AddSingleton<CleanerAcceptsShifts>();
         builder.Services.AddSingleton<CleanerAddAppointment>();
+    }
+
+    private static void LoadAppsettingsIntoConfig(MauiAppBuilder builder)
+    {
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("MaidService.appsetting.json");
+
+        var config = new ConfigurationBuilder()
+            .AddJsonStream(stream)
+            .Build();
+
+        builder.Configuration.AddConfiguration(config);
     }
 
     public static void InitViewModels(MauiAppBuilder builder)

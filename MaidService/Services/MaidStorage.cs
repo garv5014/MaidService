@@ -53,75 +53,67 @@ public class MaidStorage : ISupabaseStorage
                   .Set(x => x.ProfilePicture, url)
                   .Update();
         }
-        else { 
+        else
+        {
             throw new Exception("User role not found");
         }
     }
 
-public async Task UploadProfilePicture()
-{
-    string photoDevicePath = await pickAPhotoFromFileSystem();
-    string fileNameForSupabase = getProfileHash();
-    if (!string.IsNullOrEmpty(photoDevicePath))
+    public async Task UploadProfilePicture()
     {
-        try
+        string photoDevicePath = await pickAPhotoFromFileSystem();
+        string fileNameForSupabase = getProfileHash();
+        if (!string.IsNullOrEmpty(photoDevicePath))
         {
-            await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
-            await updateUserTableWithNewUrl();
-        }
-        catch (BadRequestException e)
-        {
-            if (e.ErrorResponse.Error == "Duplicate")
-                await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
+            try
+            {
+                await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
+                await updateUserTableWithNewUrl();
+            }
+            catch (BadRequestException e)
+            {
+                if (e.ErrorResponse.Error == "Duplicate")
+                    await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
                 await updateUserTableWithNewUrl();
             }
         }
-}
-public IEnumerable<Cleaner> GetCleanersProfilePicturesFromAContract(CleaningContract contract)
-{
-    var cleaners = new List<Cleaner>();
-    foreach (var cleaner in contract.AvailableCleaners)
-    {
-        var pfpHash = getProfileHash(cleaner.Cleaner);
-        var cleanerProfilePicture = _client.Storage
-            .From("profile-pictures")
-            .GetPublicUrl(pfpHash);
-        cleaner.Cleaner.ProfilePicture = cleanerProfilePicture;
-        cleaners.Add(cleaner.Cleaner);
     }
-    return cleaners;
-}
-private async Task storeProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
-{
-    await _client.Storage
-                  .From("profile-pictures")
-                  .Upload(photoToBeUploadedPath, fileNameForSupabase);
-}
-private async Task<string> pickAPhotoFromFileSystem()
-{
-    var res = await _platformService.PickImageFile(PickOptions.Images);
-    var photoUrl = res?.FullPath;
-    return photoUrl;
-}
-private async Task replaceProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
-{
-    await _client.Storage
-        .From("profile-pictures")
-        .Remove(new List<string> { fileNameForSupabase });
-    await storeProfilePictureInBucket(photoToBeUploadedPath, fileNameForSupabase);
-}
-private string getProfileHash(PublicUser targetUser = null)
-{
-    if (targetUser == null)
+    public IEnumerable<Cleaner> GetCleanersProfilePicturesFromAContract(CleaningContract contract)
     {
-        var currentUser = _client.Auth.CurrentUser;
-        string supabaseUrl = "profile_picture_" + currentUser.Id[..5];
+        var cleaners = new List<Cleaner>();
+        foreach (var cleaner in contract.AvailableCleaners)
+        {
+            var pfpHash = getProfileHash(cleaner.Cleaner);
+            var cleanerProfilePicture = _client.Storage
+                .From("profile-pictures")
+                .GetPublicUrl(pfpHash);
+            cleaner.Cleaner.ProfilePicture = cleanerProfilePicture;
+            cleaners.Add(cleaner.Cleaner);
+        }
+        return cleaners;
+    }
+    private async Task storeProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
+    {
+        var res = await _client.Storage
+                      .From("profile-pictures")
+                      .Upload(photoToBeUploadedPath, fileNameForSupabase);
+    }
+    private async Task<string> pickAPhotoFromFileSystem()
+    {
+        var res = await _platformService.PickImageFile(PickOptions.Images);
+        var photoUrl = res?.FullPath;
+        return photoUrl;
+    }
+    private async Task replaceProfilePictureInBucket(string photoToBeUploadedPath, string fileNameForSupabase)
+    {
+        var res = await _client.Storage
+                    .From("profile-pictures")
+                    .Remove(new List<string> { fileNameForSupabase });
+        await storeProfilePictureInBucket(photoToBeUploadedPath, fileNameForSupabase);
+    }
+    private string getProfileHash(PublicUser targetUser = null)
+    {
+        string supabaseUrl = $"{Guid.NewGuid()}.jpg";
         return supabaseUrl;
     }
-    else if (targetUser.GetType() == typeof(Cleaner) || targetUser.GetType() == typeof(Customer))
-    {
-        return "profile_picture_" + targetUser.AuthId[..5];
-    }
-    throw new Exception("profile hash not found");
-}
 }
