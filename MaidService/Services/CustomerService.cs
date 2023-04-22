@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Maid.Library.Interfaces;
 using MaidService.Library.DbModels;
+using Postgrest;
 using Postgrest.Responses;
 using Supabase;
 using Supabase.Storage;
+using System.Globalization;
 using static Postgrest.Constants;
 
 namespace MaidService.Services;
@@ -127,7 +129,7 @@ public class CustomerService : ICustomerService
         return customer;
     }
 
-    public async Task CreateNewContract(CleaningContract contract)
+    public async Task CreateNewContract(CleaningContract contract, List<string> photosToUpload = null)
     {
         var location = new LocationModel()
         {
@@ -140,8 +142,8 @@ public class CustomerService : ICustomerService
             .From<LocationModel>()
             .Insert(location);
 
-        var customer = await GetCurrentCustomer();
-        var contractModel = new CleaningContractModel
+        var customer = await GetCurrentCustomer();        
+        var contractModel = new CleaningContractModelNoReferences
         {
             RequestedHours = contract.RequestedHours,
             Customer_Id = customer.Id,
@@ -154,16 +156,46 @@ public class CustomerService : ICustomerService
             NumOfCleaners = 1,  //needs at least one cleaner 
             DateCompleted = null
         };
+
         try
         {
             var result = await _client
-                .From<CleaningContractModel>()
+                .From<CleaningContractModelNoReferences>()
                 .Insert(contractModel);
+            await uploadHousePhotos(photosToUpload, result.Models.First().Id);
             result.ResponseMessage.EnsureSuccessStatusCode();
         }
         catch (Exception e)
         {
             
+        }
+    }
+
+    private async Task uploadHousePhotos(List<string> photosToUpload, int contractId)
+    {
+        try
+        { 
+            foreach (var photo in photosToUpload)
+            {
+                var fileName = $"{contractId}_{Guid.NewGuid()}.jpg";
+                var res = await _client.Storage
+                          .From("contract-photos")  
+                          .Upload(photo, fileName);
+
+                var publicUrl = _client.Storage
+                    .From("contract-photos")
+                    .GetPublicUrl(fileName);
+
+
+                var resContractPhots = _client
+                    .From<ContractPhotoModel>()
+                    .Insert(new ContractPhotoModel { ContractId = contractId, PhotoUrl = publicUrl });
+
+
+            }
+        }catch (Exception e)
+        { 
+        
         }
     }
 }

@@ -120,10 +120,10 @@
                         <DataTemplate>
                             <Grid>
 
-                                <Image Source="{Binding FullPath}"
+                                <Image Source="{Binding .}"
                                        HeightRequest="300"
                                        Margin="0,5"/>
-                                <Button Text="-"
+                                <Button Text="X"
                                         Grid.Row="1"
                                         HorizontalOptions="End"
                                         HeightRequest="40"
@@ -131,7 +131,7 @@
                                         CornerRadius="25"
                                         Background="red"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ScheduleFormViewModel}}, Path=RemoveImageCommand}"
-                                        CommandParameter="{Binding FullPath}" />
+                                        CommandParameter="{Binding .}" />
 
                             </Grid>
                         </DataTemplate>

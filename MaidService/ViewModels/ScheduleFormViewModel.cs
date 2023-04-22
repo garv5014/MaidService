@@ -30,7 +30,7 @@ public partial class ScheduleFormViewModel : ObservableObject
     private ObservableCollection<CleaningType> cleaningTypes;
 
     [ObservableProperty]
-    private ObservableCollection<FileResult> contractPhotos = new();
+    private ObservableCollection<string> contractPhotos = new();
 
     private int requestedHours;
 
@@ -87,14 +87,14 @@ public partial class ScheduleFormViewModel : ObservableObject
         var photo = await _platform.PickImageFile();
         if (photo != null)
         {
-            ContractPhotos.Add(photo);
+            ContractPhotos.Add(photo.FullPath);
         }
     }
 
     [RelayCommand]
-    public void RemoveImage(string test)
+    public void RemoveImage(string targetPhoto)
     {
-        ContractPhotos.Remove(ContractPhotos.FirstOrDefault(x => x.FullPath == test));
+        ContractPhotos.Remove(ContractPhotos.FirstOrDefault(x => x == targetPhoto));
     }
 
     [RelayCommand]
@@ -107,14 +107,12 @@ public partial class ScheduleFormViewModel : ObservableObject
         }
         else
         {
-            // if all fields are good make add the contract to the database
-            // and show a success message to the user
             Contract.RequestedHours = TimeSpan.FromHours(RequestedHours);
             Contract.CleaningType = new CleaningType { Type = CleaningTypes[SelectedIndex].Type, Id = CleaningTypes[SelectedIndex].Id };
             try
             {
-                await _customerService.CreateNewContract(Contract);
-
+                var photos = ContractPhotos.ToList();
+                await _customerService.CreateNewContract(Contract, photos);
             }
             catch (Exception)
             {
@@ -135,6 +133,12 @@ public partial class ScheduleFormViewModel : ObservableObject
             && Contract.EstSqft > 0
             && RequestedHours >= 1
             && Contract.ScheduleDate > DateTime.Now;
+
+        if (requestedHours > 5)
+        { 
+            _platform.DisplayAlert("Please Adjust Hours", "The maximum time you can request for a single job is 4 hours", "Ok");
+            res = false;
+        }
         return res;
     }
 
@@ -151,5 +155,6 @@ public partial class ScheduleFormViewModel : ObservableObject
         RequestedHours = 0;
         OnPropertyChanged(nameof(Contract));
         OnPropertyChanged(nameof(RequestedHours));
+        ContractPhotos = new();
     }
 }

@@ -21,5 +21,6 @@ public class MapperProfile : Profile
         CreateMap<DayTemplateModel, DayTemplate>().ReverseMap();
         CreateMap<LocationModel, CleaningLocation>().ReverseMap();
         CreateMap<ScheduleModel, Schedule>().ReverseMap();
+        CreateMap<ContractPhotoModel, ContractPhoto>().ReverseMap();
     }
 }

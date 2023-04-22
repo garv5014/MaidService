@@ -51,7 +51,6 @@ public class MauiPlatformService : IPlatformService
         {
             // The user canceled or something went wrong
         }
-
         return null;
     }
 }
