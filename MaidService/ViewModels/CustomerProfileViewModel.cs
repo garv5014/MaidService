@@ -59,6 +59,5 @@ public partial class CustomerProfileViewModel : ObservableObject
     public async Task UploadPicture()
     {
         await _storage.UploadProfilePicture();
-        _platform.DisplayAlert("Success", "Profile picture updated, Please Refresh your cache if it doesn't appear to update", "OK");
     }
 }

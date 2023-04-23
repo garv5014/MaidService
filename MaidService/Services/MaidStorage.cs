@@ -18,39 +18,25 @@ public class MaidStorage : ISupabaseStorage
         _client = client;
         this.auth = auth;
     }
-    public string GetProfilePictureFromSupabase()
+    private async Task updateUserTableWithNewUrl(string url)
     {
-        var profilePicture = getProfileHash();
-        string publicUrl = "";
-        try
-        {
-            publicUrl = _client
-                            .Storage
-                            .From("profile-pictures")
-                            .GetPublicUrl(profilePicture);
-        }
-        catch (Exception e)
-        {
-            //
-        }
-        return publicUrl;
-    }
-    private async Task updateUserTableWithNewUrl()
-    {
-        var url = GetProfilePictureFromSupabase();
         var role = await auth.GetUserRole();
+        var publicUrl = _client
+                           .Storage
+                           .From("profile-pictures")
+                           .GetPublicUrl(url);
         if (role == "Cleaner")
         {
             await _client.From<CleanerModel>()
                   .Where(x => x.AuthId == _client.Auth.CurrentUser.Id)
-                  .Set(x => x.ProfilePicture, url)
+                  .Set(x => x.ProfilePicture, publicUrl)
                   .Update();
         }
         else if (role == "Customer")
         {
             await _client.From<CustomerModel>()
                   .Where(x => x.AuthId == _client.Auth.CurrentUser.Id)
-                  .Set(x => x.ProfilePicture, url)
+                  .Set(x => x.ProfilePicture, publicUrl)
                   .Update();
         }
         else
@@ -68,14 +54,15 @@ public class MaidStorage : ISupabaseStorage
             try
             {
                 await storeProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
-                await updateUserTableWithNewUrl();
+                await updateUserTableWithNewUrl(fileNameForSupabase);
             }
             catch (BadRequestException e)
             {
                 if (e.ErrorResponse.Error == "Duplicate")
                     await replaceProfilePictureInBucket(photoDevicePath, fileNameForSupabase);
-                await updateUserTableWithNewUrl();
+                await updateUserTableWithNewUrl(fileNameForSupabase);
             }
+            _platformService.DisplayAlert("Success", "Profile picture updated, Please Refresh your cache if it doesn't appear to update", "OK");
         }
     }
     public IEnumerable<Cleaner> GetCleanersProfilePicturesFromAContract(CleaningContract contract)
