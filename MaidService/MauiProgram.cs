@@ -40,9 +40,7 @@ public static class MauiProgram
         var options = new SupabaseOptions
         {
             AutoRefreshToken = true,
-            AutoConnectRealtime = true,
-
-           
+            AutoConnectRealtime = true,           
         };
 
         builder.Services.AddAutoMapper(typeof(MapperProfile));
