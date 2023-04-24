@@ -8,12 +8,10 @@ namespace MaidService.ViewModels;
 [QueryProperty(nameof(Contract), nameof(Contract))]
 public partial class CustomerOrderDetailsViewModel : ObservableObject, IQueryAttributable
 {
-    private ICustomerService _customer;
     private INavService _navService;
 
-    public CustomerOrderDetailsViewModel(ICustomerService customer, INavService navService)
+    public CustomerOrderDetailsViewModel(INavService navService)
     {
-        _customer = customer;
         _navService = navService;
     }
 

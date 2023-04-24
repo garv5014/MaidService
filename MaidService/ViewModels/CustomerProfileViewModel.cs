@@ -12,6 +12,7 @@ public partial class CustomerProfileViewModel : ObservableObject
     private readonly ISupabaseStorage _storage;
     private readonly INavService _nav;
     private readonly IPlatformService _platform;
+
     [ObservableProperty]
     private Customer currentCustomer = new();
 

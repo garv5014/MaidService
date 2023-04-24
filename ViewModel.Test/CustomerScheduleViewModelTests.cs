@@ -10,13 +10,20 @@ namespace ViewModel.Test;
 public class CustomerScheduleViewModelTests
 {
     private Mock<ICustomerService> mockCustomer;
+    private Mock<ICleanerService> mockCleaner;
+    private Mock<IAuthService> mockAuth;
+    private Mock<INavService> mockNav;
     private CustomerScheduleViewModel vm;
 
     [SetUp]
     public void Setup()
     {
         mockCustomer = new Mock<ICustomerService>();
-        vm = new CustomerScheduleViewModel(mockCustomer.Object);
+        mockCleaner = new Mock<ICleanerService>();
+        mockAuth = new Mock<IAuthService>();
+        mockNav = new Mock<INavService>();
+
+        vm = new CustomerScheduleViewModel(mockCustomer.Object, mockCleaner.Object, mockAuth.Object, mockNav.Object );
     }
 
     [Test]
@@ -47,6 +54,7 @@ public class CustomerScheduleViewModelTests
                 }
                     });
         SetUpIsScheduled(true);
+
         vm.AppearCommand.ExecuteAsync(null);
 
         vm.Appointments.Count.Should().Be(1);
@@ -54,21 +62,21 @@ public class CustomerScheduleViewModelTests
         vm.Appointments[0].Subject.Should().Be("Deep Clean");
         vm.Appointments[0].StartTime.Should().Be(new DateTime(2023, 03, 02));
         vm.Appointments[0].IsAllDay.Should().Be(false);
-        vm.Appointments[0].Background.Should().Be(Brush.Red);
+        vm.Appointments[0].Background.Should().Be(Brush.Green);
         vm.Appointments[0].EndTime.Should().Be(new DateTime(2023, 03, 02) + TimeSpan.FromHours(1));
     }
 
     private void SetupGetCurrentCustomer()
     {
-        mockCustomer.Setup(x =>
-                           x.GetCurrentCustomer()
-                           ).ReturnsAsync(new Customer { Id = 1 });
+        mockAuth.Setup(x =>
+                           x.GetUserRole()
+                           ).ReturnsAsync("Customer");
     }
 
     private void SetUpGetAllAppoinments(List<CleaningContract> list)
     {
         mockCustomer.Setup(x =>
-                           x.GetAllAppointments(It.IsAny<int>())
+                           x.GetAllAppointments()
                            ).ReturnsAsync(list);
     }
 

@@ -12,7 +12,8 @@ namespace ViewModel.Test
         private Mock<ICustomerService> mockCustomer;
 
         public Mock<INavService> mockNavService;
-
+        private Mock<ISupabaseStorage> mockStorage;
+        private Mock<IPlatformService> mockplatform;
         private CustomerProfileViewModel vm;
 
         [SetUp]
@@ -20,13 +21,19 @@ namespace ViewModel.Test
         {
             mockCustomer = new Mock<ICustomerService>();
             mockNavService = new Mock<INavService>();
-            vm = new CustomerProfileViewModel(mockCustomer.Object, mockNavService.Object);
+            mockStorage = new Mock<ISupabaseStorage>();
+            mockplatform = new Mock<IPlatformService>();
+            vm = new CustomerProfileViewModel(mockCustomer.Object
+                 ,mockStorage.Object
+                , mockNavService.Object
+                ,mockplatform.Object);
         }
 
         [Test]
         public void WhenNullModels_ReturnMessage()
         {
-            mockCustomer.Setup(x => x.GetUpcomingAppointments(1)).ReturnsAsync(new List<CleaningContract> { });
+            mockCustomer.Setup(x => x.GetCurrentCustomer()).ReturnsAsync(new Customer { Id = 1 });
+            mockCustomer.Setup(x => x.GetUpcomingAppointments(It.IsAny<int>())).ReturnsAsync(new List<CleaningContract> { });
             vm.AppearCommand.ExecuteAsync(null);
             vm.AppointmentsHeader.Should().Be("No Upcoming Appointments");
         }
@@ -55,6 +62,7 @@ namespace ViewModel.Test
                         , ScheduleDate = new DateTime(2023, 03, 02)
                     }
                 , mockNavService.Object
+                , mockStorage.Object
                 )
                 });
             vm.AppointmentsHeader.Should().Be("Upcoming Appointments");
