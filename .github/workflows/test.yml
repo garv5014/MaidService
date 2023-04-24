@@ -17,6 +17,10 @@ jobs:
         dotnet-version: '7.0.x'
     - name: Restore dependencies
       run: dotnet restore
+
+    - name: Install MAUI Workloads
+      run: |
+           dotnet workload install maui --ignore-failed-sources
     - name: Build solution
       run: dotnet build
     - name: Run NUnit tests
