@@ -4,9 +4,9 @@ on:
   push:
     tags:
       - 'v*.*.*'
-env:
-  AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
-  WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
+#env:
+#  AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
+#  WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
 
 jobs:
 
