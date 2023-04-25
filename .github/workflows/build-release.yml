@@ -9,9 +9,6 @@ env:
   WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
 
 jobs:
-
-  #run-test: 
-  #  uses: garv5014/MaidService/.github/workflows/test.yml
   release-artifacts:
     runs-on: windows-2022
     permissions: write-all
@@ -68,7 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ jobs.release-artifacts.steps.create_release.outputs.upload_url }}
+          upload_url: ${{ release-artifacts.steps.create_release.outputs.upload_url }}
           asset_path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
           asset_name: windows_app         
       
