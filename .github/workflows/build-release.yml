@@ -40,6 +40,8 @@ jobs:
         with:
           name: windows-ci-build
           path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
+        
+
   # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
   build-android:
     runs-on: windows-2022
@@ -74,4 +76,31 @@ jobs:
         uses: actions/upload-artifact@v2.3.1
         with:
           name: android-ci-build
-          path: ./MaidService/bin/Release/net7.0-android/*Signed.a*
+          path: ./MaidService/bin/Release/net7.0-android/*Signed.a* 
+
+  release-artifacts:
+      runs-on: windows-2022
+      needs: [build-android,build-windows] 
+      steps:
+     
+        - name: Create Release
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ github.ref }}
+            release_name: Release ${{ github.ref }}
+            draft: false
+            prerelease: false
+  
+      #  - name: Upload Release Asset
+      #    id: upload-release-asset 
+      #    uses: actions/upload-release-asset@v1
+      #    env:
+      #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #    with:
+      #      upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+      #      asset_path: ./my-artifact.zip
+      #      asset_name: my-artifact.zip
+      #      asset_content_type: application/zip  
