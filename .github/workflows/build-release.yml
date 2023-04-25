@@ -27,14 +27,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-        run: |
-          upload_url = Release ${{ github.ref }}
-          echo $UPLOAD_URL
             
-
-
-
-
   build-windows:
     runs-on: windows-2022
     permissions: write-all
