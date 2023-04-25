@@ -23,6 +23,8 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+          run: 
+            echo ${{ steps.create_release.outputs.upload_url }} >> $GITHUB_OUTPUT 
 
   build-windows:
     runs-on: windows-2022
