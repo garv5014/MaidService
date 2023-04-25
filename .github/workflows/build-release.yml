@@ -69,7 +69,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
           asset_name: windows_app         
       
