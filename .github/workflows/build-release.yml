@@ -12,6 +12,8 @@ jobs:
   release-artifacts:
     runs-on: windows-2022
     permissions: write-all
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Create Release
         id: create_release
