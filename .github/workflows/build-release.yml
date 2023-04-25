@@ -4,14 +4,14 @@ on:
   push:
     tags:
       - 'v*.*.*'
-#env:
-#  AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
-#  WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
+env:
+  AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
+  WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
 
 jobs:
 
-  run-test: 
-    uses: garv5014/MaidService/.github/workflows/test.yml
+  #run-test: 
+  #  uses: garv5014/MaidService/.github/workflows/test.yml
 
   build-windows:
     runs-on: windows-2022
