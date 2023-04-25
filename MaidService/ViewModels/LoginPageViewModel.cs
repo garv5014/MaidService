@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Maid.Library.Interfaces;
+using MaidService.Library.Interfaces;
 using MaidService.Views;
 
 namespace MaidService.ViewModels;
@@ -10,13 +11,21 @@ public partial class LoginPageViewModel : ObservableObject
     private readonly INavService _nav;
     private readonly IAuthService _auth;
     private readonly IServiceProvider _services;
+    private readonly IApiService _api;
 
-    public LoginPageViewModel(INavService nav, IAuthService auth, IServiceProvider services)
+    public LoginPageViewModel(INavService nav,
+        IAuthService auth,
+        IServiceProvider services,
+        IApiService api)
     {
         _nav = nav;
         _auth = auth;
         _services = services;
+        _api = api;
     }
+
+    [ObservableProperty]
+    private string welcomeMessage;
 
     [ObservableProperty]
     private string userEmail;

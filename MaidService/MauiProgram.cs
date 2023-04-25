@@ -12,6 +12,8 @@ using MaidService.ComponentsViewModels;
 using MaidService.Mappers;
 using System.Reflection;
 using static System.Net.WebRequestMethods;
+using MaidService.Library.Interfaces;
+using System.Net.Http;
 
 namespace MaidService;
 
@@ -41,6 +43,26 @@ public static class MauiProgram
         };
 
         builder.Services.AddAutoMapper(typeof(MapperProfile));
+
+        builder.Services.AddHttpClient("v1", c =>
+        {
+            c.BaseAddress = new Uri("https://localhost:7203/");
+            c.DefaultRequestHeaders.Add("version", "1.0");
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler());
+
+        builder.Services.AddHttpClient("v2", c =>
+        {
+            c.BaseAddress = new Uri("https://localhost:7203/");
+            c.DefaultRequestHeaders.Add("version", "2.0");
+        }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler());
+
+        builder.Services.AddSingleton<IApiService>(provider =>
+        {
+            var clientV1 = provider.GetRequiredService<IHttpClientFactory>().CreateClient("v1");
+            var clientV2 = provider.GetRequiredService<IHttpClientFactory>().CreateClient("v2");
+
+            return new ApiService(clientV1, clientV2);
+        });
 
         // Pages
         InitPages(builder);
