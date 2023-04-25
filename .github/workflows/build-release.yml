@@ -16,7 +16,6 @@ jobs:
     runs-on: windows-2022
     permissions: write-all
     steps:
-    
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -69,6 +68,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
+          upload_url: ${{ jobs.release-artifacts.steps.create_release.outputs.upload_url }}
           asset_path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
           asset_name: windows_app         
       
