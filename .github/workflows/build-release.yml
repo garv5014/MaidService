@@ -4,12 +4,17 @@ on:
   push:
     tags:
       - 'v*.*.*'
-
+env: 
+  AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
+  WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
 jobs:
+  run-test: 
+    uses: garv5014/MaidService/.github/workflows/test.yml
 
   build-windows:
     runs-on: windows-2022
     name: Windows Build
+    needs: run-test
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -45,6 +50,7 @@ jobs:
   # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
   build-android:
     runs-on: windows-2022
+    needs: run-test
     name: Android Build
     steps:
       - name: Checkout

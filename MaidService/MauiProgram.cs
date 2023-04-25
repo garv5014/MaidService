@@ -31,10 +31,7 @@ public static class MauiProgram
             });
 
         LoadAppsettingsIntoConfig(builder);
-        string url;
-#if DEBUG
-        url = DeviceInfo.Current.Platform == DevicePlatform.Android ? builder.Configuration["AndroidDevelopment"] : builder.Configuration["WindowDevelopment"];
-#endif
+        string url = DeviceInfo.Current.Platform == DevicePlatform.Android ? builder.Configuration["AndroidDevelopment"] : builder.Configuration["WindowDevelopment"];
 
         var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICAgInJvbGUiOiAiYW5vbiIsCiAgICAiaXNzIjogInN1cGFiYXNlIiwKICAgICJpYXQiOiAxNjc4OTQ2NDAwLAogICAgImV4cCI6IDE4MzY3OTkyMDAKfQ.o8K_A6Yb58TmcKIcZWk-f36JdFM2z5mWhfDG5pnLLDw";
         var options = new SupabaseOptions
