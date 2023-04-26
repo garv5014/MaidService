@@ -12,20 +12,26 @@ public partial class LoginPageViewModel : ObservableObject
     private readonly IAuthService _auth;
     private readonly IServiceProvider _services;
     private readonly IApiService _api;
+    private readonly IPlatformService platformService;
 
     public LoginPageViewModel(INavService nav,
         IAuthService auth,
         IServiceProvider services,
-        IApiService api)
+        IApiService api, 
+        IPlatformService platformService)
     {
         _nav = nav;
         _auth = auth;
         _services = services;
         _api = api;
+        this.platformService = platformService;
     }
 
     [ObservableProperty]
-    private string welcomeMessage;
+    private string imageUrl;
+
+    [ObservableProperty]
+    private int fontSize;
 
     [ObservableProperty]
     private string userEmail;
@@ -40,11 +46,19 @@ public partial class LoginPageViewModel : ObservableObject
     private bool isLoading = true;
 
     [RelayCommand]
+    public async Task Loaded()
+    {
+        ImageUrl = await _api.GetImageUrl();
+        FontSize = await _api.GetFontSize();
+    }
+
+    [RelayCommand]
     public async Task AttemptLogin()
     {
         var session = await _auth.SignInUser(UserEmail, Password);
         if (session != null)
         {
+            var welcomeMessage = await _api.GetLoginMessage();
             var role = await _auth.GetUserRole();
             if (role == "Cleaner")
             {
@@ -55,6 +69,7 @@ public partial class LoginPageViewModel : ObservableObject
                 await _nav.NavigateTo($"///{nameof(CustomerProfile)}");
             }
             Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+            platformService.DisplayAlert("Login", welcomeMessage, "OK");
         }
         else
         {

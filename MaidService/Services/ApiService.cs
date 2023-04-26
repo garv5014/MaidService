@@ -16,6 +16,22 @@ public class ApiService : IApiService
 
     public async Task<string> GetLoginMessage()
     {
-        return await version1.GetFromJsonAsync<string>("api/MaidService/LoginPage/Message");
+        //var res = version1.GetFromJsonAsync<string>("api/MaidService/LoginPage/Message");
+        var res = await version2.GetAsync("api/MaidService/LoginPage/Message");
+        return await res.Content.ReadAsStringAsync();
+    }
+
+    public async Task<string> GetImageUrl()
+    {
+        var result = await version1.GetAsync("api/MaidService/Logo");
+        //var result = await version2.GetAsync("api/MaidService/Logo");
+        return await result.Content.ReadAsStringAsync();
+    }
+
+    public async Task<int> GetFontSize()
+    {
+        var result = await version1.GetAsync("api/MaidService/LoginPage/FontSize");
+        //var result = await version2.GetAsync("api/MaidService/LoginPage/FontSize");
+        return await result.Content.ReadFromJsonAsync<int>();
     }
 }

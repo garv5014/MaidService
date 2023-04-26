@@ -11,9 +11,7 @@ using MaidService.CustomComponents;
 using MaidService.ComponentsViewModels;
 using MaidService.Mappers;
 using System.Reflection;
-using static System.Net.WebRequestMethods;
 using MaidService.Library.Interfaces;
-using System.Net.Http;
 
 namespace MaidService;
 
@@ -46,13 +44,13 @@ public static class MauiProgram
 
         builder.Services.AddHttpClient("v1", c =>
         {
-            c.BaseAddress = new Uri("https://localhost:7203/");
+            c.BaseAddress = new Uri("https://maidapi20230425203237.azurewebsites.net/");
             c.DefaultRequestHeaders.Add("version", "1.0");
         }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler());
 
         builder.Services.AddHttpClient("v2", c =>
         {
-            c.BaseAddress = new Uri("https://localhost:7203/");
+            c.BaseAddress = new Uri("https://maidapi20230425203237.azurewebsites.net/");
             c.DefaultRequestHeaders.Add("version", "2.0");
         }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler());
 

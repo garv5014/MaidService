@@ -3,4 +3,6 @@
 public interface IApiService
 {
     public Task<string> GetLoginMessage();
+    public Task<string> GetImageUrl();
+    public Task<int> GetFontSize();
 }
