@@ -64,7 +64,8 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
-          asset_name: windows_app         
+          asset_name: windows_app
+          asset_content_type: application/zip
       
 
   # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
