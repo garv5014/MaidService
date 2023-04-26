@@ -9,25 +9,6 @@ env:
   WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
 
 jobs:
-  release-artifacts:
-    runs-on: windows-2022
-    permissions: write-all
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
-
-    steps:
-      - name: release
-        uses: actions/create-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          UPLOAD_URL: ${{ needs.release-artifacts.outputs.upload_url }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-            
   build-windows:
     runs-on: windows-2022
     permissions: write-all
@@ -58,6 +39,19 @@ jobs:
       - name: Build MAUI Windows
         run: msbuild .\MaidService\MaidService.csproj /restore /t:build /p:TargetFramework=net7.0-windows10.0.19041.0 /p:configuration=release /p:WindowsAppSDKSelfContained=true /p:Platform=x64 /p:WindowsPackageType=None /p:RuntimeIdentifier=win10-x64
 
+
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: Release {{ github.ref }}
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
@@ -69,7 +63,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ needs.release-artifacts.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/*
           asset_name: windows_app         
       
