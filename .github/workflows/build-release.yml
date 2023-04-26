@@ -46,7 +46,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: Release ${{ github.ref }}
+          release_name: Release windows ${{ github.ref }}
           tag_name: ${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -56,6 +56,7 @@ jobs:
         with:
           name: windows-ci-build
           path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/win10-x64
+
       - name: zip_file
         run: |
           Compress-Archive -Path ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/win10-x64 -DestinationPath ./windows.zip
@@ -103,8 +104,43 @@ jobs:
       - name: Build MAUI Android
         run: dotnet build ./MaidService/MaidService.csproj -c Release -f net7.0-android --no-restore
 
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: Release windows ${{ github.ref }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           name: android-ci-build
           path: ./MaidService/bin/Release/net7.0-android/*Signed.a* 
+
+      - name: upload windows artifact-release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./MaidService/bin/Release/net7.0-android/*Signed.a*
+          asset_name: MaidService.apk
+          asset_content_type: application/zip
+
+      - name: zip_file
+        run: |
+          Compress-Archive -Path ./MaidService/bin/Release/net7.0-android -DestinationPath ./android.zip
+
+      - name: upload windows artifact-release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./MaidService/bin/Release/net7.0-android
+          asset_name: MaidService.apk
+          asset_content_type: application/zip
