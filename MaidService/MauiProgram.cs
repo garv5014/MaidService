@@ -91,10 +91,13 @@ public static class MauiProgram
     private static void LoadAppsettingsIntoConfig(MauiAppBuilder builder)
     {
         var a = Assembly.GetExecutingAssembly();
-        using var stream = a.GetManifestResourceStream("MaidService.appsetting.json");
-
+        Stream jsonStream;
+        jsonStream = a.GetManifestResourceStream("MaidService.appsettings.json");
+#if DEBUG
+        jsonStream = a.GetManifestResourceStream("MaidService.appsetting.development.json");
+#endif
         var config = new ConfigurationBuilder()
-            .AddJsonStream(stream)
+            .AddJsonStream(jsonStream)
             .Build();
 
         builder.Configuration.AddConfiguration(config);
