@@ -64,6 +64,12 @@ At this point, you should have a new project in the sidebar with the name you pr
     }
     ```
 
+## Create API Interface & Class
+Navigate to your main project.
+1. Right-click on the project in **Solution Explorer** and select **Add --> New Item...**
+2. Select the Interface template and name it. Then select **Add**.
+3. Repeat Steps 1 & 2, but select the class template this time.
+
 ## Create HTTP Clients
 Inside of the *program.cs* file for the main project of your solution (**NOT** your API project), you will enter this code towards the top of the file. Our project is a .NET Maui project so ours will be named *MauiProgram.cs* instead.
 
@@ -91,3 +97,15 @@ builder.Services.AddSingleton<IApiService>(provider =>
 ```
 
 In the first five lines of the code, we are creating the first HTTP client. The `BaseAddress` property will either be an external link to your API or your localhost with a specific port if the API is on your machine (eg. http[]()://localhost:1234). `DefaultRequestHeaders.Add()` takes in the name of the header as the first argument and the value of the header as the second argument as shown.
+
+## Publish API Project
+1. Right-click your API project and select **Publish**.
+2. In the top-left corner of the window, select **New**.
+
+    !["Deploy project to Azure"](./images/PublishingApiProject.png)
+
+3. A new window will appear with a list of targets to deploy to. Select **Azure --> Azure App Service (Linux)** (You are not required to choose Azure App Service, that is just what was chosen for this project.)
+4. Next create a new instance to deploy your API to. *Disclaimer: You may be prompted to login/sign up to Azure.*
+5. In the API Management tab, select the checkbox in the bottom-left corner labeled "Skip this step" and press **Next**.
+6. Now select *CI/CD using GitHub Actions workflows* and press **Finish**.
+7. Finally, push your project to GitHub.
