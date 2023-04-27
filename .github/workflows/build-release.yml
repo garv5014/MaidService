@@ -3,9 +3,6 @@ on:
   push:
     tags:
       - 'v*.*.*'
-env:
-  AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
-  WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
 jobs:
   begin-release:
     runs-on: ubuntu-latest
@@ -46,7 +43,7 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore ./MaidService/MaidService.csproj
       - name: Build MAUI Windows
-        run: msbuild .\MaidService\MaidService.csproj /restore /t:build /p:TargetFramework=net7.0-windows10.0.19041.0 /p:configuration=release /p:WindowsAppSDKSelfContained=true /p:Platform=x64 /p:WindowsPackageType=None /p:RuntimeIdentifier=win10-x64 /p:WindowDevelopment=${{ env.WindowDevelopment }}
+        run: msbuild .\MaidService\MaidService.csproj /restore /t:build /p:TargetFramework=net7.0-windows10.0.19041.0 /p:configuration=release /p:WindowsAppSDKSelfContained=true /p:Platform=x64 /p:WindowsPackageType=None /p:RuntimeIdentifier=win10-x64
     
       - name: zip_file
         run: |
