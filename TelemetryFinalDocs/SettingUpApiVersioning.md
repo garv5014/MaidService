@@ -64,11 +64,72 @@ At this point, you should have a new project in the sidebar with the name you pr
     }
     ```
 
-## Create API Interface & Class
+## Create API Interface, API Class, & Controller
+### API Interface
 Navigate to your main project.
+
 1. Right-click on the project in **Solution Explorer** and select **Add --> New Item...**
 2. Select the Interface template and name it. Then select **Add**.
+
+Here is an example of our API interface:
+
+#### **IApiService.cs**
+```C#
+public Task<string> GetLoginMessage();
+public Task<string> GetImageUrl();
+```
+
+### API Class
 3. Repeat Steps 1 & 2, but select the class template this time.
+
+Here is an example of our API service class:
+
+#### **ApiService.cs**
+```C#
+private readonly HttpClient version1;
+private readonly HttpClient version2;
+
+public ApiService(HttpClient v1, HttpClient v2)
+{
+    version1 = v1;
+    version2 = v2;
+}
+
+public async Task<string> GetLoginMessage()
+{
+    //var res = version1.GetFromJsonAsync<string>("api/MaidService/LoginPage/Message");
+    var res = await version2.GetAsync("api/MaidService/LoginPage/Message");
+    return await res.Content.ReadAsStringAsync();
+}
+```
+
+### Controller
+Navigate back to your API project.
+
+4. Repeat Steps 1 & 2, but select the controller template.
+
+Here is an example of our controller:
+
+#### **MaidServiceController.cs**
+```C#
+[HttpGet("LoginPage/Message"), HttpHeader("version" , "1.0" )]
+public async Task<string> GetLoginMessageV1()
+{
+    var res = await Task.FromResult("Welcome to the Maid Service App!");
+    return res;
+}
+
+[HttpGet("LoginPage/Message"), HttpHeader("version", "2.0")]
+public async Task<string> GetLoginMessageV2()
+{
+    var res = await Task.Run(() => "Unwelcome to the Maid Service App! 🎉");
+    return res;
+}
+```
+
+At this point, ensure your projects have the proper references in place.
+
+&nbsp;
 
 ## Create HTTP Clients
 Inside of the *program.cs* file for the main project of your solution (**NOT** your API project), you will enter this code towards the top of the file. Our project is a .NET Maui project so ours will be named *MauiProgram.cs* instead.
