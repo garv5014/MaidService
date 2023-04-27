@@ -33,4 +33,32 @@ You can see the public Ip address here along with the DNS name. This machine alr
 When you type in the name it will tell you if it is valid or not. Once you have a valid name go back the resource group and your machine to see the DNS name field has been changed. 
 
 ## Setting Up The Vm 
-- For this next part we will be using Visual Studio Code remote connection to connect to our machine. If you don't have Visual Studio Code on the machine(Not the virtual machine but your own) Than go [here](https://code.visualstudio.com/download) and download it to your local machine.
+- For this next part we will be using Visual Studio Code remote connection to connect to our machine. If you don't have Visual Studio Code on the machine(Not the virtual machine but your own) Than go [here](https://code.visualstudio.com/download) and download it to your local machine. Once visual studio is installed you can continue to the next steps 
+### Connecting To Remote Machine
+1. Open VS Code and download the extension Remote - SSh from Microsoft. ![](./images/RemoteExtension.png) This will allow use to remotely connect to machines and edit files on that machine using VS Code.
+1. After the extension is downloaded. Look in the bottom left and there should be a symbol that looks similiar to this ![](./images/RemoteSymbol.png). Click this symbol and a selection will drop down and click __connect to host__.
+1. Now you are going to click add new ssh host. It will ask you to enter the username that you are going to login to the machine with and a route to the machine. You need to do it in this format {Username}@{TargetMachine}. The username is the one the you entered in the Making an Ubuntu Vm step. The Target Machine is going to be the ip address that is in the overview page of the machine.
+1. It will then ask you if you want to add it to a configuration file to make connecting to this machine easier in the future. Select the path that is C:\Users\\{yourUser}\\.ssh\\config this will save it for later. Now if you hit that symbol again and select connect to host your config should show up with just the ip address of you machine. 
+1. Now click that host and it will open a new visual studio window where you will be prompted to enter the password for the user that you told the machine you wanted to connect with when making the host. This should be the password that you enter in the Making An Ubuntu Vm step. Enter the password and connect. If it is successful you will connected to the remote machine. 
+1. You can now click the terminal button at the top of your VS Code window to open a remote terminal in that machine. The machine is a clean slate with only the default ubuntu setup. 
+### Getting Needed Tool On The Remote Machine.
+- List of Tools 
+    - git
+    - Docker and Docker Compose
+    - LazyDocker (Optional)
+    - Apache Password Authentication
+# git
+- The ubuntu distribution should come with git already installed, but you can check by running.
+  ```
+  git --version 
+  ```
+    This will tell you the current version of git. If the command fails follow the instructions [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-18-04-quickstart) to install git for linuxs.
+# Docker 
+- First check if docker is already installed by running 
+    ```
+    docker version
+    ```
+    If it isn't installed follow steps 1 and 2 in [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04#step-1-installing-docker).
+    once it is installed move to the next step. 
+# Docker-Compose
+- This will allow us to build our supabase docker compose project. To install this tool follow along with step one in [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04#step-1-installing-docker-compose). If you want an overview of what compose can do you can read the rest of that article but it is optional. 
