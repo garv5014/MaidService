@@ -1,5 +1,4 @@
 name: Release Workflow
-
 on:
   push:
     tags:
@@ -7,140 +6,93 @@ on:
 env:
   AndroidDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/
   WindowDevelopment: https://maidsupabase.westus2.cloudapp.azure.com/    
-
 jobs:
+  begin-release:
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+    - name: create-release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: Release windows ${{ github.ref }}
+        tag_name: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      
   build-windows:
     runs-on: windows-2022
     permissions: write-all
     name: Windows Build
-    #needs: release-artifacts
+    needs: begin-release
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Setup .NET 7
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 7.0.x
           include-prerelease: true
-
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-prerelease: true
-
       - name: Install MAUI Workloads
         run: |
           dotnet workload install maui --ignore-failed-sources
-
       - name: Restore Dependencies
         run: dotnet restore ./MaidService/MaidService.csproj
-
       - name: Build MAUI Windows
         run: msbuild .\MaidService\MaidService.csproj /restore /t:build /p:TargetFramework=net7.0-windows10.0.19041.0 /p:configuration=release /p:WindowsAppSDKSelfContained=true /p:Platform=x64 /p:WindowsPackageType=None /p:RuntimeIdentifier=win10-x64 /p:WindowDevelopment=${{ env.WindowDevelopment }}
-
-
-      - name: release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: Release windows ${{ github.ref }}
-          tag_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v2.3.1
-        with:
-          name: windows-ci-build
-          path: ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/win10-x64
-
+    
       - name: zip_file
         run: |
           Compress-Archive -Path ./MaidService/bin/x64/release/net7.0-windows10.0.19041.0/win10-x64 -DestinationPath ./windows.zip
-
       - name: upload windows artifact-release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.begin-release.outputs.upload_url }}
           asset_path: ./windows.zip
           asset_name: windows_app.zip
           asset_content_type: application/zip
       
-
   # got from https://blog.taranissoftware.com/building-net-maui-apps-with-github-actions#heading-android-build-job
   build-android:
     runs-on: windows-2022
     permissions: write-all
-    #needs: release-artifacts
+    needs: begin-release
     name: Android Build
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Setup .NET 7
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 7.0.x
           include-prerelease: true
-
       - uses: actions/setup-java@v2
         with:
           distribution: 'microsoft'
           java-version: '11'
-
       - name: Install MAUI Workloads
         run: |
-          dotnet workload install android --ignore-failed-sources
+          #dotnet workload install android --ignore-failed-sources
           dotnet workload install maui --ignore-failed-sources
-
       - name: Restore Dependencies
         run: dotnet restore ./MaidService/MaidService.csproj
-
       - name: Build MAUI Android
         run: dotnet build ./MaidService/MaidService.csproj -c Release -f net7.0-android --no-restore
-
-      - name: release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: Release windows ${{ github.ref }}
-          tag_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Upload Android Artifact
-        uses: actions/upload-artifact@v2.3.1
-        with:
-          name: android-ci-build
-          path: ./MaidService/bin/Release/net7.0-android/*Signed.a* 
-
-      - name: upload windows artifact-release
+      - name: upload android artifact-release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./MaidService/bin/Release/net7.0-android/*Signed.a*
-          asset_name: MaidService.apk
-          asset_content_type: application/zip
-
-      - name: zip_file
-        run: |
-          Compress-Archive -Path ./MaidService/bin/Release/net7.0-android -DestinationPath ./android.zip
-
-      - name: upload windows artifact-release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./MaidService/bin/Release/net7.0-android
+          upload_url: ${{ needs.begin-release.outputs.upload_url }}
+          asset_path: ./MaidService/bin/Release/net7.0-android/*Signed.apk
           asset_name: MaidService.apk
           asset_content_type: application/zip
