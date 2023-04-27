@@ -89,3 +89,5 @@ builder.Services.AddSingleton<IApiService>(provider =>
     return new ApiService(clientV1, clientV2);
 });
 ```
+
+In the first five lines of the code, we are creating the first HTTP client. The `BaseAddress` property will either be an external link to your API or your localhost with a specific port if the API is on your machine (eg. http[]()://localhost:1234). `DefaultRequestHeaders.Add()` takes in the name of the header as the first argument and the value of the header as the second argument as shown.
