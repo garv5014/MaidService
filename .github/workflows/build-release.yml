@@ -22,7 +22,7 @@ jobs:
         tag_name: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
-      
+ 
   build-windows:
     runs-on: windows-2022
     permissions: write-all
