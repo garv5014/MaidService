@@ -103,7 +103,7 @@ public class CleanerService : ICleanerService
 
         var comparer = new ScheduleEqualityComparer();
         availableSchedules = schedules.Except(availableSchedules, comparer).ToList();
-        return availableSchedules;
+        return availableSchedules.OrderBy(x => x.StartTime);
     }
 
     public async Task<IEnumerable<CleaningContractWithStartTime>> GetAllScheduledAppointmentsForAWeek(DateTime startDate)

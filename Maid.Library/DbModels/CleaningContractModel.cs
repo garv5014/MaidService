@@ -55,7 +55,7 @@ public class CleaningContractModel : BaseModel
     [Reference(typeof(CleaningTypeModel))]
     public CleaningTypeModel CleaningType { get; set;}
 
-    [Reference(typeof(ContractPhotoModel))]
+    [Reference(typeof(ContractPhotoModel), shouldFilterTopLevel: false)]
     public List<ContractPhotoModel> ContractPhotos { get; set; }
 
 }
